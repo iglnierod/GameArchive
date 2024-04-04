@@ -6,8 +6,10 @@ package com.iglnierod.gamearchive.main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.iglnierod.gamearchive.controller.MainController;
+import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
+import java.io.File;
 import javax.swing.UIManager;
 
 /**
@@ -15,15 +17,16 @@ import javax.swing.UIManager;
  * @author rodri
  */
 public class Main {
-
+    
     public static void main(String[] args) {
-        changeViewsSkin();
+        changeViewSkin();
         RegisterFrame registerFrame = new RegisterFrame();
         LoginFrame loginFrame = new LoginFrame();
-        MainController mainController = new MainController(registerFrame, loginFrame);
+        Database db = new Database();
+        MainController mainController = new MainController(registerFrame, loginFrame, db);
     }
 
-    private static void changeViewsSkin() {
+    private static void changeViewSkin() {
         FlatDarkLaf.setup();
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());

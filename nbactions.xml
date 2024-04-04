@@ -2,6 +2,7 @@
 <actions>
         <action>
             <actionName>run</actionName>
+            <preAction>build-with-dependencies</preAction>
             <packagings>
                 <packaging>jar</packaging>
             </packagings>
@@ -15,6 +16,16 @@
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>com.iglnierod.gamearchive.main.Main</exec.mainClass>
                 <exec.executable>java</exec.executable>
+                <Env.DB_HOST>aws-0-eu-west-2.pooler.supabase.com</Env.DB_HOST>
+                <Env.DB_NAME>postgres</Env.DB_NAME>
+                <Env.DB_PORT>5432</Env.DB_PORT>
+                <Env.DB_USER>postgres.lfmofaczejwpowodxisf</Env.DB_USER>
+                <Env.DB_PASSWORD>782^^4$mbM9J3$^274@J</Env.DB_PASSWORD>
+                
+                
+                
+                
+                
             </properties>
         </action>
         <action>
