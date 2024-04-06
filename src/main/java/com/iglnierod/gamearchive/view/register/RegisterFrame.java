@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.view.register;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 /**
@@ -143,7 +144,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         char[] passwordChars = this.passwordField.getPassword();
         return new String(passwordChars).trim();
     }
-
+    
+    public void setFocusUsernameTextField() {
+        this.usernameTextField.requestFocus();
+        this.usernameTextField.selectAll();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;

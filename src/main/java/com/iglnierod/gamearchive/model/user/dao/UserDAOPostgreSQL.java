@@ -32,7 +32,7 @@ public class UserDAOPostgreSQL implements UserDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return false;
         }
     }

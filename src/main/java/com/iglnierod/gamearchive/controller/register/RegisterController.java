@@ -11,9 +11,13 @@ import com.iglnierod.gamearchive.model.user.User;
 import com.iglnierod.gamearchive.model.user.dao.UserDAO;
 import com.iglnierod.gamearchive.model.user.dao.UserDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
+import com.iglnierod.gamearchive.view.register.ProfileConfigDialog;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,11 +28,11 @@ import javax.swing.JOptionPane;
  * @author rodri
  */
 public class RegisterController {
-    
+
     private final RegisterFrame view;
     private final Database database;
     private UserDAO userDao;
-    
+
     public RegisterController(RegisterFrame view, Database database) {
         this.view = view;
         this.view.setIconImage(MainController.getIconImage());
@@ -36,43 +40,51 @@ public class RegisterController {
         this.userDao = new UserDAOPostgreSQL(database);
         setListeners();
     }
-    
+
     private void setListeners() {
         this.view.addLoginLabelMouseListener(setLoginLabelMouseListener());
         this.view.addRegisterButtonActionListener(setRegisterButtonActionListener());
     }
-    
+
     private MouseListener setLoginLabelMouseListener() {
-        MouseListener listener = new MouseAdapter() {
+        return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                view.dispose();
                 LoginFrame loginFrame = new LoginFrame();
                 LoginController loginController = new LoginController(loginFrame, database);
+                view.dispose();
                 loginFrame.setVisible(true);
             }
         };
-        return listener;
     }
-    
+
     private ActionListener setRegisterButtonActionListener() {
-        ActionListener listener = new ActionListener() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Register button action listener");
                 String username = view.getUsernameText();
                 String email = view.getEmailText();
                 String password = view.getPasswordText();
-                
+
                 if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(view, "Make sure to fill all text fields",
                             "ERROR: Empty field", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                
-                userDao.add(new User(username, email, password));
+
+                if (!userDao.add(new User(username, email, password))) {
+                    JOptionPane.showMessageDialog(view, "Username is already taken. Try a different one.",
+                            "ERROR: Username already taken", JOptionPane.ERROR_MESSAGE);
+                    view.setFocusUsernameTextField();
+                    return;
+                }
+
+                ProfileConfigDialog profileConfigDialog = new ProfileConfigDialog(view, true);
+                ProfileConfigController profileConfigController = new ProfileConfigController(profileConfigDialog, database);
+                view.setVisible(false);
+                profileConfigDialog.setVisible(true);
             }
         };
-        return listener;
     }
+
 }

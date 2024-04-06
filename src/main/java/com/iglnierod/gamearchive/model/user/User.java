@@ -14,18 +14,17 @@ public class User {
 
     private String username;
     private String email;
-    private String password;
+    private String passwordHash;
 
     public User() {}
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.password = getPasswordHash();
-        System.out.println("generated password: " + this.password);
+        this.passwordHash = getPasswordHash(password);
     }
 
-    private String getPasswordHash() {
+    private String getPasswordHash(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
@@ -46,10 +45,10 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return passwordHash;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.passwordHash = password;
     }
 }

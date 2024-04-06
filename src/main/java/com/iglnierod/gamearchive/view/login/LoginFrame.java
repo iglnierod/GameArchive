@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.view.login;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 /**
@@ -116,7 +117,7 @@ public class LoginFrame extends javax.swing.JFrame {
         char[] passwordChars = this.passwordField.getPassword();
         return new String(passwordChars).trim();
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel haveAccountLabel;
     private javax.swing.JButton loginButton;

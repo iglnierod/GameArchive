@@ -5,14 +5,18 @@
 package com.iglnierod.gamearchive.controller.login;
 
 import com.iglnierod.gamearchive.controller.MainController;
+import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.controller.register.RegisterController;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.user.dao.UserDAO;
 import com.iglnierod.gamearchive.model.user.dao.UserDAOPostgreSQL;
+import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -37,7 +41,7 @@ public class LoginController {
     }
 
     private void setListeners() {
-        this.view.addRegisterLabelMouseListener(this.setRegisterLabelMouseListener());
+        this.view.addRegisterLabelMouseListener(setRegisterLabelMouseListener());
         this.view.addLoginButtonActionListener(setLoginButtonActionListener());
     }
 
@@ -45,25 +49,31 @@ public class LoginController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Login button action listener");
-                String username = view.getUsernameText();
-                String password = view.getPasswordText();
-
-                System.out.println("password: " + password);
-
-                if (username.isEmpty() || password.isEmpty()) {
-                    JOptionPane.showMessageDialog(view, "Make sure to fill all text fields",
-                            "ERROR: Empty field", JOptionPane.ERROR_MESSAGE);
+                if (!loginUser()) {
+                    JOptionPane.showMessageDialog(view, "Invalid login",
+                            "ERROR: Invalid login", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                boolean res = userDao.login(username, password);
-                System.out.println("login: " + res);
-                if (res) {
-                    JOptionPane.showMessageDialog(view, "LOGIN CORRECTO");
-                }
+                HomeFrame homeFrame = new HomeFrame();
+                HomeController homeController = new HomeController(homeFrame, database);
+                view.dispose();
+                homeFrame.setVisible(true);
             }
         };
+    }
+
+    private boolean loginUser() {
+        String username = view.getUsernameText();
+        String password = view.getPasswordText();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Make sure to fill all text fields",
+                    "ERROR: Empty field", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return userDao.login(username, password);
     }
 
     private MouseListener setRegisterLabelMouseListener() {
