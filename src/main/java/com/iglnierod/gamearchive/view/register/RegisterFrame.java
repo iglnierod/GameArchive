@@ -43,7 +43,6 @@ public class RegisterFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GameArchive - Register");
-        setIconImage(getIconImage());
         setLocation(new java.awt.Point(0, 0));
         setResizable(false);
 
@@ -59,8 +58,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         loginLabel.setText("Log in");
 
         passwordLabel.setText("Password:");
-
-        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Papirus-Team-Papirus-Places-Folder-yellow-games.72.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
