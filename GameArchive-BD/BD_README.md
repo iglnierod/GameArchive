@@ -42,6 +42,7 @@ Almacenará la información sobre todos los usuarios de la aplicación
 - lists (Array)(FK) `Array de listas que pertenecen al usuario`
 - profile_picture (String) `Link a imagen anónima de imgur.com utilizando la API`
 - created_at (Timestamp) `Momento en el que se creó la cuenta`
+- description (String) `Breve descripción personalizable`
 
 #### Tabla: GENRES
 Almacenará la información sobre los géneros de los videojuegos
