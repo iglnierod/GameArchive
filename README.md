@@ -45,9 +45,6 @@ La estructura del progrma es una mezcla entre el MVC explicado por Fernando y po
 ### Variables de entorno
 El fichero ``.env`` contiene los valores importantes como contraseña y usuario de la base de datos y claves de las APIs.
 
-### IDE y estructura de proyecto
-El IDE que utilizo es NetBeans que, aunque no sea mi favorito, es el más cómodo para realizar las interfaces en JavaSwing y la estructura del proyecto y dependencias utilizo Maven para hacer más sencillo el uso de librerías.
-
 ## Alcances realizados
 - [X] Inicio de sesión
 - [X] Registro de usuarios
