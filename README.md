@@ -85,14 +85,21 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 
 #### Referencias
 Git: [git-scm.com](https://git-scm.com/)
-NetBeans: [netbeans.apache.org](https://netbeans.apache.org/front/main/index.html)
-Maven: [maven.apache.org](https://maven.apache.org/)
-FlatLaf: [formdev.com/flatlaf](https://www.formdev.com/flatlaf/)
-IGDB: [igdb.com](https://www.igdb.com/)
-IGDB API: [api-docs.igdb.com](https://api-docs.igdb.com/)
-Imgur: [imgur.com](https://www.imgur.com/)
-Imgur API: [apidocs.imgur.com](https://apidocs.imgur.com/)
-Supabase: [supabase.com](https://supabase.com/)
 
+NetBeans: [netbeans.apache.org](https://netbeans.apache.org/front/main/index.html)
+
+Maven: [maven.apache.org](https://maven.apache.org/)
+
+FlatLaf: [formdev.com/flatlaf](https://www.formdev.com/flatlaf/)
+
+IGDB: [igdb.com](https://www.igdb.com/)
+
+IGDB API: [api-docs.igdb.com](https://api-docs.igdb.com/)
+
+Imgur: [imgur.com](https://www.imgur.com/)
+
+Imgur API: [apidocs.imgur.com](https://apidocs.imgur.com/)
+
+Supabase: [supabase.com](https://supabase.com/)
 
 ###### Rodrigo Iglesias Nieto - Proyecto final DAM
