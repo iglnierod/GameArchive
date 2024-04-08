@@ -1,80 +1,101 @@
-## Cargar las variables de entorno en NetBeans
-1. Abrir el proyecto
-2. Click derecho > Propiedades
-3. Categories: Actions > Actions: Run project
-4. Set properties: (abajo del todo) escribir:
-```txt
-Env.DB_HOST=
-Env.DB_NAME=
-Env.DB_PORT=
-Env.DB_USER=
-Env.DB_PASSWORD=
-```
+# GameArchive
 
-## Crear schema en PostgreSQL
-```sql
-CREATE TABLE users (
-    username TEXT PRIMARY KEY,
-    email TEXT NOT NULL,
-    password TEXT NOT NULL
-);
-```
+## Entregas
+### 8 de Abril 2024
+- Creación de la estructura MVC del proyecto
+- Primera versión de la estructura de la base de datos
+- Register/Login mejorables pero funcionales
+- Primera parte de configuración del perfil eligiendo plataformas
+- Pruebas con las APIs de IGBD y Imgur
 
-## Crear schema en MySQL
-```sql
-CREATE TABLE users (
-    username varchar(100) PRIMARY KEY,
-    email varchar(100) NOT NULL,
-    password varchar(100) NOT NULL
-);
-```
+## Tecnologías
+### Git
+Software de control de versiones del proyecto.
 
-## Información sobre el código
-Uso el patrón MVC que nos ha enseñado Fernando en la asignatura de Interfaces. El código que se ejecuta al presionar el botón Register está en ``RegisterController`` y el del Login se encuentra en ``LoginController``.
+### NetBeans
+NetBeans es IDE en el que está creado este proyecto por su cómoda creación de interfaces gráficas utilizando JavaSwing.
 
-En el modelo está la clase User y Database. **User tiene las propiedades del usuario y se encarga de encriptar la contraseña**. Database simplemente tiene la información de la base de datos que carga de las variables de entorno.
+### Maven
+Maven da la estructura de paquetes de este proyecto y se encarga de descargar las dependecias del proyecto.
 
-Las llamadas a la base de datos están en el DAO que se encuentra en el modelo. El método add() se llama al pulsar Register y login() al presionar el botón Login.
+### FlatLaf
+Librería que modifica los diseños de los componentes de JavaSwing para darle un aspecto más moderno a la aplicación.
 
-### Dependencias del proyecto
-- PostgreSQL JDBC
-- MySQL JDBC
-- BCrypt
-- FlatLaf
+### BCrypt
+Se encarga de la función de encriptar las contraseñas de los usuarios.
 
-##### pom.xml
-```xml
-<dependencies>
-        <!-- FlatLaf -->
-        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
-        <dependency>
-            <groupId>com.formdev</groupId>
-            <artifactId>flatlaf</artifactId>
-            <version>3.4.1</version>
-        </dependency>
-        
-        <!-- Bcrypt -->
-        <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
-        <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.4</version>
-        </dependency>
-        
-        <!--  PostgreSQL -->
-        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
-        </dependency>
-        
-        <!-- MySQL -->
-        <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>8.3.0</version>
-        </dependency>
-    </dependencies>
-```
+### PostgreSQL
+Este proyecto utiliza este motor de base de datos porque está creada en línea en la web supabase.com que ofrece un plan gratuito que te permite tener una base de datos de este motor.
+
+### IGDB
+IGBD es una web que ofrece todo tipo de información sobre videojuegos. En este proyecto se utiliza su API para obtener información sobre los juegos en las búsquedas, recomendaciones, etc.
+
+### Imgur
+Es una plataforma online que permite subir imágenes de manera anónima utilizando la API por lo que se usará para almacenar de manera gratuita las imágenes de perfil de los usuarios.
+
+## Código
+### MVC
+La estructura del progrma es una mezcla entre el MVC explicado por Fernando y por Julián. Dentro del paquete principal `com.iglnierod.gamearchive` están los paquetes:
+
+- `controller`: controla el modelo y las vistas.
+- `main`: contiene la clase Main dónde se ejecuta el programa.
+- `model`: modelo de datos y DAO encargado de hacer llamadas a la base de datos.
+- `view`: vistas hechas en JavaSwing con los métodos necesarios para ser modificadas por los controladores. Un ejemplo son los listeners de botones o los datos que se muestran en `ProfileConfigDialog`.
+
+### Variables de entorno
+El fichero ``.env`` contiene los valores importantes como contraseña y usuario de la base de datos y claves de las APIs.
+
+### IDE y estructura de proyecto
+El IDE que utilizo es NetBeans que, aunque no sea mi favorito, es el más cómodo para realizar las interfaces en JavaSwing y la estructura del proyecto y dependencias utilizo Maven para hacer más sencillo el uso de librerías.
+
+## Alcances realizados
+- [X] Inicio de sesión
+- [X] Registro de usuarios
+
+- Personlalización del perfil
+    - [ ] Elegir imagen
+    - [X] Nombre de usuario
+    - [X] Email
+    - [ ] Descripción
+    - [ ] Enlaces a redes sociales
+
+- Búsqueda de juegos:
+    - [ ] Por titulo
+    - [ ] Por plataforma
+    - [ ] Por géneros
+    - [ ] Por valoración
+
+- Ver información sobre juegos:
+    - [ ] Portada
+    - [ ] Descripción
+    - [ ] Plataforma
+    - [ ] Géneros
+
+- [ ] Creación de listas
+
+- Personalización de listas
+    - [ ] Título
+    - [ ] Descripción
+
+- [ ] Añadir estados a juegos
+- [ ] Valorar juegos
+- [ ] Sistema de recomendación
+- [ ] Sistema de recomendación aleatoria con parámetros
+- [ ] Feed de últimos juegos añadidos por otros usuarios
+- [ ] Búsqueda de usuarios
+- [ ] Ver perfil de otros usuarios
+- [ ] Exportar listas a otros formatos (XML, CSV, PDF, HTML)
+
+#### Referencias
+Git: [git-scm.com](https://git-scm.com/)
+NetBeans: [netbeans.apache.org](https://netbeans.apache.org/front/main/index.html)
+Maven: [maven.apache.org](https://maven.apache.org/)
+FlatLaf: [formdev.com/flatlaf](https://www.formdev.com/flatlaf/)
+IGDB: [igdb.com](https://www.igdb.com/)
+IGDB API: [api-docs.igdb.com](https://api-docs.igdb.com/)
+Imgur: [imgur.com](https://www.imgur.com/)
+Imgur API: [apidocs.imgur.com](https://apidocs.imgur.com/)
+Supabase: [supabase.com](https://supabase.com/)
+
+
+###### Rodrigo Iglesias Nieto - Proyecto final DAM
