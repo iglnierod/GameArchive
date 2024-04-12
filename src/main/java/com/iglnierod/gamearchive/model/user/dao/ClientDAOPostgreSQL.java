@@ -13,17 +13,17 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author rodri
  */
-public class UserDAOPostgreSQL implements UserDAO {
+public class ClientDAOPostgreSQL implements ClientDAO {
 
     private Database database;
 
-    public UserDAOPostgreSQL(Database database) {
+    public ClientDAOPostgreSQL(Database database) {
         this.database = database;
-    }
+    }    
 
     @Override
     public boolean add(User user) {
-        String query = "INSERT INTO users (username, email, password) VALUES (?,?,?)";
+        String query = "INSERT INTO client (username, email, password) VALUES (?,?,?)";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getEmail());
@@ -39,7 +39,7 @@ public class UserDAOPostgreSQL implements UserDAO {
 
     @Override
     public boolean login(String username, String password) {
-        String query = "SELECT password FROM users WHERE username = ?";
+        String query = "SELECT password FROM client WHERE username = ?";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, username);
 

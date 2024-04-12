@@ -9,8 +9,6 @@ import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAO;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.register.ProfileConfigDialog;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JToggleButton;
 
@@ -38,5 +36,4 @@ public class ProfileConfigController {
             this.view.addPlatformToPanel(platformToggleButton);
         }
     }
-
 }

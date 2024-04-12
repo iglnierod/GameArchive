@@ -25,7 +25,7 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
     @Override
     public ArrayList<Platform> getAll() {
         // TODO
-        String query = "SELECT * FROM platforms";
+        String query = "SELECT * FROM platform";
         ArrayList<Platform> platformsList = new ArrayList<>();
         try (Statement stmt = database.getConnection().createStatement()) {
             ResultSet rs = stmt.executeQuery(query);

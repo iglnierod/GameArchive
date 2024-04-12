@@ -10,7 +10,7 @@ import com.iglnierod.gamearchive.model.user.User;
  *
  * @author rodri
  */
-public interface UserDAO {
+public interface ClientDAO {
     boolean add(User user);
     
     boolean login(String username, String password);

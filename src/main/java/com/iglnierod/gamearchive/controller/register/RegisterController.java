@@ -8,16 +8,13 @@ import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.login.LoginController;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.user.User;
-import com.iglnierod.gamearchive.model.user.dao.UserDAO;
-import com.iglnierod.gamearchive.model.user.dao.UserDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.user.dao.ClientDAO;
+import com.iglnierod.gamearchive.model.user.dao.ClientDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.ProfileConfigDialog;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -31,13 +28,13 @@ public class RegisterController {
 
     private final RegisterFrame view;
     private final Database database;
-    private UserDAO userDao;
+    private ClientDAO clientDao;
 
     public RegisterController(RegisterFrame view, Database database) {
         this.view = view;
         this.view.setIconImage(MainController.getIconImage());
         this.database = database;
-        this.userDao = new UserDAOPostgreSQL(database);
+        this.clientDao = new ClientDAOPostgreSQL(database);
         setListeners();
     }
 
@@ -72,7 +69,7 @@ public class RegisterController {
                     return;
                 }
 
-                if (!userDao.add(new User(username, email, password))) {
+                if (!clientDao.add(new User(username, email, password))) {
                     JOptionPane.showMessageDialog(view, "Username is already taken. Try a different one.",
                             "ERROR: Username already taken", JOptionPane.ERROR_MESSAGE);
                     view.setFocusUsernameTextField();

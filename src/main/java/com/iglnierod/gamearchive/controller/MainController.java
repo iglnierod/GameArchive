@@ -10,6 +10,7 @@ import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.Image;
 import java.io.File;
+import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 
 /**

@@ -8,8 +8,7 @@ import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.controller.register.RegisterController;
 import com.iglnierod.gamearchive.model.database.Database;
-import com.iglnierod.gamearchive.model.user.dao.UserDAO;
-import com.iglnierod.gamearchive.model.user.dao.UserDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.user.dao.ClientDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
@@ -21,6 +20,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
+import com.iglnierod.gamearchive.model.user.dao.ClientDAO;
 
 /**
  *
@@ -30,13 +30,13 @@ public class LoginController {
 
     private final LoginFrame view;
     private final Database database;
-    private UserDAO userDao;
+    private ClientDAO userDao;
 
     public LoginController(LoginFrame view, Database database) {
         this.view = view;
         this.view.setIconImage(MainController.getIconImage());
         this.database = database;
-        this.userDao = new UserDAOPostgreSQL(database);
+        this.userDao = new ClientDAOPostgreSQL(database);
         setListeners();
     }
 
