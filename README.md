@@ -83,23 +83,25 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 - [ ] Ver perfil de otros usuarios
 - [ ] Exportar listas a otros formatos (XML, CSV, PDF, HTML)
 
+## Entorno de desarrollo
+| Nombre                      |Versión                                     |
+|-----------------------------|---------------------------------------------|
+| Product Version             | Apache NetBeans IDE 19                     |
+| Java                        | 11.0.20; Java HotSpot(TM) 64-Bit Server VM 11.0.20+9-LTS-256 |
+| Runtime                     | Java(TM) SE Runtime Environment 11.0.20+9-LTS-256 |
+| System                      | Windows 11 version 10.0                    |
+
 #### Referencias
-Git: [git-scm.com](https://git-scm.com/)
-
-NetBeans: [netbeans.apache.org](https://netbeans.apache.org/front/main/index.html)
-
-Maven: [maven.apache.org](https://maven.apache.org/)
-
-FlatLaf: [formdev.com/flatlaf](https://www.formdev.com/flatlaf/)
-
-IGDB: [igdb.com](https://www.igdb.com/)
-
-IGDB API: [api-docs.igdb.com](https://api-docs.igdb.com/)
-
-Imgur: [imgur.com](https://www.imgur.com/)
-
-Imgur API: [apidocs.imgur.com](https://apidocs.imgur.com/)
-
-Supabase: [supabase.com](https://supabase.com/)
+| Referencia     | Enlace                                        |
+|----------------|-----------------------------------------------|
+| Git            | [git-scm.com](https://git-scm.com/)           |
+| NetBeans       | [netbeans.apache.org](https://netbeans.apache.org/front/main/index.html) |
+| Maven          | [maven.apache.org](https://maven.apache.org/) |
+| FlatLaf        | [formdev.com/flatlaf](https://www.formdev.com/flatlaf/) |
+| IGDB           | [igdb.com](https://www.igdb.com/)             |
+| IGDB API       | [api-docs.igdb.com](https://api-docs.igdb.com/) |
+| Imgur          | [imgur.com](https://www.imgur.com/)           |
+| Imgur API      | [apidocs.imgur.com](https://apidocs.imgur.com/) |
+| Supabase       | [supabase.com](https://supabase.com/)         |
 
 ###### Rodrigo Iglesias Nieto - Proyecto final DAM
