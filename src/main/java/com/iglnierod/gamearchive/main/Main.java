@@ -9,7 +9,6 @@ import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
-import java.io.File;
 import javax.swing.UIManager;
 
 /**

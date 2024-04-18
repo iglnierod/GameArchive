@@ -9,13 +9,14 @@ package com.iglnierod.gamearchive.model.platform;
  * @author rodri
  */
 public class Platform {
+
     private int id;
     private String checksum;
     private String abbreviation;
     private String name;
     private String logoID;
 
-    public Platform(int id, String checksum, String abbreviation, String name, String logoID) {
+    public Platform(int id, String checksum, String abbreviation, String logoID, String name) {
         this.id = id;
         this.checksum = checksum;
         this.abbreviation = abbreviation;
@@ -61,5 +62,14 @@ public class Platform {
 
     public void setLogoID(String logoID) {
         this.logoID = logoID;
+    }
+
+    @Override
+    public String toString() {
+        return "Platform{"
+                + "id=" + id
+                + ", abbreviation='" + abbreviation + '\''
+                + ", name='" + name + '\''
+                + '}';
     }
 }

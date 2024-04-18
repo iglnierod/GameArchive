@@ -7,20 +7,20 @@ package com.iglnierod.gamearchive.controller.login;
 import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.controller.register.RegisterController;
+import com.iglnierod.gamearchive.model.client.Client;
+import com.iglnierod.gamearchive.model.client.dao.ClientDAO;
+import com.iglnierod.gamearchive.model.client.dao.ClientDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.database.Database;
-import com.iglnierod.gamearchive.model.user.dao.ClientDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
-import com.iglnierod.gamearchive.model.user.dao.ClientDAO;
 
 /**
  *
@@ -55,6 +55,11 @@ public class LoginController {
                     return;
                 }
 
+                // Set user as current user
+                
+                Client currentClient = userDao.getClient(view.getUsernameText());
+                Session.setCurrentClient(currentClient);
+                
                 HomeFrame homeFrame = new HomeFrame();
                 HomeController homeController = new HomeController(homeFrame, database);
                 view.dispose();

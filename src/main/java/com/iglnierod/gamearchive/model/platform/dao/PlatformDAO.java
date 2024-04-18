@@ -6,13 +6,23 @@ package com.iglnierod.gamearchive.model.platform.dao;
 
 import com.iglnierod.gamearchive.model.platform.Platform;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  *
  * @author rodri
  */
 public interface PlatformDAO {
+
     ArrayList<Platform> getAll();
-    
+
     Platform get(int id);
+
+    Platform getByAbbreviation(String abbreviation);
+
+    Set<Platform> getPlatformsByAbbreviation(Set<String> platforms);
+    
+    ArrayList<Integer> getPlatformsById(String platformsArray);
+    
+    Set<Platform> getPlatformsFromArrayList(ArrayList<Integer> arrayList);
 }

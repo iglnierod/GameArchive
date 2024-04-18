@@ -7,11 +7,12 @@ package com.iglnierod.gamearchive.controller.register;
 import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.login.LoginController;
 import com.iglnierod.gamearchive.model.database.Database;
-import com.iglnierod.gamearchive.model.user.User;
-import com.iglnierod.gamearchive.model.user.dao.ClientDAO;
-import com.iglnierod.gamearchive.model.user.dao.ClientDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.session.Session;
+import com.iglnierod.gamearchive.model.client.Client;
+import com.iglnierod.gamearchive.model.client.dao.ClientDAO;
+import com.iglnierod.gamearchive.model.client.dao.ClientDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
-import com.iglnierod.gamearchive.view.register.ProfileConfigDialog;
+import com.iglnierod.gamearchive.view.register.ProfileConfigFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,17 +70,19 @@ public class RegisterController {
                     return;
                 }
 
-                if (!clientDao.add(new User(username, email, password))) {
+                Client client = new Client(username, email, password);
+                if (!clientDao.add(client)) {
                     JOptionPane.showMessageDialog(view, "Username is already taken. Try a different one.",
                             "ERROR: Username already taken", JOptionPane.ERROR_MESSAGE);
                     view.setFocusUsernameTextField();
                     return;
                 }
-
-                ProfileConfigDialog profileConfigDialog = new ProfileConfigDialog(view, true);
-                ProfileConfigController profileConfigController = new ProfileConfigController(profileConfigDialog, database);
+                
+                Session.setCurrentClient(client);
+                ProfileConfigFrame profileConfigFrame = new ProfileConfigFrame();
+                ProfileConfigController profileConfigController = new ProfileConfigController(profileConfigFrame, database);
                 view.setVisible(false);
-                profileConfigDialog.setVisible(true);
+                profileConfigFrame.setVisible(true);
             }
         };
     }
