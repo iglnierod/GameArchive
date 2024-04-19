@@ -20,6 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,13 +35,26 @@ public class LoginController {
     private final LoginFrame view;
     private final Database database;
     private ClientDAO userDao;
+    private boolean savedSession;
 
-    public LoginController(LoginFrame view, Database database) {
+    public LoginController(LoginFrame view, Database database, boolean savedSession) {
         this.view = view;
         this.view.setIconImage(MainController.getIconImage());
         this.database = database;
         this.userDao = new ClientDAOPostgreSQL(database);
+        this.savedSession = savedSession;
         setListeners();
+        isSessionSaved();
+    }
+
+    private void isSessionSaved() {
+        if (savedSession) {
+            navigateToHome();
+        }
+    }
+
+    public LoginController(LoginFrame view, Database database) {
+        this(view, database, false);
     }
 
     private void setListeners() {
@@ -58,13 +75,33 @@ public class LoginController {
                 // Set user as current user
                 Client currentClient = userDao.getClient(view.getUsernameText());
                 Session.setCurrentClient(currentClient);
-                
-                HomeFrame homeFrame = new HomeFrame();
-                HomeController homeController = new HomeController(homeFrame, database);
-                view.dispose();
-                homeFrame.setVisible(true);
+
+                if (view.isSaveLoginSelected()) {
+                    saveSession();
+                }
+
+                // Go to Home frame
+                navigateToHome();
             }
+
         };
+    }
+
+    private void navigateToHome() {
+        HomeFrame homeFrame = new HomeFrame();
+        HomeController homeController = new HomeController(homeFrame, database);
+        view.dispose();
+        homeFrame.setVisible(true);
+    }
+
+    private void saveSession() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(MainController.savedSession))) {
+            oos.writeObject(Session.getCurrentClient());
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private boolean loginUser() {

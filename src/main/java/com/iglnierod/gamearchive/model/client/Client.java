@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.model.client;
 
 import com.iglnierod.gamearchive.model.platform.Platform;
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.mindrot.jbcrypt.BCrypt;
@@ -13,15 +14,16 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author rodri
  */
-public class Client {
+public class Client implements Serializable {
 
     private String username;
     private String email;
     private String passwordHash;
     private String description;
     private Set<Platform> platformsList;
-    
-    public Client() {}
+
+    public Client() {
+    }
 
     public Client(String username, String email, String password) {
         this.username = username;
@@ -37,7 +39,7 @@ public class Client {
         this.description = description;
         this.platformsList = platformsList;
     }
-    
+
     private String getPasswordHash(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
@@ -90,14 +92,14 @@ public class Client {
         this.description = description;
     }
 
-        @Override
+    @Override
     public String toString() {
-        return "Client{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", description='" + description + '\'' +
-                ", platformsList=" + platformsList +
-                '}';
+        return "Client{"
+                + "username='" + username + '\''
+                + ", email='" + email + '\''
+                + ", passwordHash='" + passwordHash + '\''
+                + ", description='" + description + '\''
+                + ", platformsList=" + platformsList
+                + '}';
     }
 }

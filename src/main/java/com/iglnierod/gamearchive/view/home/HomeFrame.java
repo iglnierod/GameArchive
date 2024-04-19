@@ -29,6 +29,11 @@ public class HomeFrame extends javax.swing.JFrame {
         username = new javax.swing.JLabel();
         userDescription = new javax.swing.JLabel();
         userPlatforms = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GameArchive - Home");
@@ -38,6 +43,21 @@ public class HomeFrame extends javax.swing.JFrame {
         userDescription.setText("jLabel2");
 
         userPlatforms.setText("jLabel3");
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Log out");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Quit");
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,18 +70,18 @@ public class HomeFrame extends javax.swing.JFrame {
                     .addComponent(username))
                 .addGap(131, 131, 131)
                 .addComponent(userDescription)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(491, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(143, 143, 143)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(username)
-                    .addComponent(userDescription))
-                .addGap(76, 76, 76)
+                .addComponent(userDescription)
+                .addGap(7, 7, 7)
+                .addComponent(username)
+                .addGap(51, 51, 51)
                 .addComponent(userPlatforms)
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addContainerGap(361, Short.MAX_VALUE))
         );
 
         pack();
@@ -81,6 +101,11 @@ public class HomeFrame extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JLabel userDescription;
     private javax.swing.JLabel userPlatforms;
     private javax.swing.JLabel username;

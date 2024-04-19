@@ -4,11 +4,13 @@
  */
 package com.iglnierod.gamearchive.model.platform;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rodri
  */
-public class Platform {
+public class Platform implements Serializable {
 
     private int id;
     private String checksum;
@@ -16,8 +18,9 @@ public class Platform {
     private String name;
     private String logoID;
 
-    public Platform(){}
-    
+    public Platform() {
+    }
+
     public Platform(int id, String checksum, String abbreviation, String logoID, String name) {
         this.id = id;
         this.checksum = checksum;
