@@ -136,15 +136,16 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
 
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, username);
-            Platform p = new Platform();
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                Platform p = new Platform();
                 p.setId(rs.getInt("id"));
                 p.setAbbreviation(rs.getString("abbreviation"));
                 p.setChecksum(rs.getString("checksum"));
                 p.setLogoID(rs.getString("logo_id"));
                 p.setName(rs.getString("name"));
+                userPlatforms.add(p);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

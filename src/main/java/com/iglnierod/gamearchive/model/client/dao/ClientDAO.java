@@ -16,8 +16,6 @@ public interface ClientDAO {
     boolean add(Client client);
     
     boolean login(String username, String password);
-    
-    void addPlatforms(Client client);
 
     Client getClient(String usernameText);
 

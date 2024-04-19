@@ -56,7 +56,6 @@ public class LoginController {
                 }
 
                 // Set user as current user
-                
                 Client currentClient = userDao.getClient(view.getUsernameText());
                 Session.setCurrentClient(currentClient);
                 

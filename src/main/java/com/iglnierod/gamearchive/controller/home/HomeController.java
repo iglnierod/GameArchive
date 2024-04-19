@@ -15,6 +15,7 @@ import com.iglnierod.gamearchive.view.home.HomeFrame;
  * @author rodri
  */
 public class HomeController {
+
     private final HomeFrame view;
     private final Database database;
     private final Client currentClient;
@@ -24,15 +25,15 @@ public class HomeController {
         this.database = database;
         this.currentClient = Session.getCurrentClient();
         testSessionClass();
-        
+        System.out.println("user: " + Session.getCurrentClient());
     }
-    
+
     private void testSessionClass() {
         view.setUsernameText(currentClient.getUsername());
         view.setUserDescription(currentClient.getDescription());
         String text = null;
-        for(Platform p : currentClient.getPlatformsList()) {
-            text += p.getAbbreviation()+" | ";
+        for (Platform p : currentClient.getPlatformsList()) {
+            text += p.getAbbreviation() + " | ";
         }
         view.setUserPlatforms(text);
     }

@@ -63,12 +63,6 @@ public class ClientDAOPostgreSQL implements ClientDAO {
     }
 
     @Override
-    public void addPlatforms(Client client) {
-        // TODO
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Client getClient(String username) {
         String query = "SELECT * FROM client WHERE username = ?";
         //String query = "SELECT * FROM client_duplicate WHERE username = ?";
@@ -84,6 +78,7 @@ public class ClientDAOPostgreSQL implements ClientDAO {
                 client.setEmail(rs.getString("email"));
                 client.setPassword(rs.getString("password"));
                 client.setDescription(rs.getString("description"));
+                System.out.println("platformDao.getPlatformsByUser(username): " + platformDao.getPlatformsByUser(username));
                 client.setPlatformsList(platformDao.getPlatformsByUser(username));
             }
 
