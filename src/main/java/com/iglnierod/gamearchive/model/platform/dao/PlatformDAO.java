@@ -24,5 +24,5 @@ public interface PlatformDAO {
     
     ArrayList<Integer> getPlatformsById(String platformsArray);
     
-    Set<Platform> getPlatformsFromArrayList(ArrayList<Integer> arrayList);
+    Set<Platform> getPlatformsByUser(String username);
 }

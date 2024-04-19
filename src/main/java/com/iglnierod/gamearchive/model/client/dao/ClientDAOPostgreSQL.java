@@ -28,8 +28,8 @@ public class ClientDAOPostgreSQL implements ClientDAO {
 
     @Override
     public boolean add(Client user) {
-        //String query = "INSERT INTO client (username, email, password) VALUES (?,?,?)";
-        String query = "INSERT INTO client_duplicate (username, email, password) VALUES (?,?,?)";
+        String query = "INSERT INTO client (username, email, password) VALUES (?,?,?)";
+        //String query = "INSERT INTO client_duplicate (username, email, password) VALUES (?,?,?)";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getEmail());
@@ -45,8 +45,8 @@ public class ClientDAOPostgreSQL implements ClientDAO {
 
     @Override
     public boolean login(String username, String password) {
-        //String query = "SELECT password FROM client WHERE username = ?";
-        String query = "SELECT password FROM client_duplicate WHERE username = ?";
+        String query = "SELECT password FROM client WHERE username = ?";
+        //String query = "SELECT password FROM client_duplicate WHERE username = ?";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, username);
 
@@ -70,8 +70,8 @@ public class ClientDAOPostgreSQL implements ClientDAO {
 
     @Override
     public Client getClient(String username) {
-        //String query = "SELECT * FROM client WHERE username = ?";
-        String query = "SELECT * FROM client_duplicate WHERE username = ?";
+        String query = "SELECT * FROM client WHERE username = ?";
+        //String query = "SELECT * FROM client_duplicate WHERE username = ?";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, username);
 
@@ -84,10 +84,7 @@ public class ClientDAOPostgreSQL implements ClientDAO {
                 client.setEmail(rs.getString("email"));
                 client.setPassword(rs.getString("password"));
                 client.setDescription(rs.getString("description"));
-                client.setPlatformsList(
-                        platformDao.getPlatformsFromArrayList(
-                                platformDao.getPlatformsById(rs.getString("platform_id"))
-                        ));
+                client.setPlatformsList(platformDao.getPlatformsByUser(username));
             }
 
             return client;
@@ -100,8 +97,8 @@ public class ClientDAOPostgreSQL implements ClientDAO {
     @Override
     public void updateUserDescription(String description) {
         String currentUsername = Session.getCurrentClient().getUsername();
-        //String query = "UPDATE client SET description = ? WHERE username = ?";
-        String query = "UPDATE client_duplicate SET description = ? WHERE username = ?";
+        String query = "UPDATE client SET description = ? WHERE username = ?";
+        //String query = "UPDATE client_duplicate SET description = ? WHERE username = ?";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, description);
             ps.setString(2, currentUsername);
@@ -113,26 +110,17 @@ public class ClientDAOPostgreSQL implements ClientDAO {
 
     @Override
     public void updateUserPlatforms(Set<Platform> selectedPlatforms) {
-        // Convertir el conjunto de IDs de plataformas en un array de Integer
-        Integer[] platformIds = selectedPlatforms.stream()
-                .map(Platform::getId)
-                .toArray(Integer[]::new);
-
-        // Crear una instancia de Array a partir del array de Integer
-        try {
-            Array sqlArray = database.getConnection().createArrayOf("integer", platformIds);
-
-            // Preparar la consulta SQL
-            String query = "UPDATE client_duplicate SET platform_id = ? WHERE username = ?";
-            try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
-                ps.setArray(1, sqlArray);
+        String query = "INSERT INTO client_platform (platform_id, username) VALUES (?, ?)";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            for (Platform p : selectedPlatforms) {
+                ps.setInt(1, p.getId());
                 ps.setString(2, Session.getCurrentClient().getUsername());
-                ps.executeUpdate();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                ps.addBatch();
             }
+            ps.executeBatch();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+
 }
