@@ -98,7 +98,6 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
 
     @Override
     public Set<Platform> getPlatformsByAbbreviation(Set<String> platforms) {
-        // TODO
         Set<Platform> platformsSet = new LinkedHashSet<>();
         for (String platformAbbreviation : platforms) {
             Platform platform = this.getByAbbreviation(platformAbbreviation);
@@ -131,11 +130,27 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
     }
 
     @Override
-    public Set<Platform> getPlatformsFromArrayList(ArrayList<Integer> arrayList) {
-        Set<Platform> platformsSet = new LinkedHashSet<>();
-        for (Integer i : arrayList) {
-            platformsSet.add(this.get(i));
+    public Set<Platform> getPlatformsByUser(String username) {
+        Set<Platform> userPlatforms = new LinkedHashSet<>();
+        String query = "SELECT * FROM platform WHERE id IN (SELECT platform_id FROM client_platform WHERE username = ?)";
+
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, username);
+            Platform p = new Platform();
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                p.setId(rs.getInt("id"));
+                p.setAbbreviation(rs.getString("abbreviation"));
+                p.setChecksum(rs.getString("checksum"));
+                p.setLogoID(rs.getString("logo_id"));
+                p.setName(rs.getString("name"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return platformsSet;
+
+        return userPlatforms;
     }
+
 }

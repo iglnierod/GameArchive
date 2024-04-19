@@ -8,9 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import javax.swing.ImageIcon;
+import java.util.ArrayList;
 import javax.swing.JToggleButton;
 
 /**
@@ -162,18 +160,20 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
         return this.descriptionTextArea.getText().trim();
     }
 
-    public Set<String> getSelectedPlatforms() {
+    public ArrayList<Integer> getSelectedPlatforms() {
         // TODO
         Object[] platforms = platformsPanel.getComponents();
-        Set<String> selectedPlatforms = new LinkedHashSet<String>();
+        ArrayList<Integer> selectedPlatforms = new ArrayList<Integer>();
         for (Object o : platforms) {
             JToggleButton platformToggleButton = (JToggleButton) o;
             if (platformToggleButton.isSelected()) {
-                selectedPlatforms.add(platformToggleButton.getText());
+                int platformIndex = platformsPanel.getComponentZOrder(platformToggleButton);
+                selectedPlatforms.add(platformIndex);
             }
         }
         return selectedPlatforms;
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addDescriptionLabel;

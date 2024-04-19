@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.swing.JToggleButton;
 
@@ -33,6 +34,7 @@ public class ProfileConfigController {
     private final Database database;
     private final PlatformDAO platformDao;
     private final ClientDAO clientDao;
+    private ArrayList<Platform> platformsArrayList;
     // private final ImageChooserDialog imageChooserDialog;
 
     public ProfileConfigController(ProfileConfigFrame view, Database database) {
@@ -75,11 +77,22 @@ public class ProfileConfigController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
-                Set<Platform> selectedPlatforms = platformDao.getPlatformsByAbbreviation(view.getSelectedPlatforms());
+                // Get selected platforms from view and parse to model
+                ArrayList<Integer> selectedPlatformIndex = view.getSelectedPlatforms();
+                Set<Platform> selectedPlatformSet = new LinkedHashSet<>();
+                for(int i = 0; i < selectedPlatformIndex.size(); i++) {
+                    Platform p = platformsArrayList.get(selectedPlatformIndex.get(i));
+                    selectedPlatformSet.add(p);
+                }
+                
+                // PRINT
+                System.out.println("SELECTED PLATFORMS");
+                System.out.println(selectedPlatformSet);
+                
+                // Update client and save Session
                 Client client = Session.getCurrentClient();
                 clientDao.updateUserDescription(view.getDescription());
-                clientDao.updateUserPlatforms(selectedPlatforms);
+                clientDao.updateUserPlatforms(selectedPlatformSet);
                 client = clientDao.getClient(client.getUsername());
                 Session.setCurrentClient(client);
 
@@ -92,8 +105,8 @@ public class ProfileConfigController {
     }
 
     private void loadPlatforms() {
-        ArrayList<Platform> platforms = platformDao.getAll();
-        for (Platform p : platforms) {
+        this.platformsArrayList = platformDao.getAll();
+        for (Platform p : platformsArrayList) {
             JToggleButton platformToggleButton = view.getPlatformToggleButton(p.getAbbreviation());
             platformToggleButton.setToolTipText(p.getName());
             this.view.addPlatformToPanel(platformToggleButton);
