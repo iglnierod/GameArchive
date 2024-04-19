@@ -48,12 +48,13 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 ## Alcances realizados
 - [X] Inicio de sesión
 - [X] Registro de usuarios
+- [X] Guardar la sesión del usuario
 
 - Personlalización del perfil
     - [ ] Elegir imagen
     - [X] Nombre de usuario
     - [X] Email
-    - [ ] Descripción
+    - [X] Descripción
     - [ ] Enlaces a redes sociales
 
 - Búsqueda de juegos:
