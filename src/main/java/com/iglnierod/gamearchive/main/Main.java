@@ -16,9 +16,17 @@ import javax.swing.UIManager;
  * @author rodri
  */
 public class Main {
-    
+
     public static void main(String[] args) {
         changeViewSkin();
+        
+        // TESTING
+        /*GameDAO gameDao = new GameDAOUnirest();
+        gameDao.search("Hollow Knight");
+        System.out.println("Reference: " + Reference.getImage(ImageType._1080P, "co1rgi"));
+        System.out.println("Reference: " + Reference.getImage(ImageType._720P, "co1rgi"));
+        System.out.println("Reference: " + Reference.getImage(ImageType.COVER_BIG, "co1rgi"));*/
+
         RegisterFrame registerFrame = new RegisterFrame();
         LoginFrame loginFrame = new LoginFrame();
         Database db = new Database();

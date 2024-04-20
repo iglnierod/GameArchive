@@ -4,11 +4,15 @@
  */
 package com.iglnierod.gamearchive.controller.home;
 
+import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
-import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
+import com.iglnierod.gamearchive.view.login.LoginFrame;
+import com.iglnierod.gamearchive.view.register.RegisterFrame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -24,17 +28,32 @@ public class HomeController {
         this.view = view;
         this.database = database;
         this.currentClient = Session.getCurrentClient();
-        testSessionClass();
-        System.out.println("user: " + Session.getCurrentClient());
+        addListeners();
     }
 
-    private void testSessionClass() {
-        view.setUsernameText(currentClient.getUsername());
-        view.setUserDescription(currentClient.getDescription());
-        String text = null;
-        for (Platform p : currentClient.getPlatformsList()) {
-            text += p.getAbbreviation() + " | ";
-        }
-        view.setUserPlatforms(text);
+    private void addListeners() {
+        this.view.setUsernameLabelText(currentClient.getUsername());
+        this.view.addLogOutMenuItemActionListener(addLogOutMenuItemListener());
+        this.view.addQuitMenuItemActionListener(addQuitMenuItemListener());
+    }
+
+    private ActionListener addLogOutMenuItemListener() {
+        return (ActionEvent e) -> {
+            // TODO
+            view.dispose();
+            
+            Session.setCurrentClient(null);
+            RegisterFrame registerFrame = new RegisterFrame();
+            LoginFrame loginFrame = new LoginFrame();
+            MainController.savedSession.delete();
+            MainController mainController = new MainController(registerFrame, loginFrame, database);
+        };
+    }
+
+    private ActionListener addQuitMenuItemListener() {
+        return (ActionEvent e) -> {
+            view.dispose();
+            System.exit(0);
+        };
     }
 }

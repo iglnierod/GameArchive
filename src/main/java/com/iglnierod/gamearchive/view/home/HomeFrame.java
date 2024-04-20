@@ -4,6 +4,8 @@
  */
 package com.iglnierod.gamearchive.view.home;
 
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author rodri
@@ -26,88 +28,183 @@ public class HomeFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        username = new javax.swing.JLabel();
-        userDescription = new javax.swing.JLabel();
-        userPlatforms = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        mainPanel = new javax.swing.JPanel();
+        northPanel = new javax.swing.JPanel();
+        usernameLabel = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        centerPanel = new javax.swing.JPanel();
+        popularGamesPanel = new javax.swing.JPanel();
+        recommendedGamesPanel = new javax.swing.JPanel();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        logOutMenuItem = new javax.swing.JMenuItem();
+        quitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GameArchive - Home");
 
-        username.setText("jLabel1");
+        usernameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        usernameLabel.setText("username");
 
-        userDescription.setText("jLabel2");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
 
-        userPlatforms.setText("jLabel3");
+        jButton1.setText("Search");
 
-        jMenu1.setText("File");
+        javax.swing.GroupLayout northPanelLayout = new javax.swing.GroupLayout(northPanel);
+        northPanel.setLayout(northPanelLayout);
+        northPanelLayout.setHorizontalGroup(
+            northPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, northPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(160, 160, 160)
+                .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+        );
+        northPanelLayout.setVerticalGroup(
+            northPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(northPanelLayout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addGroup(northPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameLabel)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        jMenuItem1.setText("Log out");
-        jMenu1.add(jMenuItem1);
+        popularGamesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Popular games"));
+        popularGamesPanel.setMinimumSize(null);
 
-        jMenuItem2.setText("Quit");
-        jMenu1.add(jMenuItem2);
+        javax.swing.GroupLayout popularGamesPanelLayout = new javax.swing.GroupLayout(popularGamesPanel);
+        popularGamesPanel.setLayout(popularGamesPanelLayout);
+        popularGamesPanelLayout.setHorizontalGroup(
+            popularGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 518, Short.MAX_VALUE)
+        );
+        popularGamesPanelLayout.setVerticalGroup(
+            popularGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-        jMenuBar1.add(jMenu1);
+        recommendedGamesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Recommended games"));
+        recommendedGamesPanel.setMinimumSize(null);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        javax.swing.GroupLayout recommendedGamesPanelLayout = new javax.swing.GroupLayout(recommendedGamesPanel);
+        recommendedGamesPanel.setLayout(recommendedGamesPanelLayout);
+        recommendedGamesPanelLayout.setHorizontalGroup(
+            recommendedGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 566, Short.MAX_VALUE)
+        );
+        recommendedGamesPanelLayout.setVerticalGroup(
+            recommendedGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 217, Short.MAX_VALUE)
+        );
 
-        setJMenuBar(jMenuBar1);
+        javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
+        centerPanel.setLayout(centerPanelLayout);
+        centerPanelLayout.setHorizontalGroup(
+            centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(popularGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        centerPanelLayout.setVerticalGroup(
+            centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(centerPanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(popularGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(248, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(northPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addComponent(northPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        fileMenu.setText("File");
+
+        logOutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        logOutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_logout_white_24dp.png"))); // NOI18N
+        logOutMenuItem.setText("Log out");
+        fileMenu.add(logOutMenuItem);
+
+        quitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        quitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_close_white_24dp.png"))); // NOI18N
+        quitMenuItem.setText("Quit");
+        fileMenu.add(quitMenuItem);
+
+        menuBar.add(fileMenu);
+
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(301, 301, 301)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userPlatforms)
-                    .addComponent(username))
-                .addGap(131, 131, 131)
-                .addComponent(userDescription)
-                .addContainerGap(491, Short.MAX_VALUE))
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(userDescription)
-                .addGap(7, 7, 7)
-                .addComponent(username)
-                .addGap(51, 51, 51)
-                .addComponent(userPlatforms)
-                .addContainerGap(361, Short.MAX_VALUE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 91, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setUsernameText(String text) {
-        this.username.setText(text);
+    public void addLogOutMenuItemActionListener(ActionListener listener) {
+        this.logOutMenuItem.addActionListener(listener);
     }
 
-    public void setUserDescription(String text) {
-        this.userDescription.setText(text);
+    public void addQuitMenuItemActionListener(ActionListener listener) {
+        this.quitMenuItem.addActionListener(listener);
     }
 
-    public void setUserPlatforms(String text) {
-        this.userPlatforms.setText(text);
+    public void setUsernameLabelText(String text) {
+        this.usernameLabel.setText(text);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JLabel userDescription;
-    private javax.swing.JLabel userPlatforms;
-    private javax.swing.JLabel username;
+    private javax.swing.JPanel centerPanel;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JMenuItem logOutMenuItem;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JPanel northPanel;
+    private javax.swing.JPanel popularGamesPanel;
+    private javax.swing.JMenuItem quitMenuItem;
+    private javax.swing.JPanel recommendedGamesPanel;
+    private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }
