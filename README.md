@@ -1,6 +1,21 @@
 # GameArchive
 
 ## Entregas
+### 20 de Abril 2024
+##### main branch
+- Creada pantalla de configuración del perfil después de registrarse
+- Guardadas las plataformas del usuario en la tabla `client_platform`
+- Creada clase sesión para guardar los datos del usuario logeado
+- Añadido checkbox en Login para guardar la sesión
+##### developing branch
+- Modificada la pantalla Home
+- Añadido Log out y Quit en Menu Bar de Home
+- Creado el modelo para Game
+- Inicio del DAO para Game
+- Creado paquete `model.api.igdb` con funcionalidades para las llamadas
+- Añadida dependecia Unirest para las llamadas a la API
+- Primeras pruebas de llamada a la API (por consola): `main.Main`
+
 ### 8 de Abril 2024
 - Creación de la estructura MVC del proyecto
 - Primera versión de la estructura de la base de datos
@@ -32,6 +47,9 @@ IGBD es una web que ofrece todo tipo de información sobre videojuegos. En este 
 
 ### Imgur
 Es una plataforma online que permite subir imágenes de manera anónima utilizando la API por lo que se usará para almacenar de manera gratuita las imágenes de perfil de los usuarios.
+
+### Unirest
+Librería simple y ligera para realizar solicitures HTTP.
 
 ## Código
 ### MVC
