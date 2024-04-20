@@ -4,6 +4,8 @@
  */
 package com.iglnierod.gamearchive.view.home;
 
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author rodri
@@ -31,9 +33,8 @@ public class HomeFrame extends javax.swing.JFrame {
         userPlatforms = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        logOutMenuItem = new javax.swing.JMenuItem();
+        quitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GameArchive - Home");
@@ -46,16 +47,13 @@ public class HomeFrame extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("Log out");
-        jMenu1.add(jMenuItem1);
+        logOutMenuItem.setText("Log out");
+        jMenu1.add(logOutMenuItem);
 
-        jMenuItem2.setText("Quit");
-        jMenu1.add(jMenuItem2);
+        quitMenuItem.setText("Quit");
+        jMenu1.add(quitMenuItem);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -100,12 +98,19 @@ public class HomeFrame extends javax.swing.JFrame {
         this.userPlatforms.setText(text);
     }
     
+    public void addLogOutMenuItemActionListener(ActionListener listener) {
+        this.logOutMenuItem.addActionListener(listener);
+    }
+    
+    public void addQuitMenuItemActionListener(ActionListener listener) {
+        this.quitMenuItem.addActionListener(listener);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem logOutMenuItem;
+    private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JLabel userDescription;
     private javax.swing.JLabel userPlatforms;
     private javax.swing.JLabel username;
