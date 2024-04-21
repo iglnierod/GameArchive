@@ -16,5 +16,5 @@ public interface GameDAO {
     
     public String post(String url, String body);
     
-    public Game parse(String jsonResponse);
+    public ArrayList<Game> parse(String jsonResponse);
 }

@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.home;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 
 /**
@@ -31,9 +32,9 @@ public class HomeFrame extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         northPanel = new javax.swing.JPanel();
         usernameLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        searchTextField = new javax.swing.JTextField();
+        searchLabel = new javax.swing.JLabel();
+        searchButton = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
         popularGamesPanel = new javax.swing.JPanel();
         recommendedGamesPanel = new javax.swing.JPanel();
@@ -49,9 +50,9 @@ public class HomeFrame extends javax.swing.JFrame {
         usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         usernameLabel.setText("username");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
+        searchLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
 
-        jButton1.setText("Search");
+        searchButton.setText("Search");
 
         javax.swing.GroupLayout northPanelLayout = new javax.swing.GroupLayout(northPanel);
         northPanel.setLayout(northPanelLayout);
@@ -59,11 +60,11 @@ public class HomeFrame extends javax.swing.JFrame {
             northPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, northPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(searchLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(searchButton)
                 .addGap(160, 160, 160)
                 .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
@@ -74,28 +75,15 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(northPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameLabel)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchLabel)
+                    .addComponent(searchButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         popularGamesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Popular games"));
-        popularGamesPanel.setMinimumSize(null);
-
-        javax.swing.GroupLayout popularGamesPanelLayout = new javax.swing.GroupLayout(popularGamesPanel);
-        popularGamesPanel.setLayout(popularGamesPanelLayout);
-        popularGamesPanelLayout.setHorizontalGroup(
-            popularGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 518, Short.MAX_VALUE)
-        );
-        popularGamesPanelLayout.setVerticalGroup(
-            popularGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         recommendedGamesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Recommended games"));
-        recommendedGamesPanel.setMinimumSize(null);
 
         javax.swing.GroupLayout recommendedGamesPanelLayout = new javax.swing.GroupLayout(recommendedGamesPanel);
         recommendedGamesPanel.setLayout(recommendedGamesPanelLayout);
@@ -105,7 +93,7 @@ public class HomeFrame extends javax.swing.JFrame {
         );
         recommendedGamesPanelLayout.setVerticalGroup(
             recommendedGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 217, Short.MAX_VALUE)
+            .addGap(0, 220, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
@@ -114,19 +102,19 @@ public class HomeFrame extends javax.swing.JFrame {
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(popularGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77)
+                .addComponent(popularGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap())
         );
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(popularGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(popularGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -144,7 +132,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addComponent(northPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         fileMenu.setText("File");
@@ -171,9 +159,7 @@ public class HomeFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 91, Short.MAX_VALUE))
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -192,12 +178,22 @@ public class HomeFrame extends javax.swing.JFrame {
         this.usernameLabel.setText(text);
     }
     
+    public void addSearchButtonActionListener(ActionListener listener) {
+        this.searchButton.addActionListener(listener);
+    }
+    
+    public String getSearchTextFieldText() {
+        return searchTextField.getText().trim();
+    }
+    
+    public void addComponentPopularGamesPanel(Component comp) {
+        this.popularGamesPanel.add(comp);
+        this.popularGamesPanel.revalidate();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuItem logOutMenuItem;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
@@ -205,6 +201,9 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel popularGamesPanel;
     private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JPanel recommendedGamesPanel;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JLabel searchLabel;
+    private javax.swing.JTextField searchTextField;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }

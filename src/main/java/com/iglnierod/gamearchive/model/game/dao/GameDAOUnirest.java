@@ -1,6 +1,9 @@
 package com.iglnierod.gamearchive.model.game.dao;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
 import com.iglnierod.gamearchive.model.game.Game;
 import java.util.ArrayList;
@@ -19,18 +22,21 @@ public class GameDAOUnirest implements GameDAO {
 
     @Override
     public ArrayList<Game> search(String inputText) {
+        inputText = "\"" + inputText + "\"";
         // TODO
         ArrayList<Game> games = new ArrayList<>();
         String url = "https://api.igdb.com/v4/games";
         PostRequest pr = PostRequest.builder()
                 .fields("name, cover.image_id")
-                .search("\""+inputText+"\"")
-                .limit("1")
+                .search(inputText)
+                .limit("3")
                 .build();
-        System.out.println("PostRequest: " + pr.asString());
+        //System.out.println("PostRequest: " + pr.asString());
         String postResult = this.post(url, pr.asString());
         System.out.println("postResult: " + postResult);
-        
+
+        games = this.parse(postResult);
+
         return games;
     }
 
@@ -48,10 +54,33 @@ public class GameDAOUnirest implements GameDAO {
         return responseString;
     }
 
-    @Override
-    public Game parse(String jsonResponse) {
+    /*@Override
+    public ArrayList<Game> parse(String jsonResponse) {
         // TODO
         Gson gson = new Gson();
+        JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
         return null;
+    }*/
+    public ArrayList<Game> parse(String jsonResponse) {
+        ArrayList<Game> games = new ArrayList<>();
+
+        JsonArray jsonArray = JsonParser.parseString(jsonResponse).getAsJsonArray();
+        Gson gson = new Gson();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonGame = jsonArray.get(i).getAsJsonObject();
+
+            int id = jsonGame.get("id").getAsInt();
+            JsonObject jsonCover = jsonGame.getAsJsonObject("cover");
+            String name = jsonGame.get("name").getAsString();
+            String coverId = jsonCover.get("image_id").getAsString();
+            Game game = new Game();
+            game.setName(name);
+            game.setCoverId(coverId);
+            game.setId(id);
+            games.add(game);
+        }
+
+        return games;
     }
 }

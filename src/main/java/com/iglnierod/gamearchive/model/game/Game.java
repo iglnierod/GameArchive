@@ -9,6 +9,7 @@ package com.iglnierod.gamearchive.model.game;
  * @author iglnierod
  */
 public class Game {
+
     private int id;
     private String checksum;
     private String name;
@@ -17,8 +18,9 @@ public class Game {
     private String summary;
     private String artworkId;
     private String coverId;
-    
-    public Game() {}
+
+    public Game() {
+    }
 
     public Game(int id, String checksum, String name, float igdbRating, int ratingCount, String summary, String artworkId, String coverId) {
         this.id = id;
@@ -93,5 +95,10 @@ public class Game {
 
     public void setCoverId(String coverId) {
         this.coverId = coverId;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Game={id=%d,name=%s,coverId=%s}", id, name, coverId);
     }
 }
