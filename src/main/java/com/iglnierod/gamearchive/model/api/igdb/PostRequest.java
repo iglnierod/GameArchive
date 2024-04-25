@@ -23,6 +23,7 @@ public class PostRequest {
     }
 
     public String asString() {
+        // "fields ... ; where ...; limit ...;"
         StringBuilder sb = new StringBuilder();
 
         if (fields.length() > 7) { // Verifica si se ha modificado fields

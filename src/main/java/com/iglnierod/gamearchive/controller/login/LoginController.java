@@ -104,6 +104,7 @@ public class LoginController {
         }
     }
 
+    // TODO: Mostrar solo un error al fallar login + campo vacio
     private boolean loginUser() {
         String username = view.getUsernameText();
         String password = view.getPasswordText();

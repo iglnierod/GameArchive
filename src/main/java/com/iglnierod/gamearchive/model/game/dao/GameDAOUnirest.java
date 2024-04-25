@@ -27,9 +27,9 @@ public class GameDAOUnirest implements GameDAO {
         ArrayList<Game> games = new ArrayList<>();
         String url = "https://api.igdb.com/v4/games";
         PostRequest pr = PostRequest.builder()
-                .fields("name, cover.image_id")
-                .search(inputText)
-                .limit("3")
+                .fields("name, cover.image_id") // String fields = "fields name, cover.image_id"
+                .search(inputText) // String search = "search "Hollow Knight""
+                .limit("10") // String limit = "limit 10;"
                 .build();
         //System.out.println("PostRequest: " + pr.asString());
         String postResult = this.post(url, pr.asString());
@@ -49,9 +49,7 @@ public class GameDAOUnirest implements GameDAO {
                 .body(body)
                 .asString();
 
-        String responseString = jsonResponse.getBody();
-
-        return responseString;
+        return jsonResponse.getBody();
     }
 
     /*@Override
