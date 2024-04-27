@@ -4,6 +4,9 @@
  */
 package com.iglnierod.gamearchive.view.game;
 
+import java.awt.event.ActionListener;
+import javax.swing.Icon;
+
 /**
  *
  * @author iglnierod
@@ -13,7 +16,15 @@ public class GamePreviewPanel extends javax.swing.JPanel {
     /**
      * Creates new form GamePreview
      */
+    private final int gameId;
+
     public GamePreviewPanel() {
+        this.gameId = -1;
+        initComponents();
+    }
+
+    public GamePreviewPanel(int gameId) {
+        this.gameId = gameId;
         initComponents();
     }
 
@@ -26,73 +37,128 @@ public class GamePreviewPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        coverLabel = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        addToButton = new javax.swing.JButton();
+        rateButton = new javax.swing.JButton();
+        favouriteButton = new javax.swing.JButton();
+        separator = new javax.swing.JSeparator();
+        scrollPane = new javax.swing.JScrollPane();
+        summaryTextArea = new javax.swing.JTextArea();
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/t_cover_small.jpg"))); // NOI18N
+        setBorder(new javax.swing.border.LineBorder(new java.awt.Color(80, 82, 84), 1, true));
+        setForeground(new java.awt.Color(221, 221, 221));
+        setMaximumSize(new java.awt.Dimension(675, 156));
+        setMinimumSize(new java.awt.Dimension(675, 156));
 
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        jLabel2.setText("Lehtal company");
+        coverLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/t_cover_small.jpg"))); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Mi campeon favorito? Sin duda alguna Anivia la criofenix.Mi campeon favorito? Sin duda alguna Anivia la criofenix.Mi campeon favorito? Sin duda alguna Anivia la criofenix.Mi campeon favorito? Sin duda alguna Anivia la criofenix.");
-        jScrollPane1.setViewportView(jTextArea1);
+        nameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        nameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        nameLabel.setMaximumSize(new java.awt.Dimension(30, 150));
+        nameLabel.setMinimumSize(new java.awt.Dimension(30, 150));
+        nameLabel.setPreferredSize(new java.awt.Dimension(30, 150));
+
+        addToButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_queue_white_24dp.png"))); // NOI18N
+
+        rateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_thumbs_up_down_white_24dp.png"))); // NOI18N
+
+        favouriteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_star_white_24dp.png"))); // NOI18N
+
+        separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        summaryTextArea.setColumns(20);
+        summaryTextArea.setLineWrap(true);
+        summaryTextArea.setRows(5);
+        summaryTextArea.setEnabled(false);
+        summaryTextArea.setFocusable(false);
+        scrollPane.setViewportView(summaryTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
+                .addGap(16, 16, 16)
+                .addComponent(coverLabel)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(favouriteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(rateButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addToButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(coverLabel))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(favouriteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addToButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(3, 3, 3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
-                        .addComponent(jLabel1)))
-                .addContainerGap(10, Short.MAX_VALUE))
+                        .addComponent(rateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setNameLabelText(String text) {
+        this.nameLabel.setText(text);
+    }
+
+    public void setSummaryTextAreaText(String text) {
+        this.summaryTextArea.setText(text);
+    }
+
+    // TODO: set game cover image from url
+    public void setCoverLabelIcon(Icon icon) {
+        this.coverLabel.setIcon(icon);
+    }
+
+    public int getGameId() {
+        return this.gameId;
+    }
+
+    // ======= BUTTONS ======= 
+    public void addFavouriteButtonActionListener(ActionListener listener) {
+        this.favouriteButton.addActionListener(listener);
+    }
+
+    public void addAddToButtonActionListener(ActionListener listener) {
+        this.addToButton.addActionListener(listener);
+    }
+
+    public void addRateButtonActionListener(ActionListener listener) {
+        this.rateButton.addActionListener(listener);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton addToButton;
+    private javax.swing.JLabel coverLabel;
+    private javax.swing.JButton favouriteButton;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JButton rateButton;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JSeparator separator;
+    private javax.swing.JTextArea summaryTextArea;
     // End of variables declaration//GEN-END:variables
 }

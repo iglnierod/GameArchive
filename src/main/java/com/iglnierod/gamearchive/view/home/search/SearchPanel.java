@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.home.search;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 
 /**
@@ -28,16 +29,40 @@ public class SearchPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        filterPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         northPanel = new javax.swing.JPanel();
         searchLabel = new javax.swing.JLabel();
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
-        gamePreviewPanel2 = new com.iglnierod.gamearchive.view.game.GamePreviewPanel();
-        gamePreviewPanel3 = new com.iglnierod.gamearchive.view.game.GamePreviewPanel();
-        gamePreviewPanel4 = new com.iglnierod.gamearchive.view.game.GamePreviewPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        resultPanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
+
+        filterPanel.setMinimumSize(new java.awt.Dimension(180, 600));
+
+        jLabel1.setText("filters {");
+
+        javax.swing.GroupLayout filterPanelLayout = new javax.swing.GroupLayout(filterPanel);
+        filterPanel.setLayout(filterPanelLayout);
+        filterPanelLayout.setHorizontalGroup(
+            filterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filterPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addContainerGap(108, Short.MAX_VALUE))
+        );
+        filterPanelLayout.setVerticalGroup(
+            filterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filterPanelLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addContainerGap(564, Short.MAX_VALUE))
+        );
+
+        add(filterPanel, java.awt.BorderLayout.WEST);
 
         searchLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
         northPanel.add(searchLabel);
@@ -50,29 +75,23 @@ public class SearchPanel extends javax.swing.JPanel {
 
         add(northPanel, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
-        centerPanel.setLayout(centerPanelLayout);
-        centerPanelLayout.setHorizontalGroup(
-            centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(centerPanelLayout.createSequentialGroup()
-                .addGap(225, 225, 225)
-                .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gamePreviewPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gamePreviewPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gamePreviewPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(228, Short.MAX_VALUE))
-        );
-        centerPanelLayout.setVerticalGroup(
-            centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerPanelLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(gamePreviewPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gamePreviewPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gamePreviewPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
-        );
+        centerPanel.setPreferredSize(new java.awt.Dimension(1200, 600));
+        centerPanel.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setMaximumSize(null);
+        jScrollPane1.setName(""); // NOI18N
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 600));
+        jScrollPane1.setViewportView(resultPanel);
+
+        resultPanel.setAutoscrolls(true);
+        resultPanel.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        resultPanel.setName(""); // NOI18N
+        resultPanel.setLayout(new javax.swing.BoxLayout(resultPanel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(resultPanel);
+
+        centerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         add(centerPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -85,12 +104,23 @@ public class SearchPanel extends javax.swing.JPanel {
         this.searchButton.addActionListener(listener);
     }
     
+    public void addToResults(Component component) {
+        this.resultPanel.add(component);
+        this.resultPanel.validate();
+    }
+    
+    public void emptyResults() {
+        this.resultPanel.removeAll();
+        this.revalidate();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
-    private com.iglnierod.gamearchive.view.game.GamePreviewPanel gamePreviewPanel2;
-    private com.iglnierod.gamearchive.view.game.GamePreviewPanel gamePreviewPanel3;
-    private com.iglnierod.gamearchive.view.game.GamePreviewPanel gamePreviewPanel4;
+    private javax.swing.JPanel filterPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel northPanel;
+    private javax.swing.JPanel resultPanel;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JTextField searchTextField;

@@ -27,7 +27,7 @@ public class GameDAOUnirest implements GameDAO {
         ArrayList<Game> games = new ArrayList<>();
         String url = "https://api.igdb.com/v4/games";
         PostRequest pr = PostRequest.builder()
-                .fields("name, cover.image_id") // String fields = "fields name, cover.image_id"
+                .fields("name, cover.image_id, summary") // String fields = "fields name, cover.image_id"
                 .search(inputText) // String search = "search "Hollow Knight""
                 .limit("10") // String limit = "limit 10;"
                 .build();
@@ -52,13 +52,6 @@ public class GameDAOUnirest implements GameDAO {
         return jsonResponse.getBody();
     }
 
-    /*@Override
-    public ArrayList<Game> parse(String jsonResponse) {
-        // TODO
-        Gson gson = new Gson();
-        JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
-        return null;
-    }*/
     public ArrayList<Game> parse(String jsonResponse) {
         ArrayList<Game> games = new ArrayList<>();
 
@@ -69,13 +62,19 @@ public class GameDAOUnirest implements GameDAO {
             JsonObject jsonGame = jsonArray.get(i).getAsJsonObject();
 
             int id = jsonGame.get("id").getAsInt();
-            JsonObject jsonCover = jsonGame.getAsJsonObject("cover");
             String name = jsonGame.get("name").getAsString();
-            String coverId = jsonCover.get("image_id").getAsString();
+            String summary = jsonGame.get("summary").getAsString();
+
+            JsonObject jsonCover = jsonGame.getAsJsonObject("cover");
+            String coverId = null;
+            if (jsonCover != null) {
+                coverId = jsonCover.get("image_id").getAsString();
+            }
             Game game = new Game();
-            game.setName(name);
-            game.setCoverId(coverId);
             game.setId(id);
+            game.setName(name);
+            game.setSummary(summary);
+            game.setCoverId(coverId);
             games.add(game);
         }
 
