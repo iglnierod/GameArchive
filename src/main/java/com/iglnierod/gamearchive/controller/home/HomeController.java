@@ -15,6 +15,7 @@ import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
+import com.iglnierod.gamearchive.view.home.search.NoGamesFoundPanel;
 import com.iglnierod.gamearchive.view.home.search.SearchPanel;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
@@ -23,7 +24,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -94,7 +101,10 @@ public class HomeController {
     // SEARCH FUNCTIONS
     private ActionListener addSearchButtonListener() {
         return (ActionEvent e) -> {
-            ArrayList<Game> gamesResult = gameDao.search(searchPanel.getSearchTextFieldText());
+            String input = searchPanel.getSearchTextFieldText();
+            ArrayList<Game> gamesResult = gameDao.search(input);
+            System.out.println("gamesResult.size(): " + gamesResult.size());
+
             System.out.println("gamesResult: " + gamesResult);
             displayResults(gamesResult);
         };
@@ -102,17 +112,36 @@ public class HomeController {
 
     private void displayResults(ArrayList<Game> gamesResult) {
         searchPanel.emptyResults();
+        if (gamesResult.isEmpty()) {
+            NoGamesFoundPanel noGamesFoundPanel = new NoGamesFoundPanel();
+            noGamesFoundPanel.setInput(searchPanel.getSearchTextFieldText());
+            searchPanel.addToResults(noGamesFoundPanel);
+        }
         for (Game g : gamesResult) {
             System.out.println("game image: " + Reference.getImage(ImageType._1080P, g.getCoverId()));
             GamePreviewPanel gamePanel = new GamePreviewPanel(g.getId());
-            
+
             gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener());
             gamePanel.addAddToButtonActionListener(this.addAddToButtonListener());
             gamePanel.addRateButtonActionListener(this.addRateButtonListener());
-            
+
             gamePanel.setNameLabelText(g.getName());
-            gamePanel.setSummaryTextAreaText(g.getSummary());
+            if (g.getSummary() != null) {
+                gamePanel.setSummaryTextAreaText(g.getSummary());
+            }
+            if (g.getCoverId() != null) {
+                try {
+                    URL url = new URL(Reference.getImage(ImageType.COVER_SMALL, g.getCoverId()));
+                    BufferedImage image = ImageIO.read(url);
+                    gamePanel.setCoverLabelIcon(new ImageIcon(image));
+                } catch (MalformedURLException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
             searchPanel.addToResults(gamePanel);
+
         }
     }
 

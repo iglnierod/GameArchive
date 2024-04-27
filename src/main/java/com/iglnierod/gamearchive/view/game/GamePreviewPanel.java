@@ -51,7 +51,7 @@ public class GamePreviewPanel extends javax.swing.JPanel {
         setMaximumSize(new java.awt.Dimension(675, 156));
         setMinimumSize(new java.awt.Dimension(675, 156));
 
-        coverLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/t_cover_small.jpg"))); // NOI18N
+        coverLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/NoImgAvaliable.png"))); // NOI18N
 
         nameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         nameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -132,6 +132,7 @@ public class GamePreviewPanel extends javax.swing.JPanel {
     // TODO: set game cover image from url
     public void setCoverLabelIcon(Icon icon) {
         this.coverLabel.setIcon(icon);
+        this.coverLabel.revalidate();
     }
 
     public int getGameId() {

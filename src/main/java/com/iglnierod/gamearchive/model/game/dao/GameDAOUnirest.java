@@ -63,7 +63,12 @@ public class GameDAOUnirest implements GameDAO {
 
             int id = jsonGame.get("id").getAsInt();
             String name = jsonGame.get("name").getAsString();
-            String summary = jsonGame.get("summary").getAsString();
+            String summary = null;
+            try {
+                summary = jsonGame.get("summary").getAsString();
+            } catch (java.lang.NullPointerException e) {
+                System.err.println("(" + id + ") Game has no summary");
+            }
 
             JsonObject jsonCover = jsonGame.getAsJsonObject("cover");
             String coverId = null;

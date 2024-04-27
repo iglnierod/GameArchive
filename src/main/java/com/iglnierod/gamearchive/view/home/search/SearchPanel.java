@@ -39,8 +39,6 @@ public class SearchPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         resultPanel = new javax.swing.JPanel();
 
-        setLayout(new java.awt.BorderLayout());
-
         filterPanel.setMinimumSize(new java.awt.Dimension(180, 600));
 
         jLabel1.setText("filters {");
@@ -59,10 +57,10 @@ public class SearchPanel extends javax.swing.JPanel {
             .addGroup(filterPanelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addContainerGap(564, Short.MAX_VALUE))
+                .addContainerGap(588, Short.MAX_VALUE))
         );
 
-        add(filterPanel, java.awt.BorderLayout.WEST);
+        setLayout(new java.awt.BorderLayout());
 
         searchLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
         northPanel.add(searchLabel);

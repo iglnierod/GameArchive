@@ -11,6 +11,10 @@ package com.iglnierod.gamearchive.model.api.igdb;
 public class Reference {
 
     public static String getImage(ImageType imageType, String imageId) {
+        if (imageId == null) {
+            return null;
+        }
+
         String imageTypeString = imageType.name().toLowerCase();
         if (imageTypeString.charAt(0) == '_') {
             imageTypeString = imageTypeString.replace("_", "");
