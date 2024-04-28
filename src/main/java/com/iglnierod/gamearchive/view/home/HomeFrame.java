@@ -202,6 +202,14 @@ public class HomeFrame extends javax.swing.JFrame {
         this.centerPanel.removeAll();
     }
     
+    public void addLogOutMenuItemActionListener(ActionListener listener) {
+        this.logOutMenuItem.addActionListener(listener);
+    }
+    
+    public void addQuitMenuItemActionListener(ActionListener listener) {
+        this.quitMenuItem.addActionListener(listener);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel communityLabel;

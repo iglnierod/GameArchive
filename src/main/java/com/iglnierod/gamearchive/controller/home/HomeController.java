@@ -31,6 +31,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -49,6 +51,9 @@ public class HomeController {
         this.database = database;
         this.gameDao = new GameDAOUnirest();
         this.currentClient = Session.getCurrentClient();
+        //testSessionClass();
+        addListeners();
+        System.out.println("user: " + Session.getCurrentClient());
         this.searchPanel = new SearchPanel();
         addListeners();
         initiatePanels();
@@ -67,6 +72,29 @@ public class HomeController {
 
     private void addSearchPanelListeners() {
         searchPanel.addSearchButtonActionListener(this.addSearchButtonListener());
+    }
+
+    private void addListeners() {
+
+    }
+
+    private ActionListener setLogOutMenuItemListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+            }
+        };
+    }
+
+    private ActionListener setQuitMenuItemListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+                view.dispose();
+            }
+        };
     }
 
     private ActionListener addLogOutMenuItemListener() {
@@ -165,4 +193,5 @@ public class HomeController {
             System.out.println("RATE BUTTON");
         };
     }
+
 }
