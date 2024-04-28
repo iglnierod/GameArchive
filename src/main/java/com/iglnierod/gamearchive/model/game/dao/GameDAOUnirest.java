@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import java.util.ArrayList;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -21,17 +22,19 @@ public class GameDAOUnirest implements GameDAO {
     }
 
     @Override
-    public ArrayList<Game> search(String inputText) {
+    public ArrayList<Game> search(String inputText, GameFilter filter) {
         inputText = "\"" + inputText + "\"";
-        // TODO
         ArrayList<Game> games = new ArrayList<>();
         String url = "https://api.igdb.com/v4/games";
+        
         PostRequest pr = PostRequest.builder()
-                .fields("name, cover.image_id, summary") // String fields = "fields name, cover.image_id"
-                .search(inputText) // String search = "search "Hollow Knight""
-                .limit("10") // String limit = "limit 10;"
+                .fields("name, cover.image_id, summary, rating") 
+                .search(inputText)
+                .where("rating >= " + filter.getMinRating())
+                .limit(filter.getLimit())
                 .build();
-        //System.out.println("PostRequest: " + pr.asString());
+        
+        System.out.println("pr.asString(): " + pr.asString());
         String postResult = this.post(url, pr.asString());
         System.out.println("postResult: " + postResult);
 

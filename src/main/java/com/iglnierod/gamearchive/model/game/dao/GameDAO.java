@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.model.game.dao;
 
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * @author iglnierod
  */
 public interface GameDAO {
-    public ArrayList<Game> search(String inputText);
+    public ArrayList<Game> search(String inputText, GameFilter filter);
     
     public String post(String url, String body);
     

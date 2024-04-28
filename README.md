@@ -76,7 +76,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
     - [ ] Enlaces a redes sociales
 
 - Búsqueda de juegos:
-    - [ ] Por titulo
+    - [X] Por titulo
     - [ ] Por plataforma
     - [ ] Por géneros
     - [ ] Por valoración

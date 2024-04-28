@@ -12,9 +12,11 @@ import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
+import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
+import com.iglnierod.gamearchive.view.home.search.FiltersPanel;
 import com.iglnierod.gamearchive.view.home.search.NoGamesFoundPanel;
 import com.iglnierod.gamearchive.view.home.search.SearchPanel;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
@@ -31,8 +33,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *
@@ -51,8 +51,6 @@ public class HomeController {
         this.database = database;
         this.gameDao = new GameDAOUnirest();
         this.currentClient = Session.getCurrentClient();
-        //testSessionClass();
-        addListeners();
         System.out.println("user: " + Session.getCurrentClient());
         this.searchPanel = new SearchPanel();
         addListeners();
@@ -72,29 +70,7 @@ public class HomeController {
 
     private void addSearchPanelListeners() {
         searchPanel.addSearchButtonActionListener(this.addSearchButtonListener());
-    }
-
-    private void addListeners() {
-
-    }
-
-    private ActionListener setLogOutMenuItemListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO
-            }
-        };
-    }
-
-    private ActionListener setQuitMenuItemListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO
-                view.dispose();
-            }
-        };
+        searchPanel.addFilterButtonActionListener(this.addFilterButtonListener());
     }
 
     private ActionListener addLogOutMenuItemListener() {
@@ -130,14 +106,27 @@ public class HomeController {
     private ActionListener addSearchButtonListener() {
         return (ActionEvent e) -> {
             String input = searchPanel.getSearchTextFieldText();
-            ArrayList<Game> gamesResult = gameDao.search(input);
-            System.out.println("gamesResult.size(): " + gamesResult.size());
-
+            FiltersPanel filtersPanel = searchPanel.getFiltersPanel();
+            GameFilter gameFilter = new GameFilter(
+                    filtersPanel.getLimitSpinner(),
+                    filtersPanel.getMinRatingSpinner(),
+                    filtersPanel.isAllPlatformsSelected()
+            );
+            System.out.println("gameFilter: " + gameFilter);
+            ArrayList<Game> gamesResult = gameDao.search(input, gameFilter);
             System.out.println("gamesResult: " + gamesResult);
             displayResults(gamesResult);
         };
     }
 
+    private ActionListener addFilterButtonListener() {
+        // TODO: Display filterPanel
+        return (ActionEvent e) -> {
+            System.out.println("FILTER BUTTON");
+            searchPanel.toggleFiltersPanelVisible();
+        };
+    }
+    
     private void displayResults(ArrayList<Game> gamesResult) {
         searchPanel.emptyResults();
         if (gamesResult.isEmpty()) {

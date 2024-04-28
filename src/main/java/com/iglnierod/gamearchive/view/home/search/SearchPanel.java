@@ -18,6 +18,7 @@ public class SearchPanel extends javax.swing.JPanel {
      */
     public SearchPanel() {
         initComponents();
+        this.filtersPanel.setVisible(false);
     }
 
     /**
@@ -29,47 +30,69 @@ public class SearchPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        filterPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         northPanel = new javax.swing.JPanel();
-        searchLabel = new javax.swing.JLabel();
+        searchEastPanel = new javax.swing.JPanel();
+        searchWestPanel = new javax.swing.JPanel();
+        filterButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultPanel = new javax.swing.JPanel();
-
-        filterPanel.setMinimumSize(new java.awt.Dimension(180, 600));
-
-        jLabel1.setText("filters {");
-
-        javax.swing.GroupLayout filterPanelLayout = new javax.swing.GroupLayout(filterPanel);
-        filterPanel.setLayout(filterPanelLayout);
-        filterPanelLayout.setHorizontalGroup(
-            filterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(filterPanelLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1)
-                .addContainerGap(108, Short.MAX_VALUE))
-        );
-        filterPanelLayout.setVerticalGroup(
-            filterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(filterPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addContainerGap(588, Short.MAX_VALUE))
-        );
+        filtersPanel = new com.iglnierod.gamearchive.view.home.search.FiltersPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        searchLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
-        northPanel.add(searchLabel);
+        northPanel.setPreferredSize(new java.awt.Dimension(1200, 45));
+        northPanel.setLayout(new java.awt.BorderLayout());
+
+        searchEastPanel.setMaximumSize(new java.awt.Dimension(120, 50));
+        searchEastPanel.setMinimumSize(new java.awt.Dimension(120, 50));
+        searchEastPanel.setPreferredSize(new java.awt.Dimension(120, 50));
+        searchEastPanel.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout searchEastPanelLayout = new javax.swing.GroupLayout(searchEastPanel);
+        searchEastPanel.setLayout(searchEastPanelLayout);
+        searchEastPanelLayout.setHorizontalGroup(
+            searchEastPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+        searchEastPanelLayout.setVerticalGroup(
+            searchEastPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        northPanel.add(searchEastPanel, java.awt.BorderLayout.EAST);
+
+        searchWestPanel.setMaximumSize(new java.awt.Dimension(120, 50));
+        searchWestPanel.setMinimumSize(new java.awt.Dimension(120, 50));
+        searchWestPanel.setPreferredSize(new java.awt.Dimension(120, 50));
+        searchWestPanel.setRequestFocusEnabled(false);
+
+        filterButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_tune_white_24dp.png"))); // NOI18N
+        filterButton.setText("Filter");
+        filterButton.setToolTipText("Filter search");
+        filterButton.setMaximumSize(new java.awt.Dimension(90, 32));
+        filterButton.setMinimumSize(new java.awt.Dimension(90, 32));
+        filterButton.setPreferredSize(new java.awt.Dimension(90, 32));
+        searchWestPanel.add(filterButton);
+
+        northPanel.add(searchWestPanel, java.awt.BorderLayout.WEST);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 50));
 
         searchTextField.setColumns(20);
-        northPanel.add(searchTextField);
+        searchTextField.setToolTipText("");
+        searchTextField.setPreferredSize(new java.awt.Dimension(274, 28));
+        jPanel1.add(searchTextField);
 
+        searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_search_white_24dp.png"))); // NOI18N
         searchButton.setText("Search");
-        northPanel.add(searchButton);
+        searchButton.setToolTipText("Search");
+        jPanel1.add(searchButton);
+
+        northPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         add(northPanel, java.awt.BorderLayout.PAGE_START);
 
@@ -90,6 +113,7 @@ public class SearchPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(resultPanel);
 
         centerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        centerPanel.add(filtersPanel, java.awt.BorderLayout.WEST);
 
         add(centerPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -102,6 +126,10 @@ public class SearchPanel extends javax.swing.JPanel {
         this.searchButton.addActionListener(listener);
     }
     
+    public void addFilterButtonActionListener(ActionListener listener) {
+        this.filterButton.addActionListener(listener);
+    }
+    
     public void addToResults(Component component) {
         this.resultPanel.add(component);
         this.resultPanel.validate();
@@ -112,15 +140,26 @@ public class SearchPanel extends javax.swing.JPanel {
         this.revalidate();
     }
     
+    public void toggleFiltersPanelVisible() {
+        this.filtersPanel.setVisible(!filtersPanel.isVisible());
+    }
+    
+    // FILTERS
+    public FiltersPanel getFiltersPanel() {
+        return this.filtersPanel;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
-    private javax.swing.JPanel filterPanel;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton filterButton;
+    private com.iglnierod.gamearchive.view.home.search.FiltersPanel filtersPanel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel northPanel;
     private javax.swing.JPanel resultPanel;
     private javax.swing.JButton searchButton;
-    private javax.swing.JLabel searchLabel;
+    private javax.swing.JPanel searchEastPanel;
     private javax.swing.JTextField searchTextField;
+    private javax.swing.JPanel searchWestPanel;
     // End of variables declaration//GEN-END:variables
 }

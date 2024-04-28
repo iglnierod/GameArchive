@@ -29,6 +29,9 @@ public class PostRequest {
         if (fields.length() > 7) { // Verifica si se ha modificado fields
             sb.append(fields);
         }
+        if (search.length() > 7) { // Verifica si se ha modificado search
+            sb.append(search);
+        }
         if (where.length() > 6) { // Verifica si se ha modificado where
             sb.append(where);
         }
@@ -38,9 +41,7 @@ public class PostRequest {
         if (sort.length() > 5) { // Verifica si se ha modificado sort
             sb.append(sort);
         }
-        if (search.length() > 7) { // Verifica si se ha modificado search
-            sb.append(search);
-        }
+
         if (limit.length() > 6) { // Verifica si se ha modificado limit
             sb.append(limit);
         }
