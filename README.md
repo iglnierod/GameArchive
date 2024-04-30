@@ -1,6 +1,12 @@
 # GameArchive
 
 ## Entregas
+### 1 de Mayo 2024
+#### developing branch
+- Nueva pantalla Home con menú 
+- Inicio de la búsqueda de juegos
+- Inicio de filtros en la búsqueda
+
 ### 20 de Abril 2024
 ##### main branch
 - Creada pantalla de configuración del perfil después de registrarse
