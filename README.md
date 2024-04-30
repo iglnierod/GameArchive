@@ -2,8 +2,9 @@
 
 ## Entregas
 ### 1 de Mayo 2024
-#### developing branch
-- Nueva pantalla Home con menú 
+#### main branch
+- Nueva pantalla Home con menú
+- Creado panel de vista de juegos al buscar
 - Inicio de la búsqueda de juegos
 - Inicio de filtros en la búsqueda
 
