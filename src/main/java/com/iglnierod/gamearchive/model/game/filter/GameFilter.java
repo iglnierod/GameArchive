@@ -9,18 +9,21 @@ package com.iglnierod.gamearchive.model.game.filter;
  * @author iglnierod
  */
 public class GameFilter {
+
     private String limit;
     private String minRating;
     private boolean allPlatforms;
+    private String genres;
 
-    public GameFilter(String limit, String minRating, boolean allPlatforms) {
+    public GameFilter(String limit, String minRating, boolean allPlatforms, String genres) {
         this.limit = limit;
         this.minRating = minRating;
         this.allPlatforms = allPlatforms;
+        this.genres = genres;
     }
-    
+
     public GameFilter() {
-        this("5","0.0",true);
+        this("5", "0.0", true, "");
     }
 
     public String getLimit() {
@@ -47,8 +50,16 @@ public class GameFilter {
         this.allPlatforms = allPlatforms;
     }
 
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
     @Override
     public String toString() {
-        return String.format("GameFilter{limit:%s;minRating:%s;allPlatforms:%s}",limit, minRating, allPlatforms);
+        return String.format("GameFilter{limit:%s;minRating:%s;allPlatforms:%s}", limit, minRating, allPlatforms);
     }
 }

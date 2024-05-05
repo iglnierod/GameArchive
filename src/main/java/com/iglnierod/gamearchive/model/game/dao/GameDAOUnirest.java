@@ -51,6 +51,7 @@ public class GameDAOUnirest implements GameDAO {
     public String getWhereStatement(GameFilter filter) {
         StringBuilder where = new StringBuilder();
         String platformFilter = "platforms = ";
+        
         if(!filter.isAllPlatforms()) {
             platformFilter += Platform.getPlatformFilterString(Session.getCurrentClient().getPlatformsList());
         } else {
@@ -62,7 +63,11 @@ public class GameDAOUnirest implements GameDAO {
             where.append(" & ");
         }
         
-        where.append("rating != null & rating >= ").append(filter.getMinRating());
+        where.append("rating >= ").append(filter.getMinRating());
+        
+        if(filter.getGenres() != null) {
+            where.append(" & ").append("genres.name = ").append(filter.getGenres());
+        }
         
         return where.toString();
     }

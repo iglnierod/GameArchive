@@ -1,6 +1,13 @@
 # GameArchive
 
 ## Entregas
+### 14 de Mayo 2024
+#### developing branch
+- Establecer limite de resultados en búsqueda
+- Filtrar por valoración mínima de IGDB.com
+- Filtrar por plataformas
+    
+
 ### 1 de Mayo 2024
 #### main branch
 - Nueva pantalla Home con menú
@@ -85,7 +92,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 - Búsqueda de juegos:
     - [X] Por titulo
     - [X] Por plataforma
-    - [ ] Por géneros
+    - [X] Por géneros
     - [X] Por valoración
 
 - Ver información sobre juegos:

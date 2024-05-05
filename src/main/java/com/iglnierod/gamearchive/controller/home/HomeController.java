@@ -13,6 +13,9 @@ import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
+import com.iglnierod.gamearchive.model.genre.Genre;
+import com.iglnierod.gamearchive.model.genre.dao.GenreDAO;
+import com.iglnierod.gamearchive.model.genre.dao.GenreDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
@@ -45,11 +48,13 @@ public class HomeController {
     private final Client currentClient;
     private final GameDAO gameDao;
     private final SearchPanel searchPanel;
+    private final GenreDAO genreDao;
 
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest();
+        this.genreDao = new GenreDAOPostgreSQL(database);
         this.currentClient = Session.getCurrentClient();
         System.out.println("user: " + Session.getCurrentClient());
         this.searchPanel = new SearchPanel();
@@ -66,6 +71,7 @@ public class HomeController {
 
     private void initiatePanels() {
         addSearchPanelListeners();
+        addGenresToFiltersPanel();
     }
 
     private void addSearchPanelListeners() {
@@ -110,7 +116,8 @@ public class HomeController {
             GameFilter gameFilter = new GameFilter(
                     filtersPanel.getLimitSpinner(),
                     filtersPanel.getMinRatingSpinner(),
-                    filtersPanel.isAllPlatformsSelected()
+                    filtersPanel.isAllPlatformsSelected(),
+                    filtersPanel.getSelectedGenres()
             );
             System.out.println("gameFilter: " + gameFilter);
             ArrayList<Game> gamesResult = gameDao.search(input, gameFilter);
@@ -183,4 +190,10 @@ public class HomeController {
         };
     }
 
+    private void addGenresToFiltersPanel() {
+        FiltersPanel filtersPanel = searchPanel.getFiltersPanel();
+        for(Genre g : genreDao.getAll()) {
+            filtersPanel.addGenre(g.getName());
+        }
+    }
 }
