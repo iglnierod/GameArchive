@@ -58,7 +58,7 @@ public class FiltersPanel extends javax.swing.JPanel {
 
         jLabel3.setText("Minimun rating:");
 
-        minRatingSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 100, 5));
+        minRatingSpinner.setModel(new javax.swing.SpinnerNumberModel(80, 0, 100, 5));
 
         jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         jLabel4.setText("Genres");

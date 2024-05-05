@@ -155,7 +155,7 @@
             <Component class="javax.swing.JSpinner" name="minRatingSpinner">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                  <SpinnerModel initial="100" maximum="100" minimum="0" numberType="java.lang.Integer" stepSize="5" type="number"/>
+                  <SpinnerModel initial="80" maximum="100" minimum="0" numberType="java.lang.Integer" stepSize="5" type="number"/>
                 </Property>
               </Properties>
             </Component>
