@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.model.platform;
 
 import java.io.Serializable;
+import java.util.*;
 
 /**
  *
@@ -67,6 +68,22 @@ public class Platform implements Serializable {
 
     public void setLogoID(String logoID) {
         this.logoID = logoID;
+    }
+
+    public static String getPlatformFilterString(Set<Platform> platformsList) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+
+        Iterator<Platform> iterator = platformsList.iterator();
+        while (iterator.hasNext()) {
+            sb.append(iterator.next().getId());
+            if (iterator.hasNext()) {
+                sb.append(",");
+            }
+        }
+
+        sb.append(")");
+        return sb.toString();
     }
 
     @Override

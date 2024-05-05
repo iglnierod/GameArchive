@@ -7,6 +7,8 @@ import com.google.gson.JsonParser;
 import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
+import com.iglnierod.gamearchive.model.platform.Platform;
+import com.iglnierod.gamearchive.model.session.Session;
 import java.util.ArrayList;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -23,14 +25,17 @@ public class GameDAOUnirest implements GameDAO {
 
     @Override
     public ArrayList<Game> search(String inputText, GameFilter filter) {
+        // TODO: Rating filter
         inputText = "\"" + inputText + "\"";
         ArrayList<Game> games = new ArrayList<>();
         String url = "https://api.igdb.com/v4/games";
         
+        String where = getWhereStatement(filter);
+        
         PostRequest pr = PostRequest.builder()
-                .fields("name, cover.image_id, summary, rating") 
+                .fields("name, cover.image_id, summary, rating")
                 .search(inputText)
-                .where("rating >= " + filter.getMinRating())
+                .where(where)
                 .limit(filter.getLimit())
                 .build();
         
@@ -43,6 +48,25 @@ public class GameDAOUnirest implements GameDAO {
         return games;
     }
 
+    public String getWhereStatement(GameFilter filter) {
+        StringBuilder where = new StringBuilder();
+        String platformFilter = "platforms = ";
+        if(!filter.isAllPlatforms()) {
+            platformFilter += Platform.getPlatformFilterString(Session.getCurrentClient().getPlatformsList());
+        } else {
+            platformFilter = "";
+        }
+        where.append(platformFilter);
+        
+        if(!where.isEmpty()) {
+            where.append(" & ");
+        }
+        
+        where.append("rating != null & rating >= ").append(filter.getMinRating());
+        
+        return where.toString();
+    }
+    
     @Override
     public String post(String url, String body) {
         HttpResponse<String> jsonResponse = Unirest.post(url)

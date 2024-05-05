@@ -66,6 +66,9 @@ public class PostRequest {
         }
 
         public Builder where(String where) {
+            if (where.isEmpty()) {
+                return this;
+            }
             postRequest.where.append(where).append(";");
             return this;
         }
