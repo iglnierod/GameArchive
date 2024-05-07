@@ -6,7 +6,7 @@
 - Establecer limite de resultados en búsqueda
 - Filtrar por valoración mínima de IGDB.com
 - Filtrar por plataformas
-    
+- GameDialog: Ventana de información sobre juego
 
 ### 1 de Mayo 2024
 #### main branch
@@ -96,10 +96,10 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
     - [X] Por valoración
 
 - Ver información sobre juegos:
-    - [ ] Portada
-    - [ ] Descripción
-    - [ ] Plataforma
-    - [ ] Géneros
+    - [X] Portada
+    - [X] Descripción
+    - [X] Plataforma
+    - [X] Géneros
 
 - [ ] Creación de listas
 
