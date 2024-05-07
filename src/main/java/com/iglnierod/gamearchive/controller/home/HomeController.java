@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.controller.home;
 
 import com.iglnierod.gamearchive.controller.MainController;
+import com.iglnierod.gamearchive.controller.game.GameController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.client.Client;
@@ -17,6 +18,7 @@ import com.iglnierod.gamearchive.model.genre.Genre;
 import com.iglnierod.gamearchive.model.genre.dao.GenreDAO;
 import com.iglnierod.gamearchive.model.genre.dao.GenreDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
+import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.home.search.FiltersPanel;
@@ -49,15 +51,16 @@ public class HomeController {
     private final GameDAO gameDao;
     private final SearchPanel searchPanel;
     private final GenreDAO genreDao;
-
+    private ArrayList<Game> gamesResult;
+    
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest();
         this.genreDao = new GenreDAOPostgreSQL(database);
         this.currentClient = Session.getCurrentClient();
-        System.out.println("user: " + Session.getCurrentClient());
         this.searchPanel = new SearchPanel();
+        this.gamesResult = new ArrayList<>();
         addListeners();
         initiatePanels();
     }
@@ -120,7 +123,7 @@ public class HomeController {
                     filtersPanel.getSelectedGenres()
             );
             System.out.println("gameFilter: " + gameFilter);
-            ArrayList<Game> gamesResult = gameDao.search(input, gameFilter);
+            gamesResult = gameDao.search(input, gameFilter);
             System.out.println("gamesResult: " + gamesResult);
             displayResults(gamesResult);
         };
@@ -148,7 +151,8 @@ public class HomeController {
             gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener());
             gamePanel.addAddToButtonActionListener(this.addAddToButtonListener());
             gamePanel.addRateButtonActionListener(this.addRateButtonListener());
-
+            gamePanel.addPanelMouseListener(this.addGamePreviewPanelMouseListener(g));
+            
             gamePanel.setNameLabelText(g.getName());
             if (g.getSummary() != null) {
                 gamePanel.setSummaryTextAreaText(g.getSummary());
@@ -169,6 +173,18 @@ public class HomeController {
         }
     }
 
+    // Open GameDialog when click game preview on search panel
+    private MouseListener addGamePreviewPanelMouseListener(Game game) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                GameDialog gameDialog = new GameDialog(view, true);
+                GameController gameController = new GameController(gameDialog, database, game);
+                gameDialog.setVisible(true);
+            }
+        };
+    }
+    
     private ActionListener addFavouriteButtonListener() {
         // TODO
         return (ActionEvent e) -> {

@@ -18,4 +18,9 @@ public interface GameDAO {
     public String post(String url, String body);
     
     public ArrayList<Game> parse(String jsonResponse);
+    
+    public Game getAllInformation(int gameId);
+    
+    public Game parseAll(String jsonResponse);
+
 }

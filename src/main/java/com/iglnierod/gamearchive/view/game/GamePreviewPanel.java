@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.view.game;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import javax.swing.Icon;
 
 /**
@@ -55,6 +56,7 @@ public class GamePreviewPanel extends javax.swing.JPanel {
 
         nameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         nameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        nameLabel.setFocusable(false);
         nameLabel.setMaximumSize(new java.awt.Dimension(30, 150));
         nameLabel.setMinimumSize(new java.awt.Dimension(30, 150));
         nameLabel.setPreferredSize(new java.awt.Dimension(30, 150));
@@ -123,13 +125,13 @@ public class GamePreviewPanel extends javax.swing.JPanel {
 
     public void setNameLabelText(String text) {
         this.nameLabel.setText(text);
+        this.nameLabel.setToolTipText(text);
     }
 
     public void setSummaryTextAreaText(String text) {
         this.summaryTextArea.setText(text);
     }
 
-    // TODO: set game cover image from url
     public void setCoverLabelIcon(Icon icon) {
         this.coverLabel.setIcon(icon);
         this.coverLabel.revalidate();
@@ -152,6 +154,12 @@ public class GamePreviewPanel extends javax.swing.JPanel {
         this.rateButton.addActionListener(listener);
     }
 
+    // ====== VIEW GAME INFORMATION ======
+    public void addPanelMouseListener(MouseListener listener) {
+        this.addMouseListener(listener);
+        this.nameLabel.addMouseListener(listener);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToButton;
     private javax.swing.JLabel coverLabel;

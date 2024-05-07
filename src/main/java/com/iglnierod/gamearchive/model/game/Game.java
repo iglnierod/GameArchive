@@ -4,6 +4,10 @@
  */
 package com.iglnierod.gamearchive.model.game;
 
+import com.iglnierod.gamearchive.model.genre.Genre;
+import com.iglnierod.gamearchive.model.platform.Platform;
+import java.util.ArrayList;
+
 /**
  *
  * @author iglnierod
@@ -16,13 +20,18 @@ public class Game {
     private float igdbRating;
     private int ratingCount;
     private String summary;
-    private String artworkId;
+    private ArrayList<String> artworkId;
     private String coverId;
+    private ArrayList<Platform> platforms;
+    private ArrayList<Genre> genres;
 
     public Game() {
+        artworkId = new ArrayList<>();
+        platforms = new ArrayList<>();
+        genres = new ArrayList<>();
     }
 
-    public Game(int id, String checksum, String name, float igdbRating, int ratingCount, String summary, String artworkId, String coverId) {
+    public Game(int id, String checksum, String name, float igdbRating, int ratingCount, String summary, ArrayList<String> artworkId, String coverId) {
         this.id = id;
         this.checksum = checksum;
         this.name = name;
@@ -31,6 +40,8 @@ public class Game {
         this.summary = summary;
         this.artworkId = artworkId;
         this.coverId = coverId;
+        platforms = new ArrayList<>();
+        genres = new ArrayList<>();
     }
 
     public int getId() {
@@ -81,11 +92,11 @@ public class Game {
         this.summary = summary;
     }
 
-    public String getArtworkId() {
+    public ArrayList<String> getArtworkId() {
         return artworkId;
     }
 
-    public void setArtworkId(String artworkId) {
+    public void setArtworkId(ArrayList<String> artworkId) {
         this.artworkId = artworkId;
     }
 
@@ -95,6 +106,22 @@ public class Game {
 
     public void setCoverId(String coverId) {
         this.coverId = coverId;
+    }
+
+    public ArrayList<Platform> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(ArrayList<Platform> platforms) {
+        this.platforms = platforms;
+    }
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
     }
 
     @Override
