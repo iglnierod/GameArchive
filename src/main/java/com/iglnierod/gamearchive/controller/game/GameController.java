@@ -48,7 +48,7 @@ public class GameController {
         //System.out.println("getAllInformation: " + gameDao.getAllInformation(game.getId()));
         //System.out.println("actual game: " + game);
         this.game = gameDao.getAllInformation(this.game.getId());
-        view.setName("GameArchive - " + this.game.getName());
+        view.setTitle("GameArchive - " + this.game.getName());
         view.setNameLabelText(this.game.getName());
         view.setSummaryTextArea(this.game.getSummary());
 
