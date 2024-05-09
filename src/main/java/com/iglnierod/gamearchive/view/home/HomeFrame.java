@@ -41,12 +41,16 @@ public class HomeFrame extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         centerPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         logOutMenuItem = new javax.swing.JMenuItem();
         quitMenuItem = new javax.swing.JMenuItem();
+        myListsMenu = new javax.swing.JMenu();
+        reloadListsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("GameArchive");
 
         northPanel.setLayout(new java.awt.BorderLayout());
 
@@ -122,15 +126,23 @@ public class HomeFrame extends javax.swing.JFrame {
 
         centerPanel.setLayout(new java.awt.BorderLayout());
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1224, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(138, 138, 138)
+                .addComponent(jLabel1)
+                .addContainerGap(1040, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addComponent(jLabel1)
+                .addContainerGap(533, Short.MAX_VALUE))
         );
 
         centerPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -139,17 +151,25 @@ public class HomeFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        logOutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        logOutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         logOutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_logout_white_24dp.png"))); // NOI18N
         logOutMenuItem.setText("Log out");
         fileMenu.add(logOutMenuItem);
 
-        quitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        quitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         quitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_close_white_24dp.png"))); // NOI18N
         quitMenuItem.setText("Quit");
         fileMenu.add(quitMenuItem);
 
         menuBar.add(fileMenu);
+
+        myListsMenu.setText("My Lists");
+
+        reloadListsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sync_24dp.png"))); // NOI18N
+        reloadListsMenuItem.setText("Reload");
+        myListsMenu.add(reloadListsMenuItem);
+
+        menuBar.add(myListsMenu);
 
         setJMenuBar(menuBar);
 
@@ -166,6 +186,10 @@ public class HomeFrame extends javax.swing.JFrame {
         this.quitMenuItem.addActionListener(listener);
     }
 
+    public void addReloadListsMenuItemActionListener(ActionListener listener) {
+        this.reloadListsMenuItem.addActionListener(listener);
+    }
+    
     // ============ NAV VAR LISTENERS ============
     public void addHomeLabelMouseListener(MouseListener listener) {
         this.homeLabel.addMouseListener(listener);
@@ -193,13 +217,10 @@ public class HomeFrame extends javax.swing.JFrame {
     
     //
     public void setCenterContent(JPanel panel) {
-        this.emptyCenterContent();
+        this.centerPanel.removeAll();
         this.centerPanel.add(panel, BorderLayout.CENTER);
         this.centerPanel.revalidate();
-    }
-
-    private void emptyCenterContent() {
-        this.centerPanel.removeAll();
+        this.centerPanel.repaint();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -208,12 +229,15 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel eastPanel;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JLabel homeLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem logOutMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel myListsLabel;
+    private javax.swing.JMenu myListsMenu;
     private javax.swing.JPanel northPanel;
     private javax.swing.JMenuItem quitMenuItem;
+    private javax.swing.JMenuItem reloadListsMenuItem;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JPanel westPanel;

@@ -2,14 +2,16 @@
 
 ## Entregas
 ### 14 de Mayo 2024
-#### developing branch
+##### developing branch
 - Establecer limite de resultados en búsqueda
 - Filtrar por valoración mínima de IGDB.com
 - Filtrar por plataformas
 - GameDialog: Ventana de información sobre juego
+- Apartado MyLists de la pantalla principal
+- Crear listas con nombre y descripción
 
 ### 1 de Mayo 2024
-#### main branch
+##### main branch
 - Nueva pantalla Home con menú
 - Creado panel de vista de juegos al buscar
 - Inicio de la búsqueda de juegos
@@ -101,11 +103,11 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
     - [X] Plataforma
     - [X] Géneros
 
-- [ ] Creación de listas
+- [X] Creación de listas
 
 - Personalización de listas
-    - [ ] Título
-    - [ ] Descripción
+    - [X] Título
+    - [X] Descripción
 
 - [ ] Añadir estados a juegos
 - [ ] Valorar juegos

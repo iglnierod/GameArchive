@@ -83,7 +83,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Liberation Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Hollow Knigth"/>
+            <Property name="text" type="java.lang.String" value="Game Name"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -131,10 +131,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="rateButton" min="-2" max="-2" attributes="0"/>
-                          <Component id="favouriteButton" min="-2" max="-2" attributes="0"/>
-                          <Component id="addToListButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="rateButton" max="32767" attributes="0"/>
+                          <Component id="addToListButton" max="32767" attributes="0"/>
+                          <Component id="favouriteButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -145,7 +145,7 @@
             <Component class="javax.swing.JButton" name="addToListButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/queue_40dp.png"/>
+                  <Image iconType="3" name="/icons/queue_32dp.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Add to list"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -162,7 +162,7 @@
             <Component class="javax.swing.JButton" name="favouriteButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/star_40dp.png"/>
+                  <Image iconType="3" name="/icons/star_32dp.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Favourite"/>
               </Properties>
@@ -170,7 +170,7 @@
             <Component class="javax.swing.JButton" name="rateButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/thumbs_up_down_40dp.png"/>
+                  <Image iconType="3" name="/icons/thumbs_up_down_32dp.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Rate"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

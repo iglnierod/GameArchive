@@ -6,6 +6,7 @@ package com.iglnierod.gamearchive.controller.home;
 
 import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.game.GameController;
+import com.iglnierod.gamearchive.controller.list.CreateListController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.client.Client;
@@ -17,10 +18,16 @@ import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import com.iglnierod.gamearchive.model.genre.Genre;
 import com.iglnierod.gamearchive.model.genre.dao.GenreDAO;
 import com.iglnierod.gamearchive.model.genre.dao.GenreDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.list.List;
+import com.iglnierod.gamearchive.model.list.dao.ListDAO;
+import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
+import com.iglnierod.gamearchive.view.home.list.ListsPanel;
+import com.iglnierod.gamearchive.view.home.list.dialog.CreateListDialog;
+import com.iglnierod.gamearchive.view.home.list.panel.ListPreviewPanel;
 import com.iglnierod.gamearchive.view.home.search.FiltersPanel;
 import com.iglnierod.gamearchive.view.home.search.NoGamesFoundPanel;
 import com.iglnierod.gamearchive.view.home.search.SearchPanel;
@@ -49,37 +56,58 @@ public class HomeController {
     private final Database database;
     private final Client currentClient;
     private final GameDAO gameDao;
-    private final SearchPanel searchPanel;
     private final GenreDAO genreDao;
+    private final ListDAO listDao;
+
+    // Search
+    private final SearchPanel searchPanel;
     private ArrayList<Game> gamesResult;
-    
+
+    // Lists
+    private final ListsPanel myListsPanel;
+
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest();
         this.genreDao = new GenreDAOPostgreSQL(database);
+        this.listDao = new ListDAOPostgreSQL(database);
         this.currentClient = Session.getCurrentClient();
         this.searchPanel = new SearchPanel();
         this.gamesResult = new ArrayList<>();
+        this.myListsPanel = new ListsPanel();
         addListeners();
         initiatePanels();
     }
 
     private void addListeners() {
         this.view.setUsernameLabelText(currentClient.getUsername());
+
+        // MENU BAR
         this.view.addLogOutMenuItemActionListener(addLogOutMenuItemListener());
         this.view.addQuitMenuItemActionListener(addQuitMenuItemListener());
+        this.view.addReloadListsMenuItemActionListener(addReloadListsMenuItemListener());
+
+        // LABELS MENU
         this.view.addSearchLabelMouseListener(addSearchLabelListener());
+        this.view.addMyListsLabelMouseListener(addMyListsLabelListener());
     }
 
     private void initiatePanels() {
-        addSearchPanelListeners();
-        addGenresToFiltersPanel();
+        this.addSearchPanelListeners();
+        this.addGenresToFiltersPanel();
+
+        this.addMyListsPanelListeners();
     }
 
     private void addSearchPanelListeners() {
-        searchPanel.addSearchButtonActionListener(this.addSearchButtonListener());
-        searchPanel.addFilterButtonActionListener(this.addFilterButtonListener());
+        searchPanel.addSearchButtonActionListener(addSearchButtonListener());
+        searchPanel.addFilterButtonActionListener(addFilterButtonListener());
+    }
+
+    private void addMyListsPanelListeners() {
+        myListsPanel.addCreateListPanelMouseListener(addCreateListPanelListener());
+        this.updateListsPanel();
     }
 
     private ActionListener addLogOutMenuItemListener() {
@@ -101,12 +129,30 @@ public class HomeController {
         };
     }
 
+    private ActionListener addReloadListsMenuItemListener() {
+        return (ActionEvent e) -> {
+            myListsPanel.emptyListPanel();
+            this.updateListsPanel();
+        };
+    }
+
+    // MENU
     private MouseListener addSearchLabelListener() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("SearchLabel: CLICK");
                 view.setCenterContent(searchPanel);
+            }
+        };
+    }
+
+    private MouseListener addMyListsLabelListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("MyListsLabel: CLICK");
+                view.setCenterContent(myListsPanel);
             }
         };
     }
@@ -130,13 +176,11 @@ public class HomeController {
     }
 
     private ActionListener addFilterButtonListener() {
-        // TODO: Display filterPanel
         return (ActionEvent e) -> {
-            System.out.println("FILTER BUTTON");
             searchPanel.toggleFiltersPanelVisible();
         };
     }
-    
+
     private void displayResults(ArrayList<Game> gamesResult) {
         searchPanel.emptyResults();
         if (gamesResult.isEmpty()) {
@@ -152,7 +196,7 @@ public class HomeController {
             gamePanel.addAddToButtonActionListener(this.addAddToButtonListener());
             gamePanel.addRateButtonActionListener(this.addRateButtonListener());
             gamePanel.addPanelMouseListener(this.addGamePreviewPanelMouseListener(g));
-            
+
             gamePanel.setNameLabelText(g.getName());
             if (g.getSummary() != null) {
                 gamePanel.setSummaryTextAreaText(g.getSummary());
@@ -184,7 +228,7 @@ public class HomeController {
             }
         };
     }
-    
+
     private ActionListener addFavouriteButtonListener() {
         // TODO
         return (ActionEvent e) -> {
@@ -208,8 +252,41 @@ public class HomeController {
 
     private void addGenresToFiltersPanel() {
         FiltersPanel filtersPanel = searchPanel.getFiltersPanel();
-        for(Genre g : genreDao.getAll()) {
+        for (Genre g : genreDao.getAll()) {
             filtersPanel.addGenre(g.getName());
+        }
+    }
+
+    // ======= LISTS PANEL =======
+    private MouseListener addCreateListPanelListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                CreateListDialog createListDialog = new CreateListDialog(view, true);
+                CreateListController createListController = new CreateListController(createListDialog, database, myListsPanel);
+                createListDialog.setVisible(true);
+            }
+        };
+    }
+
+    private ActionListener addEditListMenuItemListener() {
+        return (ActionEvent e) -> {
+            
+        };
+    }
+    
+    void updateListsPanel() {
+        ArrayList<List> lists = listDao.getAll();
+        if (lists.isEmpty() || lists == null) {
+            return;
+        }
+
+        for (List l : lists) {
+            ListPreviewPanel listPreviewPanel = new ListPreviewPanel();
+            listPreviewPanel.setNameLabel(l.getName());
+            listPreviewPanel.setCounterLabel(0);
+
+            myListsPanel.addList(listPreviewPanel);
         }
     }
 }

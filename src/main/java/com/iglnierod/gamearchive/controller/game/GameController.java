@@ -41,12 +41,10 @@ public class GameController {
     }
 
     private void addListeners() {
-        //System.out.println("GameController.game: " + game);
+        // TODO
     }
 
     private void fillGameInformation() {
-        //System.out.println("getAllInformation: " + gameDao.getAllInformation(game.getId()));
-        //System.out.println("actual game: " + game);
         this.game = gameDao.getAllInformation(this.game.getId());
         view.setTitle("GameArchive - " + this.game.getName());
         view.setNameLabelText(this.game.getName());

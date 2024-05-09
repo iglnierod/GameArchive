@@ -57,7 +57,7 @@ public class GameDialog extends javax.swing.JDialog {
         coverLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/t_cover_big.jpg"))); // NOI18N
 
         nameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        nameLabel.setText("Hollow Knigth");
+        nameLabel.setText("Game Name");
 
         descriptionTextArea.setEditable(false);
         descriptionTextArea.setColumns(20);
@@ -69,16 +69,16 @@ public class GameDialog extends javax.swing.JDialog {
         descriptionTextArea.setEnabled(false);
         jScrollPane1.setViewportView(descriptionTextArea);
 
-        addToListButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/queue_40dp.png"))); // NOI18N
+        addToListButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/queue_32dp.png"))); // NOI18N
         addToListButton.setToolTipText("Add to list");
         addToListButton.setMaximumSize(new java.awt.Dimension(46, 38));
         addToListButton.setMinimumSize(new java.awt.Dimension(46, 38));
         addToListButton.setPreferredSize(new java.awt.Dimension(46, 38));
 
-        favouriteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star_40dp.png"))); // NOI18N
+        favouriteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star_32dp.png"))); // NOI18N
         favouriteButton.setToolTipText("Favourite");
 
-        rateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/thumbs_up_down_40dp.png"))); // NOI18N
+        rateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/thumbs_up_down_32dp.png"))); // NOI18N
         rateButton.setToolTipText("Rate");
         rateButton.setMaximumSize(new java.awt.Dimension(46, 38));
         rateButton.setMinimumSize(new java.awt.Dimension(46, 38));
@@ -101,10 +101,10 @@ public class GameDialog extends javax.swing.JDialog {
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buttonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(favouriteButton)
-                    .addComponent(addToListButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(rateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addToListButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(favouriteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
