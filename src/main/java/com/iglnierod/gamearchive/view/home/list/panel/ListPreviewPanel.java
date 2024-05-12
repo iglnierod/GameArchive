@@ -4,6 +4,8 @@
  */
 package com.iglnierod.gamearchive.view.home.list.panel;
 
+import java.awt.event.MouseListener;
+
 /**
  *
  * @author iglnierod
@@ -61,12 +63,11 @@ public class ListPreviewPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(counterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
-                .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(counterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,6 +103,13 @@ public class ListPreviewPanel extends javax.swing.JPanel {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public void addPanelMouseListener(MouseListener l) {
+        this.addMouseListener(l);
+        this.nameLabel.addMouseListener(l);
+        this.counterLabel.addMouseListener(l);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel counterLabel;
     private javax.swing.JLabel nameLabel;

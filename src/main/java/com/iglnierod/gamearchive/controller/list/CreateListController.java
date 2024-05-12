@@ -4,13 +4,12 @@
  */
 package com.iglnierod.gamearchive.controller.list;
 
+import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.home.list.dialog.CreateListDialog;
-import com.iglnierod.gamearchive.view.home.list.panel.ListPreviewPanel;
-import com.iglnierod.gamearchive.view.home.list.ListsPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -23,13 +22,13 @@ public class CreateListController {
 
     private final CreateListDialog view;
     private final Database database;
-    private final ListsPanel myListsPanel;
+    private final HomeController homeController;
     private final ListDAO listDao;
 
-    public CreateListController(CreateListDialog view, Database database, ListsPanel myListsPanel) {
+    public CreateListController(CreateListDialog view, Database database, HomeController homeController) {
         this.view = view;
         this.database = database;
-        this.myListsPanel = myListsPanel;
+        this.homeController = homeController;
         this.listDao = new ListDAOPostgreSQL(database);
         this.view.addCancelButtonActionListener(this.addCancelButtonListener());
         this.view.addCreateButtonActionListener(this.addCreateButtonListener());
@@ -60,8 +59,7 @@ public class CreateListController {
                 return;
             }
             
-            ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName(), 0);
-            myListsPanel.addList(listPreviewPanel);
+            homeController.addListToListsPanel(list);
             view.dispose();
         };
     }

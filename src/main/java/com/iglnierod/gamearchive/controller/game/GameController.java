@@ -34,7 +34,7 @@ public class GameController {
     public GameController(GameDialog view, Database database, Game game) {
         this.view = view;
         this.database = database;
-        this.gameDao = new GameDAOUnirest();
+        this.gameDao = new GameDAOUnirest(database);
         this.game = game;
         this.fillGameInformation();
         this.addListeners();

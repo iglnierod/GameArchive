@@ -34,8 +34,8 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
                         rs.getInt("id"),
                         rs.getString("checksum"),
                         rs.getString("abbreviation"),
-                        rs.getString("logo_id"),
-                        rs.getString("name")
+                        rs.getString("name"),
+                        rs.getBoolean("default")
                 );
 
                 platformsList.add(platform);
@@ -50,7 +50,7 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
     @Override
     public Platform get(int id) {
         // TODO
-        String query = "SELECT * FROM platform_duplicate WHERE id = ?";
+        String query = "SELECT * FROM platform WHERE id = ?";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setInt(1, id);
             //int id, String checksum, String abbreviation, String logoID, String name
@@ -61,8 +61,8 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
                         rs.getInt("id"),
                         rs.getString("checksum"),
                         rs.getString("abbreviation"),
-                        rs.getString("logo_id"),
-                        rs.getString("name")
+                        rs.getString("name"),
+                        rs.getBoolean("default")
                 );
             }
             return platform;
@@ -75,7 +75,7 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
     @Override
     public Platform getByAbbreviation(String abbreviation) {
         // TODO
-        String query = "SELECT * FROM platform_duplicate WHERE abbreviation = ?";
+        String query = "SELECT * FROM platform WHERE abbreviation = ?";
         Platform platform = null;
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, abbreviation);
@@ -85,8 +85,8 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
                         rs.getInt("id"),
                         rs.getString("checksum"),
                         rs.getString("abbreviation"),
-                        rs.getString("logo_id"),
-                        rs.getString("name")
+                        rs.getString("name"),
+                        rs.getBoolean("default")
                 );
             }
 
@@ -143,8 +143,8 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
                 p.setId(rs.getInt("id"));
                 p.setAbbreviation(rs.getString("abbreviation"));
                 p.setChecksum(rs.getString("checksum"));
-                p.setLogoID(rs.getString("logo_id"));
                 p.setName(rs.getString("name"));
+                p.setDefaultConfig(rs.getBoolean("default"));
                 userPlatforms.add(p);
             }
         } catch (SQLException ex) {
@@ -154,4 +154,44 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
         return userPlatforms;
     }
 
+    // Save platforms information in DB
+    @Override
+    public void savePlatforms(ArrayList<Platform> platforms) {
+        System.out.println("platformDao: " + platforms);
+        for (Platform p : platforms) {
+            savePlatform(p);
+        }
+    }
+
+    @Override
+    public void savePlatform(Platform platform) {
+        String query = "INSERT INTO platform VALUES (?,?,?,?,?)";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, platform.getId());
+            ps.setString(2, platform.getChecksum());
+            ps.setString(3, platform.getAbbreviation());
+            ps.setString(4, platform.getName());
+            ps.setBoolean(5, platform.isDefaultConfig());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("PLATFORM ALREADY IN BD");
+        }
+    }
+
+    @Override
+    public void buildRelation(int gameId, ArrayList<Platform> platforms) {
+        String query = "INSERT INTO platform_game (platform_id, game_id) VALUES (?,?)";
+
+        try (Connection connection = database.getConnection(); PreparedStatement ps = connection.prepareStatement(query)) {
+            for (Platform platform : platforms) {
+                ps.setInt(1, platform.getId());
+                ps.setInt(2, gameId);
+                ps.addBatch(); // Agrega la consulta al lote de ejecución
+            }
+            ps.executeBatch(); // Ejecuta todas las consultas en el lote de una vez
+        } catch (SQLException ex) {
+            System.err.println("ERROR BUILDING RELATION PLATFORM->GAME: " + ex.getMessage());
+        }
+    }
 }

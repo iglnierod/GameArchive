@@ -21,8 +21,15 @@ public interface PlatformDAO {
     Platform getByAbbreviation(String abbreviation);
 
     Set<Platform> getPlatformsByAbbreviation(Set<String> platforms);
-    
+
     ArrayList<Integer> getPlatformsById(String platformsArray);
-    
+
     Set<Platform> getPlatformsByUser(String username);
+
+    void savePlatforms(ArrayList<Platform> platforms);
+
+    void savePlatform(Platform platform);
+
+    public void buildRelation(int gameId, ArrayList<Platform> platforms);
+    
 }

@@ -19,4 +19,5 @@ public interface ListDAO {
     ArrayList<List> getAll(Client client);
     
     boolean create(List list);
+    
 }

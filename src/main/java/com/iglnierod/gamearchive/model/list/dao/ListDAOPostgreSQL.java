@@ -47,7 +47,7 @@ public class ListDAOPostgreSQL implements ListDAO {
                 );
                 lists.add(l);
             }
-            System.out.println("lists: " + lists);
+            
             return lists;
         } catch (SQLException ex) {
             ex.printStackTrace();

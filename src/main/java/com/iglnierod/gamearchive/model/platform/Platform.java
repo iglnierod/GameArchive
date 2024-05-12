@@ -17,17 +17,18 @@ public class Platform implements Serializable {
     private String checksum;
     private String abbreviation;
     private String name;
-    private String logoID;
+    private boolean defaultConfig;
 
     public Platform() {
+        this(-1, null, null, null, false);
     }
 
-    public Platform(int id, String checksum, String abbreviation, String logoID, String name) {
+    public Platform(int id, String checksum, String abbreviation, String name, boolean defaultConfig) {
         this.id = id;
         this.checksum = checksum;
         this.abbreviation = abbreviation;
         this.name = name;
-        this.logoID = logoID;
+        this.defaultConfig = false;
     }
 
     public int getId() {
@@ -62,12 +63,12 @@ public class Platform implements Serializable {
         this.name = name;
     }
 
-    public String getLogoID() {
-        return logoID;
+    public boolean isDefaultConfig() {
+        return defaultConfig;
     }
 
-    public void setLogoID(String logoID) {
-        this.logoID = logoID;
+    public void setDefaultConfig(boolean defaultConfig) {
+        this.defaultConfig = defaultConfig;
     }
 
     public static String getPlatformFilterString(Set<Platform> platformsList) {

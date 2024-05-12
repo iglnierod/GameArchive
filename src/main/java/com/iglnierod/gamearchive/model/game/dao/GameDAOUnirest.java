@@ -6,12 +6,23 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
+import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import com.iglnierod.gamearchive.model.genre.Genre;
+import com.iglnierod.gamearchive.model.genre.dao.GenreDAO;
+import com.iglnierod.gamearchive.model.genre.dao.GenreDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.platform.Platform;
+import com.iglnierod.gamearchive.model.platform.dao.PlatformDAO;
+import com.iglnierod.gamearchive.model.platform.dao.PlatformDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
@@ -20,10 +31,14 @@ public class GameDAOUnirest implements GameDAO {
     private String clientId;
     private String accessToken;
     private static String URL = "https://api.igdb.com/v4/games";
+    private final Database database;
+    private ExecutorService executorService;
 
-    public GameDAOUnirest() {
+    public GameDAOUnirest(Database database) {
+        this.database = database;
         clientId = System.getenv("IGDB_CLIENT_ID");
         accessToken = System.getenv("IGDB_ACCESS_TOKEN");
+        executorService = Executors.newSingleThreadExecutor();
     }
 
     @Override
@@ -134,7 +149,7 @@ public class GameDAOUnirest implements GameDAO {
                 .build();
 
         String postResult = this.post(URL, pr.asString());
-        
+
         return parseAll(postResult);
     }
 
@@ -147,6 +162,7 @@ public class GameDAOUnirest implements GameDAO {
         JsonObject jsonGame = jsonArray.get(0).getAsJsonObject(); // Obtenemos el primer objeto del array
 
         int id = jsonGame.get("id").getAsInt();
+        String checksum = jsonGame.get("checksum").getAsString();
         String name = jsonGame.get("name").getAsString();
         String summary = null;
         try {
@@ -186,6 +202,7 @@ public class GameDAOUnirest implements GameDAO {
         }
 
         game.setId(id);
+        game.setChecksum(checksum);
         game.setName(name);
         game.setSummary(summary);
         game.setArtworkId(artworkIds);
@@ -220,4 +237,79 @@ public class GameDAOUnirest implements GameDAO {
         return game;
     }
 
+    @Override
+    public void saveGame(Game game) {
+        String query = "INSERT INTO game(id, checksum, name, igdb_rating, rating_count, summary, cover_id) VALUES (?,?,?,?,?,?,?)";
+        boolean savedGame = false;
+        try (PreparedStatement ps2 = database.getConnection().prepareStatement(query)) {
+            ps2.setInt(1, game.getId());
+            ps2.setString(2, game.getChecksum());
+            ps2.setString(3, game.getName());
+            ps2.setFloat(4, game.getIgdbRating());
+            ps2.setInt(5, game.getRatingCount());
+            ps2.setString(6, game.getSummary());
+            ps2.setString(7, game.getCoverId());
+
+            ps2.executeUpdate();
+        } catch (SQLException ex) {
+            savedGame = true;
+            System.out.println("GAME IS ALREADY SAVED IN DB");
+            //ex.printStackTrace();
+        }
+
+        if (!savedGame) {
+            // Una vez que se ha guardado el juego, también guardamos las plataformas en otro hilo
+            PlatformDAO platformDao = new PlatformDAOPostgreSQL(database);
+            GenreDAO genreDao = new GenreDAOPostgreSQL(database);
+            int gameId = game.getId();
+            ArrayList<Platform> platforms = game.getPlatforms();
+            ArrayList<Genre> genres = game.getGenres();
+
+            executorService.execute(() -> {
+                platformDao.savePlatforms(platforms);
+                platformDao.buildRelation(gameId, platforms);
+
+                genreDao.saveGenres(genres);
+                genreDao.buildRelation(gameId, genres);
+            });
+        }
+    }
+
+    @Override
+    public boolean addToList(Game game, List list) {
+        saveGame(game);
+
+        String query = "INSERT INTO list_game VALUES (?,?)";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, list.getId());
+            ps.setInt(2, game.getId());
+
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<Game> getGamesInList(int listId) {
+        ArrayList<Game> games = new ArrayList<>();
+        String query = "SELECT id, cover_id, name FROM game g JOIN list_game lg ON g.id = lg.game_id WHERE lg.list_id = ?";
+        try(PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, listId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Game game = new Game();
+                game.setId(rs.getInt("id"));
+                game.setCoverId(rs.getString("cover_id"));
+                game.setName(rs.getString("name"));
+                
+                games.add(game);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return games;
+    }
 }

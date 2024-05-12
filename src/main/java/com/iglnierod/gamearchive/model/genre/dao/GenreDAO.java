@@ -14,6 +14,12 @@ import java.util.ArrayList;
 public interface GenreDAO {
 
     public ArrayList<Genre> getAll();
+
+    public void saveGenre(Genre genre);
+    
+    public void saveGenres(ArrayList<Genre> genres);
+    
+    public void buildRelation(int gameId, ArrayList<Genre> genres);
     
     
 }

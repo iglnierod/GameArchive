@@ -6,7 +6,9 @@ package com.iglnierod.gamearchive.controller.home;
 
 import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.game.GameController;
+import com.iglnierod.gamearchive.controller.list.AddToListController;
 import com.iglnierod.gamearchive.controller.list.CreateListController;
+import com.iglnierod.gamearchive.controller.list.ListController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.client.Client;
@@ -26,7 +28,9 @@ import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.home.list.ListsPanel;
+import com.iglnierod.gamearchive.view.home.list.dialog.AddToListDialog;
 import com.iglnierod.gamearchive.view.home.list.dialog.CreateListDialog;
+import com.iglnierod.gamearchive.view.home.list.dialog.ListDialog;
 import com.iglnierod.gamearchive.view.home.list.panel.ListPreviewPanel;
 import com.iglnierod.gamearchive.view.home.search.FiltersPanel;
 import com.iglnierod.gamearchive.view.home.search.NoGamesFoundPanel;
@@ -69,7 +73,7 @@ public class HomeController {
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
         this.database = database;
-        this.gameDao = new GameDAOUnirest();
+        this.gameDao = new GameDAOUnirest(database);
         this.genreDao = new GenreDAOPostgreSQL(database);
         this.listDao = new ListDAOPostgreSQL(database);
         this.currentClient = Session.getCurrentClient();
@@ -193,7 +197,7 @@ public class HomeController {
             GamePreviewPanel gamePanel = new GamePreviewPanel(g.getId());
 
             gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener());
-            gamePanel.addAddToButtonActionListener(this.addAddToButtonListener());
+            gamePanel.addAddToButtonActionListener(this.addAddToListButtonListener(g));
             gamePanel.addRateButtonActionListener(this.addRateButtonListener());
             gamePanel.addPanelMouseListener(this.addGamePreviewPanelMouseListener(g));
 
@@ -236,10 +240,13 @@ public class HomeController {
         };
     }
 
-    private ActionListener addAddToButtonListener() {
+    private ActionListener addAddToListButtonListener(Game game) {
         // TODO
         return (ActionEvent e) -> {
             System.out.println("ADD TO LIST BUTTON");
+            AddToListDialog dialog = new AddToListDialog(view, true);
+            AddToListController controller = new AddToListController(dialog, database, game);
+            dialog.setVisible(true);
         };
     }
 
@@ -259,11 +266,12 @@ public class HomeController {
 
     // ======= LISTS PANEL =======
     private MouseListener addCreateListPanelListener() {
+        HomeController hc = this;
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 CreateListDialog createListDialog = new CreateListDialog(view, true);
-                CreateListController createListController = new CreateListController(createListDialog, database, myListsPanel);
+                CreateListController createListController = new CreateListController(createListDialog, database, hc);
                 createListDialog.setVisible(true);
             }
         };
@@ -271,10 +279,11 @@ public class HomeController {
 
     private ActionListener addEditListMenuItemListener() {
         return (ActionEvent e) -> {
-            
+
         };
     }
-    
+
+    // Get lists from DB and update view
     void updateListsPanel() {
         ArrayList<List> lists = listDao.getAll();
         if (lists.isEmpty() || lists == null) {
@@ -282,11 +291,25 @@ public class HomeController {
         }
 
         for (List l : lists) {
-            ListPreviewPanel listPreviewPanel = new ListPreviewPanel();
-            listPreviewPanel.setNameLabel(l.getName());
-            listPreviewPanel.setCounterLabel(0);
-
-            myListsPanel.addList(listPreviewPanel);
+            addListToListsPanel(l);
         }
+    }
+
+    // Add list to view
+    public void addListToListsPanel(List list) {
+        ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName(), 0);
+        listPreviewPanel.addPanelMouseListener(this.addPreviewPanelListener(list));
+        myListsPanel.addList(listPreviewPanel);
+    }
+
+    private MouseListener addPreviewPanelListener(List list) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ListDialog listDialog = new ListDialog(view, true);
+                ListController listController = new ListController(listDialog, database, list);
+                listDialog.setVisible(true);
+            }
+        };
     }
 }
