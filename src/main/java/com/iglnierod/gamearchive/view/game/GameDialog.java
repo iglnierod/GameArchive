@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.game;
 
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
@@ -289,6 +290,9 @@ public class GameDialog extends javax.swing.JDialog {
         genresPanel.revalidate();
     }
 
+    public void addAddToListActionListener(ActionListener l) {
+        this.addToListButton.addActionListener(l);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton PlayingButton;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.iglnierod.gamearchive.view.game;
+package com.iglnierod.gamearchive.view.game.panel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;

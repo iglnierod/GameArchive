@@ -4,7 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.home.list.dialog;
 
-import com.iglnierod.gamearchive.view.game.GameCoverPanel;
+import com.iglnierod.gamearchive.view.game.panel.GameCoverPanel;
 import com.iglnierod.gamearchive.view.layout.WrapLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
@@ -42,13 +42,13 @@ public class ListDialog extends javax.swing.JDialog {
         centerPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
+        reloadMenuItem = new javax.swing.JMenuItem();
         editMenuItem = new javax.swing.JMenuItem();
         deleteMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1110, 579));
         setMinimumSize(new java.awt.Dimension(1110, 579));
-        setPreferredSize(new java.awt.Dimension(1110, 579));
 
         nameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -94,17 +94,18 @@ public class ListDialog extends javax.swing.JDialog {
 
         getContentPane().add(southPanel, java.awt.BorderLayout.SOUTH);
 
+        jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
         centerPanel.setLayout(centerPanelLayout);
         centerPanelLayout.setHorizontalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1108, Short.MAX_VALUE)
+            .addGap(0, 1110, Short.MAX_VALUE)
         );
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 473, Short.MAX_VALUE)
+            .addGap(0, 475, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(centerPanel);
@@ -113,9 +114,18 @@ public class ListDialog extends javax.swing.JDialog {
 
         optionsMenu.setText("Options");
 
-        editMenuItem.setText("Edit");
+        reloadMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        reloadMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sync_24dp.png"))); // NOI18N
+        reloadMenuItem.setText("Reload");
+        optionsMenu.add(reloadMenuItem);
+
+        editMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        editMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit_24dp.png"))); // NOI18N
+        editMenuItem.setText("Edit...");
         optionsMenu.add(editMenuItem);
 
+        deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        deleteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/layers_clear_24dp.png"))); // NOI18N
         deleteMenuItem.setText("Delete");
         optionsMenu.add(deleteMenuItem);
 
@@ -127,6 +137,10 @@ public class ListDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void addReloadMenuItemActionListener(ActionListener l) {
+        this.reloadMenuItem.addActionListener(l);
+    }
+    
     public void addEditMenuItemActionListener(ActionListener l) {
         this.editMenuItem.addActionListener(l);
     }
@@ -149,6 +163,11 @@ public class ListDialog extends javax.swing.JDialog {
         this.centerPanel.repaint();
     }
 
+    public void removeAllGames() {
+        this.centerPanel.removeAll();
+        this.revalidaCenterPanel();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel counterLabel;
@@ -159,6 +178,7 @@ public class ListDialog extends javax.swing.JDialog {
     private javax.swing.JLabel nameLabel;
     private javax.swing.JPanel northPanel;
     private javax.swing.JMenu optionsMenu;
+    private javax.swing.JMenuItem reloadMenuItem;
     private javax.swing.JPanel southPanel;
     private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables

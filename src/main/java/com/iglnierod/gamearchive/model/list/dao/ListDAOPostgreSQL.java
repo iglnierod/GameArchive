@@ -47,7 +47,7 @@ public class ListDAOPostgreSQL implements ListDAO {
                 );
                 lists.add(l);
             }
-            
+
             return lists;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -80,6 +80,45 @@ public class ListDAOPostgreSQL implements ListDAO {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void update(List list) {
+        String query = "UPDATE list SET name = ?, description = ? WHERE id = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, list.getName());
+            ps.setString(2, list.getDescription());
+            ps.setInt(3, list.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("NO SE HA PODIDO ACTUALIZAR LA INFORMACION DEL JUEGO");
+        }
+    }
+
+    @Override
+    public void removeGame(int listId, int gameId) {
+        String query = "DELETE FROM list_game WHERE list_id = ? AND game_id = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, listId);
+            ps.setInt(2, gameId);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("NO SE HA PODIDO ELIMINAR EL JUEGO DE LA LISTA");
+        }
+    }
+
+    @Override
+    public void delete(List list) {
+        String query = "DELETE FROM list WHERE id = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, list.getId());
+ 
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("NO SE HA PODIDO ELIMINAR LA LISTA");
+        }
     }
 
 }

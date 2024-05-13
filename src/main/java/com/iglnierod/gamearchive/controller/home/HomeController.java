@@ -25,7 +25,7 @@ import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.game.GameDialog;
-import com.iglnierod.gamearchive.view.game.GamePreviewPanel;
+import com.iglnierod.gamearchive.view.game.panel.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.home.list.ListsPanel;
 import com.iglnierod.gamearchive.view.home.list.dialog.AddToListDialog;
@@ -135,9 +135,13 @@ public class HomeController {
 
     private ActionListener addReloadListsMenuItemListener() {
         return (ActionEvent e) -> {
-            myListsPanel.emptyListPanel();
-            this.updateListsPanel();
+            reloadLists();
         };
+    }
+
+    public void reloadLists() {
+        myListsPanel.emptyListPanel();
+        this.updateListsPanel();
     }
 
     // MENU
@@ -227,6 +231,7 @@ public class HomeController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 GameDialog gameDialog = new GameDialog(view, true);
+                gameDialog.addAddToListActionListener(addAddToListButtonListener(game));
                 GameController gameController = new GameController(gameDialog, database, game);
                 gameDialog.setVisible(true);
             }
@@ -277,14 +282,8 @@ public class HomeController {
         };
     }
 
-    private ActionListener addEditListMenuItemListener() {
-        return (ActionEvent e) -> {
-
-        };
-    }
-
     // Get lists from DB and update view
-    void updateListsPanel() {
+    public void updateListsPanel() {
         ArrayList<List> lists = listDao.getAll();
         if (lists.isEmpty() || lists == null) {
             return;
@@ -297,17 +296,18 @@ public class HomeController {
 
     // Add list to view
     public void addListToListsPanel(List list) {
-        ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName(), 0);
+        ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName());
         listPreviewPanel.addPanelMouseListener(this.addPreviewPanelListener(list));
         myListsPanel.addList(listPreviewPanel);
     }
 
     private MouseListener addPreviewPanelListener(List list) {
+        HomeController hc = this;
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ListDialog listDialog = new ListDialog(view, true);
-                ListController listController = new ListController(listDialog, database, list);
+                ListController listController = new ListController(listDialog, database, list, hc);
                 listDialog.setVisible(true);
             }
         };

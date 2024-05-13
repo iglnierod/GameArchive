@@ -19,5 +19,11 @@ public interface ListDAO {
     ArrayList<List> getAll(Client client);
     
     boolean create(List list);
+
+    public void update(List list);
+
+    public void removeGame(int listId, int gameId);
+
+    public void delete(List list);
     
 }

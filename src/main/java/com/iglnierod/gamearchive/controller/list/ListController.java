@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.controller.list;
 
+import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.database.Database;
@@ -11,13 +12,19 @@ import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.list.List;
+import com.iglnierod.gamearchive.model.list.dao.ListDAO;
+import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.utils.ImageTool;
-import com.iglnierod.gamearchive.view.game.GameCoverPanel;
+import com.iglnierod.gamearchive.view.game.panel.GameCoverPanel;
+import com.iglnierod.gamearchive.view.home.list.dialog.EditListDialog;
 import com.iglnierod.gamearchive.view.home.list.dialog.ListDialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -29,28 +36,40 @@ public class ListController {
     private final ListDialog view;
     private final Database database;
     private final GameDAO gameDao;
+    private final ListDAO listDao;
     private final List list;
+    private HomeController homeController;
 
-    public ListController(ListDialog view, Database database, List list) {
+    public ListController(ListDialog view, Database database, List list, HomeController homeController) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest(database);
+        this.listDao = new ListDAOPostgreSQL(database);
         this.list = list;
+        this.homeController = homeController;
+        
+        this.addListeners();
 
-        this.loadInformation();
+        this.reload();
+    }
+
+    private void addListeners() {
+        this.view.addReloadMenuItemActionListener(this.addReloadMenuItemListener());
+        this.view.addEditMenuItemActionListener(this.addEditMenuItemListener());
+        this.view.addDeleteMenuItemActionListener(this.addDeleteMenuItemListener());
     }
 
     private void loadInformation() {
         this.view.setTitle("GameArchive - Watching List: " + list.getName());
         this.view.setNameLabelText(list.getName());
-        this.loadGames();
     }
 
     private void loadGames() {
-        // TODO: load games with GameCoverPanel
+        // REVISAR: Cargar imagenes de manera asincrona
         ExecutorService executorService = Executors.newFixedThreadPool(5); // Número de hilos para cargar imágenes
 
-        for (Game g : gameDao.getGamesInList(this.list.getId())) {
+        list.setGames(gameDao.getGamesInList(this.list.getId()));
+        for (Game g : list.getGames()) {
             executorService.execute(() -> {
                 System.out.println(g);
                 GameCoverPanel gamePanel = new GameCoverPanel(g.getId());
@@ -74,5 +93,40 @@ public class ListController {
         }
 
         view.revalidaCenterPanel();
+    }
+
+    private ActionListener addEditMenuItemListener() {
+        return (ActionEvent e) -> {
+            EditListDialog editListDialog = new EditListDialog(null, true);
+            EditListController editListController = new EditListController(editListDialog, database, list);
+            editListDialog.setVisible(true);
+            reload();
+        };
+    }
+
+    private ActionListener addReloadMenuItemListener() {
+        return (ActionEvent e) -> {
+            reload();
+        };
+    }
+
+    private ActionListener addDeleteMenuItemListener() {
+        return (ActionEvent e) -> {
+            final int DELETE_OPTION = 0;
+            int delete = JOptionPane.showConfirmDialog(view, "Are you sure you want to delete this list?",
+                    "CONFIRMATION", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            if (delete == DELETE_OPTION) {
+                listDao.delete(list);
+                view.dispose();
+                homeController.reloadLists();
+            }
+        };
+    }
+
+    private void reload() {
+        view.removeAllGames();
+        loadGames();
+        loadInformation();
     }
 }

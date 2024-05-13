@@ -17,15 +17,12 @@ public class ListPreviewPanel extends javax.swing.JPanel {
      */
     private int id;
     private String name;
-    private int counter;
 
-    public ListPreviewPanel(int id, String name, int counter) {
+    public ListPreviewPanel(int id, String name) {
         this.id = id;
         this.name = name;
-        this.counter = counter;
         initComponents();
         this.setNameLabel(name);
-        this.setCounterLabel(counter);
     }
 
     public ListPreviewPanel() {
@@ -42,7 +39,6 @@ public class ListPreviewPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         nameLabel = new javax.swing.JLabel();
-        counterLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(51, 51, 51));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 2, true));
@@ -54,11 +50,6 @@ public class ListPreviewPanel extends javax.swing.JPanel {
         nameLabel.setToolTipText("");
         nameLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        counterLabel.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        counterLabel.setForeground(new java.awt.Color(204, 204, 204));
-        counterLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        counterLabel.setText("( 10 )");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,25 +58,18 @@ public class ListPreviewPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(counterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(counterLabel)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     public void setNameLabel(String name) {
         this.nameLabel.setText(String.format("<html><div style='text-align:center'>%s</div><html>", name));
-    }
-
-    public void setCounterLabel(int number) {
-        this.counterLabel.setText(String.format("( %d )", number));
     }
 
     public int getId() {
@@ -107,11 +91,9 @@ public class ListPreviewPanel extends javax.swing.JPanel {
     public void addPanelMouseListener(MouseListener l) {
         this.addMouseListener(l);
         this.nameLabel.addMouseListener(l);
-        this.counterLabel.addMouseListener(l);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel counterLabel;
     private javax.swing.JLabel nameLabel;
     // End of variables declaration//GEN-END:variables
 }
