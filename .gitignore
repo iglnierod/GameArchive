@@ -2,3 +2,4 @@
 *.env
 nbactions.xml
 *.bin
+/Entregas/
