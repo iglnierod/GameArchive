@@ -35,6 +35,7 @@ public class ListsPanel extends javax.swing.JPanel {
         centerScrollPane = new javax.swing.JScrollPane();
         centerPanel = new javax.swing.JPanel();
         createListPanel = new com.iglnierod.gamearchive.view.home.list.panel.CreateListPanel();
+        favouriteListPanel = new com.iglnierod.gamearchive.view.home.list.panel.FavouriteListPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -47,14 +48,20 @@ public class ListsPanel extends javax.swing.JPanel {
         centerPanelLayout.setHorizontalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(createListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(createListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(favouriteListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(856, Short.MAX_VALUE))
         );
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(createListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(favouriteListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(createListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(446, Short.MAX_VALUE))
         );
 
         centerScrollPane.setViewportView(centerPanel);
@@ -66,23 +73,30 @@ public class ListsPanel extends javax.swing.JPanel {
         this.createListPanel.addMouseListener(listener);
         this.createListPanel.addMouseListeners(listener);
     }
-    
+
+    public void addFavouriteListPanelMouseListener(MouseListener l) {
+        this.favouriteListPanel.addMouseListener(l);
+        this.favouriteListPanel.addMouseListeners(l);
+    }
+
     public void addList(ListPreviewPanel list) {
         this.centerPanel.add(list);
         this.centerPanel.revalidate();
         this.centerPanel.repaint();
     }
-    
+
     public void emptyListPanel() {
         this.centerPanel.removeAll();
         this.centerPanel.add(createListPanel);
+        this.centerPanel.add(favouriteListPanel);
         this.centerPanel.revalidate();
         this.centerPanel.repaint();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JScrollPane centerScrollPane;
     private com.iglnierod.gamearchive.view.home.list.panel.CreateListPanel createListPanel;
+    private com.iglnierod.gamearchive.view.home.list.panel.FavouriteListPanel favouriteListPanel;
     // End of variables declaration//GEN-END:variables
 }

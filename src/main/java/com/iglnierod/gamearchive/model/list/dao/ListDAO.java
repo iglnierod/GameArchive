@@ -20,10 +20,14 @@ public interface ListDAO {
     
     boolean create(List list);
 
+    void createFavourite(List list);
+    
     public void update(List list);
 
     public void removeGame(int listId, int gameId);
 
     public void delete(List list);
+
+    public List getFavouriteList();
     
 }

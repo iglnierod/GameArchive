@@ -6,11 +6,14 @@ package com.iglnierod.gamearchive.controller.register;
 
 import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.login.LoginController;
-import com.iglnierod.gamearchive.model.database.Database;
-import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.client.dao.ClientDAO;
 import com.iglnierod.gamearchive.model.client.dao.ClientDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.list.List;
+import com.iglnierod.gamearchive.model.list.dao.ListDAO;
+import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.ProfileConfigFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
@@ -30,6 +33,7 @@ public class RegisterController {
     private final RegisterFrame view;
     private final Database database;
     private ClientDAO clientDao;
+    private Client client;
 
     public RegisterController(RegisterFrame view, Database database) {
         this.view = view;
@@ -70,21 +74,32 @@ public class RegisterController {
                     return;
                 }
 
-                Client client = new Client(username, email, password);
+                client = new Client(username, email, password);
                 if (!clientDao.add(client)) {
                     JOptionPane.showMessageDialog(view, "Username is already taken. Try a different one.",
                             "ERROR: Username already taken", JOptionPane.ERROR_MESSAGE);
                     view.setFocusUsernameTextField();
                     return;
                 }
-                
+
                 Session.setCurrentClient(client);
-                ProfileConfigFrame profileConfigFrame = new ProfileConfigFrame();
-                ProfileConfigController profileConfigController = new ProfileConfigController(profileConfigFrame, database);
-                view.setVisible(false);
-                profileConfigFrame.setVisible(true);
+                createFavouriteList();
+                showConfig();
             }
         };
+    }
+
+    private void createFavouriteList() {
+        List favouriteList = new List("Favourite", String.format("%s's favourite games!!",client.getUsername()));
+        ListDAO listDao = new ListDAOPostgreSQL(database);
+        listDao.createFavourite(favouriteList);
+    }
+    
+    private void showConfig() {
+        ProfileConfigFrame profileConfigFrame = new ProfileConfigFrame();
+        ProfileConfigController profileConfigController = new ProfileConfigController(profileConfigFrame, database);
+        view.setVisible(false);
+        profileConfigFrame.setVisible(true);
     }
 
 }

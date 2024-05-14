@@ -111,6 +111,7 @@ public class HomeController {
 
     private void addMyListsPanelListeners() {
         myListsPanel.addCreateListPanelMouseListener(addCreateListPanelListener());
+        myListsPanel.addFavouriteListPanelMouseListener(this.addPreviewPanelListener(listDao.getFavouriteList()));
         this.updateListsPanel();
     }
 
@@ -281,7 +282,7 @@ public class HomeController {
             }
         };
     }
-
+    
     // Get lists from DB and update view
     public void updateListsPanel() {
         ArrayList<List> lists = listDao.getAll();
@@ -312,4 +313,6 @@ public class HomeController {
             }
         };
     }
+
+    
 }

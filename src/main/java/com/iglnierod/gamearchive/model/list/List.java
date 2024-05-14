@@ -17,6 +17,7 @@ public class List {
     private String name;
     private String description;
     private ArrayList<Game> games;
+    private boolean favourite;
 
     public List() {
         this(-1, null, null, new ArrayList<>());
@@ -35,6 +36,7 @@ public class List {
         this.name = name;
         this.description = description;
         this.games = games;
+        this.favourite = false;
     }
 
     public int getId() {
@@ -69,6 +71,14 @@ public class List {
         this.games = games;
     }
 
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+    
     @Override
     public String toString() {
         return String.format("List{id: %d, name: %s, description: %s}", id, name, description);

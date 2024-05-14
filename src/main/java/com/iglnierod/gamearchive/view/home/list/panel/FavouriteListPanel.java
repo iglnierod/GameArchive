@@ -30,25 +30,30 @@ public class FavouriteListPanel extends javax.swing.JPanel {
         iconLabel = new javax.swing.JLabel();
         createLabel = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(29, 52, 76));
+        setBackground(new java.awt.Color(255, 255, 102));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 2, true));
+        setForeground(new java.awt.Color(0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setMaximumSize(new java.awt.Dimension(150, 188));
+        setMinimumSize(new java.awt.Dimension(150, 188));
+        setPreferredSize(new java.awt.Dimension(150, 188));
 
         iconLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         iconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star_32dp.png"))); // NOI18N
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star_40dp.png"))); // NOI18N
         iconLabel.setToolTipText("");
         iconLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         createLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        createLabel.setForeground(new java.awt.Color(51, 51, 51));
         createLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        createLabel.setText("Create List");
+        createLabel.setText("Favourite");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(createLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(iconLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(

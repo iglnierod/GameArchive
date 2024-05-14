@@ -6,6 +6,8 @@ package com.iglnierod.gamearchive.model.list.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.game.dao.GameDAO;
+import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.session.Session;
 import java.sql.PreparedStatement;
@@ -34,7 +36,7 @@ public class ListDAOPostgreSQL implements ListDAO {
     @Override
     public ArrayList<List> getAll(Client client) {
         ArrayList<List> lists = new ArrayList<>();
-        String query = "SELECT * FROM list WHERE username = ?";
+        String query = "SELECT * FROM list WHERE username = ? AND favourite is FALSE";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, client.getUsername());
 
@@ -118,6 +120,55 @@ public class ListDAOPostgreSQL implements ListDAO {
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("NO SE HA PODIDO ELIMINAR LA LISTA");
+        }
+    }
+
+    @Override
+    public List getFavouriteList() {
+        List fav = new List();
+        String query = "SELECT * FROM list WHERE favourite IS TRUE AND username = ?";
+        try(PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, Session.getCurrentClient().getUsername());
+            
+            GameDAO gameDao = new GameDAOUnirest(database);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                fav.setId(rs.getInt("id"));
+                fav.setName(rs.getString("name"));
+                fav.setDescription(rs.getString("description"));
+                fav.setGames(gameDao.getGamesInList(fav.getId()));
+                fav.setFavourite(true);
+            }
+            return fav;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void createFavourite(List list) {
+        String query = "INSERT INTO list(name, username, description, favourite) VALUES (?,?,?,?)";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, list.getName());
+            ps.setString(2, Session.getCurrentClient().getUsername());
+            ps.setString(3, list.getDescription());
+            ps.setBoolean(4, true);
+            
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating list failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    list.setId(generatedKeys.getInt("id"));
+                } else {
+                    throw new SQLException("Creating list failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 

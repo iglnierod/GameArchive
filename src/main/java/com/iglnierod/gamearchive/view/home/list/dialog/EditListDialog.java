@@ -207,7 +207,12 @@ public class EditListDialog extends javax.swing.JDialog {
         return this.gamesList.getSelectedIndex();
     }
 
-
+    public void disableInformationPanel() {
+        this.informationPanel.setEnabled(false);
+        this.nameTextField.setEnabled(false);
+        this.descriptionTextArea.setEnabled(false);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTabbedPane centerTabbedPane;

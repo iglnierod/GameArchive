@@ -33,6 +33,8 @@ public class CreateListPanel extends javax.swing.JPanel {
         setBackground(new java.awt.Color(29, 52, 76));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 2, true));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setMaximumSize(new java.awt.Dimension(150, 188));
+        setMinimumSize(new java.awt.Dimension(150, 188));
 
         iconLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         iconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

@@ -14,6 +14,11 @@
 - Crear, ver, editar, eliminar listas
 - Añadir juegos a listas
 
+##### developing branch
+
+- Inicio de guardar juegos como favoritos
+  - Crear lista `Favoritos` al crear un usuario
+
 ### 1 de Mayo 2024
 
 ##### main branch

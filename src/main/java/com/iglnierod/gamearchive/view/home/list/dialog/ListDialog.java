@@ -168,6 +168,10 @@ public class ListDialog extends javax.swing.JDialog {
         this.revalidaCenterPanel();
     }
     
+    public void disableDeleteMenuItem() {
+        this.deleteMenuItem.setEnabled(false);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel counterLabel;

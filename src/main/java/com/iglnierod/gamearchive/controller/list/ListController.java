@@ -47,16 +47,23 @@ public class ListController {
         this.listDao = new ListDAOPostgreSQL(database);
         this.list = list;
         this.homeController = homeController;
-        
+
         this.addListeners();
 
         this.reload();
+        this.checkFavourite();
     }
 
     private void addListeners() {
         this.view.addReloadMenuItemActionListener(this.addReloadMenuItemListener());
         this.view.addEditMenuItemActionListener(this.addEditMenuItemListener());
         this.view.addDeleteMenuItemActionListener(this.addDeleteMenuItemListener());
+    }
+
+    private void checkFavourite() {
+        if (list.isFavourite()) {
+            view.disableDeleteMenuItem();
+        }
     }
 
     private void loadInformation() {
@@ -98,6 +105,9 @@ public class ListController {
     private ActionListener addEditMenuItemListener() {
         return (ActionEvent e) -> {
             EditListDialog editListDialog = new EditListDialog(null, true);
+            if (list.isFavourite()) {
+                editListDialog.disableInformationPanel();
+            }
             EditListController editListController = new EditListController(editListDialog, database, list);
             editListDialog.setVisible(true);
             reload();
@@ -129,4 +139,5 @@ public class ListController {
         loadGames();
         loadInformation();
     }
+
 }
