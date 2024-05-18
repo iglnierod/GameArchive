@@ -17,10 +17,12 @@ import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAO;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import kong.unirest.HttpResponse;
@@ -135,7 +137,6 @@ public class GameDAOUnirest implements GameDAO {
         return games;
     }
 
-    // TODO
     @Override
     public Game getAllInformation(int gameId) {
         Game game = new Game();
@@ -239,39 +240,103 @@ public class GameDAOUnirest implements GameDAO {
 
     @Override
     public void saveGame(Game game) {
-        String query = "INSERT INTO game(id, checksum, name, igdb_rating, rating_count, summary, cover_id) VALUES (?,?,?,?,?,?,?)";
-        boolean savedGame = false;
-        try (PreparedStatement ps2 = database.getConnection().prepareStatement(query)) {
-            ps2.setInt(1, game.getId());
-            ps2.setString(2, game.getChecksum());
-            ps2.setString(3, game.getName());
-            ps2.setFloat(4, game.getIgdbRating());
-            ps2.setInt(5, game.getRatingCount());
-            ps2.setString(6, game.getSummary());
-            ps2.setString(7, game.getCoverId());
+        Connection connection = null;
+        PreparedStatement psCheck = null;
+        PreparedStatement psInsertGame = null;
+        PreparedStatement psGamePlatform = null;
+        PreparedStatement psGameGenre = null;
 
-            ps2.executeUpdate();
-        } catch (SQLException ex) {
-            savedGame = true;
-            System.out.println("GAME IS ALREADY SAVED IN DB");
-            //ex.printStackTrace();
-        }
+        try {
+            connection = database.getConnection();
+            connection.setAutoCommit(false); // Desactivar auto-commit para realizar un commit manual
 
-        if (!savedGame) {
-            // Una vez que se ha guardado el juego, también guardamos las plataformas en otro hilo
-            PlatformDAO platformDao = new PlatformDAOPostgreSQL(database);
-            GenreDAO genreDao = new GenreDAOPostgreSQL(database);
-            int gameId = game.getId();
-            ArrayList<Platform> platforms = game.getPlatforms();
-            ArrayList<Genre> genres = game.getGenres();
+            // Verificar si el juego ya está en la base de datos
+            String queryCheck = "SELECT id FROM game WHERE id = ?";
+            psCheck = connection.prepareStatement(queryCheck);
+            psCheck.setInt(1, game.getId());
+            ResultSet rs = psCheck.executeQuery();
+            if (rs.next()) {
+                System.out.println("Game already exists in the database.");
+                return;
+            }
 
-            executorService.execute(() -> {
-                platformDao.savePlatforms(platforms);
-                platformDao.buildRelation(gameId, platforms);
+            // Guardar plataformas y géneros en batch
+            PlatformDAO platformDAO = new PlatformDAOPostgreSQL(database);
+            GenreDAO genreDAO = new GenreDAOPostgreSQL(database);
 
-                genreDao.saveGenres(genres);
-                genreDao.buildRelation(gameId, genres);
-            });
+            // Consultar plataformas existentes
+            Set<Integer> existingPlatformIds = platformDAO.getExistingPlatformIds(game.getPlatforms(), connection);
+            // Insertar plataformas no existentes
+            platformDAO.savePlatformsInBatch(game.getPlatforms(), existingPlatformIds, connection);
+
+            // Consultar géneros existentes
+            Set<Integer> existingGenreIds = genreDAO.getExistingGenreIds(game.getGenres(), connection);
+            // Insertar géneros no existentes
+            genreDAO.saveGenresInBatch(game.getGenres(), existingGenreIds, connection);
+
+            // Guardar el juego
+            String insertGameQuery = "INSERT INTO game (id, checksum, name, igdb_rating, rating_count, summary, cover_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            psInsertGame = connection.prepareStatement(insertGameQuery);
+            psInsertGame.setInt(1, game.getId());
+            psInsertGame.setString(2, game.getChecksum());
+            psInsertGame.setString(3, game.getName());
+            psInsertGame.setFloat(4, game.getIgdbRating());
+            psInsertGame.setInt(5, game.getRatingCount());
+            psInsertGame.setString(6, game.getSummary());
+            psInsertGame.setString(7, game.getCoverId());
+            psInsertGame.executeUpdate();
+
+            // Relacionar juego con plataformas en batch
+            String insertGamePlatformQuery = "INSERT INTO platform_game (game_id, platform_id) VALUES (?, ?)";
+            psGamePlatform = connection.prepareStatement(insertGamePlatformQuery);
+            for (Platform platform : game.getPlatforms()) {
+                psGamePlatform.setInt(1, game.getId());
+                psGamePlatform.setInt(2, platform.getId());
+                psGamePlatform.addBatch();
+            }
+            psGamePlatform.executeBatch();
+
+            // Relacionar juego con géneros en batch
+            String insertGameGenreQuery = "INSERT INTO genre_game (game_id, genre_id) VALUES (?, ?)";
+            psGameGenre = connection.prepareStatement(insertGameGenreQuery);
+            for (Genre genre : game.getGenres()) {
+                psGameGenre.setInt(1, game.getId());
+                psGameGenre.setInt(2, genre.getId());
+                psGameGenre.addBatch();
+            }
+            psGameGenre.executeBatch();
+
+            connection.commit(); // Realizar commit manual
+
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback(); // Revertir transacciones en caso de error
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (psCheck != null) {
+                    psCheck.close();
+                }
+                if (psInsertGame != null) {
+                    psInsertGame.close();
+                }
+                if (psGamePlatform != null) {
+                    psGamePlatform.close();
+                }
+                if (psGameGenre != null) {
+                    psGameGenre.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                closeEx.printStackTrace();
+            }
         }
     }
 
@@ -296,20 +361,45 @@ public class GameDAOUnirest implements GameDAO {
     public ArrayList<Game> getGamesInList(int listId) {
         ArrayList<Game> games = new ArrayList<>();
         String query = "SELECT id, cover_id, name FROM game g JOIN list_game lg ON g.id = lg.game_id WHERE lg.list_id = ?";
-        try(PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setInt(1, listId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Game game = new Game();
                 game.setId(rs.getInt("id"));
                 game.setCoverId(rs.getString("cover_id"));
                 game.setName(rs.getString("name"));
-                
+
                 games.add(game);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return games;
+    }
+
+    @Override
+    public boolean addToFavourite(Game game, int favListId) {
+        saveGame(game);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        String query = "INSERT INTO list_game VALUES (?,?)";
+
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, favListId);
+            ps.setInt(2, game.getId());
+
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
     }
 }

@@ -38,7 +38,7 @@ public class CreateListPanel extends javax.swing.JPanel {
 
         iconLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         iconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/new_window_24dp.png"))); // NOI18N
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/new_window_40dp.png"))); // NOI18N
         iconLabel.setToolTipText("");
         iconLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

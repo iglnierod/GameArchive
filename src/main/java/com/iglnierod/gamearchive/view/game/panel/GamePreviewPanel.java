@@ -7,6 +7,7 @@ package com.iglnierod.gamearchive.view.game.panel;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,15 +19,17 @@ public class GamePreviewPanel extends javax.swing.JPanel {
      * Creates new form GamePreview
      */
     private final int gameId;
-
+    private boolean favourite;
+    
     public GamePreviewPanel() {
-        this.gameId = -1;
-        initComponents();
+        this(-1, false);
     }
 
-    public GamePreviewPanel(int gameId) {
+    public GamePreviewPanel(int gameId, boolean favourite) {
         this.gameId = gameId;
+        this.favourite = favourite;
         initComponents();
+        markFavourite(this.favourite);
     }
 
     /**
@@ -158,6 +161,16 @@ public class GamePreviewPanel extends javax.swing.JPanel {
     public void addPanelMouseListener(MouseListener listener) {
         this.addMouseListener(listener);
         this.nameLabel.addMouseListener(listener);
+    }
+    
+    public void markFavourite(boolean fav) {
+        ImageIcon notFavIcon = new ImageIcon(getClass().getResource("/icons/round_star_white_24dp.png"));
+        ImageIcon favIcon = new ImageIcon(getClass().getResource("/icons/yellow_star_24dp.png"));
+        if (fav) {
+            favouriteButton.setIcon(favIcon);
+        } else {
+            favouriteButton.setIcon(notFavIcon);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

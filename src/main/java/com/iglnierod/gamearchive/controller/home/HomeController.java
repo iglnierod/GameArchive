@@ -47,8 +47,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -192,16 +194,22 @@ public class HomeController {
 
     private void displayResults(ArrayList<Game> gamesResult) {
         searchPanel.emptyResults();
+
         if (gamesResult.isEmpty()) {
             NoGamesFoundPanel noGamesFoundPanel = new NoGamesFoundPanel();
             noGamesFoundPanel.setInput(searchPanel.getSearchTextFieldText());
             searchPanel.addToResults(noGamesFoundPanel);
         }
+
+        // Obtener todos los favoritos de una sola vez
+        Set<Integer> favouriteGameIds = listDao.getAllFavouriteGameIds();
+
         for (Game g : gamesResult) {
             System.out.println("game image: " + Reference.getImage(ImageType._1080P, g.getCoverId()));
-            GamePreviewPanel gamePanel = new GamePreviewPanel(g.getId());
+            boolean favourite = favouriteGameIds.contains(g.getId());
+            GamePreviewPanel gamePanel = new GamePreviewPanel(g.getId(), favourite);
 
-            gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener());
+            gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener(g, gamePanel));
             gamePanel.addAddToButtonActionListener(this.addAddToListButtonListener(g));
             gamePanel.addRateButtonActionListener(this.addRateButtonListener());
             gamePanel.addPanelMouseListener(this.addGamePreviewPanelMouseListener(g));
@@ -222,7 +230,6 @@ public class HomeController {
                 }
             }
             searchPanel.addToResults(gamePanel);
-
         }
     }
 
@@ -239,15 +246,22 @@ public class HomeController {
         };
     }
 
-    private ActionListener addFavouriteButtonListener() {
+    private ActionListener addFavouriteButtonListener(Game game, GamePreviewPanel gamePanel) {
         // TODO
         return (ActionEvent e) -> {
             System.out.println("FAVOURITE BUTTON");
+            Game g = gameDao.getAllInformation(game.getId());
+            List favList = listDao.getFavouriteList();
+            boolean res = gameDao.addToFavourite(g, favList.getId());
+            if (res) {
+                JOptionPane.showMessageDialog(view, g.getName() + " added to your favourites",
+                        "Added to Favourites", JOptionPane.INFORMATION_MESSAGE);
+                gamePanel.markFavourite(res);
+            }
         };
     }
 
     private ActionListener addAddToListButtonListener(Game game) {
-        // TODO
         return (ActionEvent e) -> {
             System.out.println("ADD TO LIST BUTTON");
             AddToListDialog dialog = new AddToListDialog(view, true);
@@ -282,7 +296,7 @@ public class HomeController {
             }
         };
     }
-    
+
     // Get lists from DB and update view
     public void updateListsPanel() {
         ArrayList<List> lists = listDao.getAll();
@@ -314,5 +328,4 @@ public class HomeController {
         };
     }
 
-    
 }

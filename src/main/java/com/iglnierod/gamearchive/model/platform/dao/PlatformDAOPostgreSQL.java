@@ -8,6 +8,7 @@ import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.platform.Platform;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -194,4 +195,49 @@ public class PlatformDAOPostgreSQL implements PlatformDAO {
             System.err.println("ERROR BUILDING RELATION PLATFORM->GAME: " + ex.getMessage());
         }
     }
+
+    @Override
+    public boolean platformExists(Platform platform) {
+        String query = "SELECT id FROM platform WHERE id = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, platform.getId());
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Set<Integer> getExistingPlatformIds(ArrayList<Platform> platforms, Connection connection) throws SQLException {
+        Set<Integer> existingPlatformIds = new HashSet<>();
+        String query = "SELECT id FROM platform WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            for (Platform platform : platforms) {
+                ps.setInt(1, platform.getId());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        existingPlatformIds.add(platform.getId());
+                    }
+                }
+            }
+        }
+        return existingPlatformIds;
+    }
+
+    @Override
+    public void savePlatformsInBatch(ArrayList<Platform> platforms, Set<Integer> existingPlatformIds, Connection connection) throws SQLException {
+        String insertQuery = "INSERT INTO platform (id, name) VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insertQuery)) {
+            for (Platform platform : platforms) {
+                if (!existingPlatformIds.contains(platform.getId())) {
+                    ps.setInt(1, platform.getId());
+                    ps.setString(2, platform.getName());
+                    ps.addBatch();
+                }
+            }
+            ps.executeBatch();
+        }
+    }
+
 }

@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -116,7 +118,7 @@ public class ListDAOPostgreSQL implements ListDAO {
         String query = "DELETE FROM list WHERE id = ?";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setInt(1, list.getId());
- 
+
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("NO SE HA PODIDO ELIMINAR LA LISTA");
@@ -127,12 +129,12 @@ public class ListDAOPostgreSQL implements ListDAO {
     public List getFavouriteList() {
         List fav = new List();
         String query = "SELECT * FROM list WHERE favourite IS TRUE AND username = ?";
-        try(PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, Session.getCurrentClient().getUsername());
-            
+
             GameDAO gameDao = new GameDAOUnirest(database);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 fav.setId(rs.getInt("id"));
                 fav.setName(rs.getString("name"));
                 fav.setDescription(rs.getString("description"));
@@ -154,7 +156,7 @@ public class ListDAOPostgreSQL implements ListDAO {
             ps.setString(2, Session.getCurrentClient().getUsername());
             ps.setString(3, list.getDescription());
             ps.setBoolean(4, true);
-            
+
             int affectedRows = ps.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating list failed, no rows affected.");
@@ -170,6 +172,24 @@ public class ListDAOPostgreSQL implements ListDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public Set<Integer> getAllFavouriteGameIds() {
+        Set<Integer> favouriteGameIds = new HashSet<>();
+        int favListId = getFavouriteList().getId();
+        String query = "SELECT game_id FROM list_game WHERE list_id = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, favListId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                favouriteGameIds.add(rs.getInt("game_id"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return favouriteGameIds;
     }
 
 }
