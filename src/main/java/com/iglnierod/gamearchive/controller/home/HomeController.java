@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -71,6 +72,7 @@ public class HomeController {
 
     // Lists
     private final ListsPanel myListsPanel;
+    private Set<Integer> favouriteGameIds;
 
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
@@ -82,6 +84,7 @@ public class HomeController {
         this.searchPanel = new SearchPanel();
         this.gamesResult = new ArrayList<>();
         this.myListsPanel = new ListsPanel();
+        favouriteGameIds = new HashSet<>();
         addListeners();
         initiatePanels();
     }
@@ -202,10 +205,9 @@ public class HomeController {
         }
 
         // Obtener todos los favoritos de una sola vez
-        Set<Integer> favouriteGameIds = listDao.getAllFavouriteGameIds();
+        favouriteGameIds = listDao.getAllFavouriteGameIds();
 
         for (Game g : gamesResult) {
-            System.out.println("game image: " + Reference.getImage(ImageType._1080P, g.getCoverId()));
             boolean favourite = favouriteGameIds.contains(g.getId());
             GamePreviewPanel gamePanel = new GamePreviewPanel(g.getId(), favourite);
 
@@ -233,7 +235,7 @@ public class HomeController {
         }
     }
 
-    // Open GameDialog when click game preview on search panel
+// Open GameDialog when click game preview on search panel
     private MouseListener addGamePreviewPanelMouseListener(Game game) {
         return new MouseAdapter() {
             @Override
@@ -247,16 +249,20 @@ public class HomeController {
     }
 
     private ActionListener addFavouriteButtonListener(Game game, GamePreviewPanel gamePanel) {
-        // TODO
         return (ActionEvent e) -> {
-            System.out.println("FAVOURITE BUTTON");
             Game g = gameDao.getAllInformation(game.getId());
             List favList = listDao.getFavouriteList();
-            boolean res = gameDao.addToFavourite(g, favList.getId());
-            if (res) {
-                JOptionPane.showMessageDialog(view, g.getName() + " added to your favourites",
-                        "Added to Favourites", JOptionPane.INFORMATION_MESSAGE);
-                gamePanel.markFavourite(res);
+            // Toggle favourite
+            if (gamePanel.isFavourite()) {
+                listDao.removeGame(favList.getId(), game.getId());
+                gamePanel.markFavourite(false);
+            } else {
+                boolean res = gameDao.addToFavourite(g, favList.getId());
+                if (res) {
+                    JOptionPane.showMessageDialog(view, g.getName() + " added to your favourites",
+                            "Added to Favourites", JOptionPane.INFORMATION_MESSAGE);
+                    gamePanel.markFavourite(res);
+                }
             }
         };
     }

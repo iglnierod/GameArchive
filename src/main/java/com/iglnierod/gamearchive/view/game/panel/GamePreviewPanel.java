@@ -69,6 +69,7 @@ public class GamePreviewPanel extends javax.swing.JPanel {
         rateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_thumbs_up_down_white_24dp.png"))); // NOI18N
 
         favouriteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/round_star_white_24dp.png"))); // NOI18N
+        favouriteButton.setToolTipText("Add to favourite");
 
         separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -171,6 +172,15 @@ public class GamePreviewPanel extends javax.swing.JPanel {
         } else {
             favouriteButton.setIcon(notFavIcon);
         }
+        this.setFavourite(fav);
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
