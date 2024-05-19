@@ -240,8 +240,9 @@ public class HomeController {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                GameDialog gameDialog = new GameDialog(view, true);
+                GameDialog gameDialog = new GameDialog(view, true,favouriteGameIds.contains(game.getId()));
                 gameDialog.addAddToListActionListener(addAddToListButtonListener(game));
+                gameDialog.addFavourteButtonActionListener(addFavouriteButtonListener(game, gameDialog));
                 GameController gameController = new GameController(gameDialog, database, game);
                 gameDialog.setVisible(true);
             }
@@ -267,6 +268,25 @@ public class HomeController {
         };
     }
 
+    private ActionListener addFavouriteButtonListener(Game game, GameDialog gameDialog) {
+        return (ActionEvent e) -> {
+            Game g = gameDao.getAllInformation(game.getId());
+            List favList = listDao.getFavouriteList();
+            // Toggle favourite
+            if (gameDialog.isFavourite()) {
+                listDao.removeGame(favList.getId(), game.getId());
+                gameDialog.markFavourite(false);
+            } else {
+                boolean res = gameDao.addToFavourite(g, favList.getId());
+                if (res) {
+                    JOptionPane.showMessageDialog(view, g.getName() + " added to your favourites",
+                            "Added to Favourites", JOptionPane.INFORMATION_MESSAGE);
+                    gameDialog.markFavourite(res);
+                }
+            }
+        };
+    }
+    
     private ActionListener addAddToListButtonListener(Game game) {
         return (ActionEvent e) -> {
             System.out.println("ADD TO LIST BUTTON");

@@ -13,6 +13,7 @@ import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.genre.Genre;
 import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.view.game.GameDialog;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -74,5 +75,9 @@ public class GameController {
 
         view.setRatingProgressBar(Math.round(this.game.getIgdbRating()));
         view.setRatingCountLabel(this.game.getRatingCount());
+    }
+    
+    public void addFavouriteButtonListener(ActionListener l) {
+        this.view.addFavourteButtonActionListener(l);
     }
 }

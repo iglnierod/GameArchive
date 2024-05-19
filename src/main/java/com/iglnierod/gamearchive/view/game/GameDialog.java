@@ -14,12 +14,16 @@ import javax.swing.JToggleButton;
  */
 public class GameDialog extends javax.swing.JDialog {
 
+    private boolean favourite;
+    
     /**
      * Creates new form GameDialog
      */
-    public GameDialog(java.awt.Frame parent, boolean modal) {
+    public GameDialog(java.awt.Frame parent, boolean modal, boolean favourite) {
         super(parent, modal);
         initComponents();
+        this.favourite = favourite;
+        markFavourite(this.favourite);
     }
 
     /**
@@ -294,6 +298,29 @@ public class GameDialog extends javax.swing.JDialog {
         this.addToListButton.addActionListener(l);
     }
 
+    public void addFavourteButtonActionListener(ActionListener l) {
+        this.favouriteButton.addActionListener(l);
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+    
+    public void markFavourite(boolean fav) {
+        ImageIcon notFavIcon = new ImageIcon(getClass().getResource("/icons/star_32dp.png"));
+        ImageIcon favIcon = new ImageIcon(getClass().getResource("/icons/yellow_star_32dp.png"));
+        if (fav) {
+            favouriteButton.setIcon(favIcon);
+        } else {
+            favouriteButton.setIcon(notFavIcon);
+        }
+        this.setFavourite(fav);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton PlayingButton;
     private javax.swing.JButton addToListButton;
