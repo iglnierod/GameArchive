@@ -2,6 +2,11 @@
 
 ## Entregas
 
+### 25 de Mayo 2024
+##### developing branch
+
+- Marcar juego como favorito
+
 ### 14 de Mayo 2024
 
 ##### main branch
