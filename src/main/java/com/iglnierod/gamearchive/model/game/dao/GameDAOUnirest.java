@@ -402,4 +402,48 @@ public class GameDAOUnirest implements GameDAO {
 
         return false;
     }
+
+    @Override
+    public ArrayList<Game> getSimilar(int gameId) {
+        ArrayList<Game> similarGames = new ArrayList<>();
+
+        PostRequest pr = PostRequest.builder()
+                .fields("similar_games")
+                .where("id = " + gameId)
+                .build();
+
+        String postResult = this.post(URL, pr.asString());
+
+        similarGames = this.parseSimilar(postResult);
+
+        return similarGames;
+    }
+
+    public ArrayList<Game> parseSimilar(String jsonResponse) {
+        ArrayList<Integer> similarGameIds = new ArrayList<>();
+        JsonArray jsonArray = JsonParser.parseString(jsonResponse).getAsJsonArray();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonGame = jsonArray.get(i).getAsJsonObject();
+            JsonArray similarGamesArray = jsonGame.getAsJsonArray("similar_games");
+
+            for (int j = 0; j < similarGamesArray.size(); j++) {
+                int similarGameId = similarGamesArray.get(j).getAsInt();
+                similarGameIds.add(similarGameId);
+            }
+        }
+
+        ArrayList<Game> similarGames = new ArrayList<>();
+        if (!similarGameIds.isEmpty()) {
+            PostRequest pr = PostRequest.builder()
+                    .fields("id,name,summary,cover.image_id")
+                    .where("id = (" + similarGameIds.toString().replaceAll("[\\[\\] ]", "") + ")")
+                    .build();
+
+            String postResult = this.post(URL, pr.asString());
+            similarGames = this.parse(postResult);
+        }
+
+        return similarGames;
+    }
 }

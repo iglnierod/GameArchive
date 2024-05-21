@@ -40,8 +40,17 @@ public class HomeFrame extends javax.swing.JFrame {
         eastPanel = new javax.swing.JPanel();
         usernameLabel = new javax.swing.JLabel();
         centerPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        gameCoverPanel1 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        gameCoverPanel2 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        gameCoverPanel3 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        gameCoverPanel4 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        gameCoverPanel5 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        gameCoverPanel6 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        gameCoverPanel7 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         logOutMenuItem = new javax.swing.JMenuItem();
@@ -126,26 +135,43 @@ public class HomeFrame extends javax.swing.JFrame {
 
         centerPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("jLabel1");
+        jScrollPane1.setBorder(null);
+
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Recommended games");
+
+        jPanel2.add(gameCoverPanel1);
+        jPanel2.add(gameCoverPanel2);
+        jPanel2.add(gameCoverPanel3);
+        jPanel2.add(gameCoverPanel4);
+        jPanel2.add(gameCoverPanel5);
+        jPanel2.add(gameCoverPanel6);
+        jPanel2.add(gameCoverPanel7);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(138, 138, 138)
-                .addComponent(jLabel1)
-                .addContainerGap(1040, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1218, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(79, 79, 79)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addContainerGap(533, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(351, Short.MAX_VALUE))
         );
 
-        centerPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+        jScrollPane1.setViewportView(jPanel1);
+
+        centerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(centerPanel, java.awt.BorderLayout.CENTER);
 
@@ -228,9 +254,18 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel communityLabel;
     private javax.swing.JPanel eastPanel;
     private javax.swing.JMenu fileMenu;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel1;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel2;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel3;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel4;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel5;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel6;
+    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel7;
     private javax.swing.JLabel homeLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem logOutMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel myListsLabel;

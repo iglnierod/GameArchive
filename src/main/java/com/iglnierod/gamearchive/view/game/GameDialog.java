@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.game;
 
+import com.iglnierod.gamearchive.view.game.panel.GameCoverPanel;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
@@ -35,6 +36,7 @@ public class GameDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
         centerPanel = new javax.swing.JPanel();
         coverLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
@@ -44,6 +46,8 @@ public class GameDialog extends javax.swing.JDialog {
         addToListButton = new javax.swing.JButton();
         favouriteButton = new javax.swing.JButton();
         rateButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        similarGamesPanel = new javax.swing.JPanel();
         westPanel = new javax.swing.JPanel();
         ratingProgressBar = new javax.swing.JProgressBar();
         ratingNumberLabel = new javax.swing.JLabel();
@@ -58,6 +62,10 @@ public class GameDialog extends javax.swing.JDialog {
         PlayingButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         coverLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/t_cover_big.jpg"))); // NOI18N
 
@@ -113,19 +121,33 @@ public class GameDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Similar games"));
+        jScrollPane3.setMaximumSize(new java.awt.Dimension(521, 215));
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(521, 215));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(521, 215));
+
+        similarGamesPanel.setMinimumSize(new java.awt.Dimension(521, 215));
+        similarGamesPanel.setName(""); // NOI18N
+        similarGamesPanel.setPreferredSize(null);
+        similarGamesPanel.setLayout(new javax.swing.BoxLayout(similarGamesPanel, javax.swing.BoxLayout.LINE_AXIS));
+        jScrollPane3.setViewportView(similarGamesPanel);
+
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
         centerPanel.setLayout(centerPanelLayout);
         centerPanelLayout.setHorizontalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(coverLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(centerPanelLayout.createSequentialGroup()
+                        .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(coverLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         centerPanelLayout.setVerticalGroup(
@@ -142,10 +164,14 @@ public class GameDialog extends javax.swing.JDialog {
                         .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
-        getContentPane().add(centerPanel, java.awt.BorderLayout.CENTER);
+        jScrollPane2.setViewportView(centerPanel);
+
+        getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         ratingProgressBar.setValue(50);
 
@@ -192,22 +218,6 @@ public class GameDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
-                        .addGroup(westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(westPanelLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(platformsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
-                                        .addComponent(platformsTitleLabel)
-                                        .addGap(68, 68, 68))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
-                                        .addComponent(genresTitleLabel)
-                                        .addGap(75, 75, 75))))
-                            .addComponent(genresPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
@@ -222,7 +232,21 @@ public class GameDialog extends javax.swing.JDialog {
                                     .addComponent(ratingProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(PlayingButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(playedButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(29, 29, 29))))))
+                                .addGap(29, 29, 29))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
+                        .addGroup(westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(platformsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(westPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
+                                        .addComponent(platformsTitleLabel)
+                                        .addGap(68, 68, 68))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
+                                        .addComponent(genresTitleLabel)
+                                        .addGap(75, 75, 75))))
+                            .addComponent(genresPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         westPanelLayout.setVerticalGroup(
             westPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,12 +268,12 @@ public class GameDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(genresTitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(genresPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(genresPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(platformsTitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(platformsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addComponent(platformsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         getContentPane().add(westPanel, java.awt.BorderLayout.EAST);
@@ -321,6 +345,12 @@ public class GameDialog extends javax.swing.JDialog {
         this.setFavourite(fav);
     }
     
+    public void addSimilarGame(GameCoverPanel gamePanel) {
+        this.similarGamesPanel.add(gamePanel);
+        this.revalidate();
+        this.repaint();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton PlayingButton;
     private javax.swing.JButton addToListButton;
@@ -332,6 +362,8 @@ public class GameDialog extends javax.swing.JDialog {
     private javax.swing.JPanel genresPanel;
     private javax.swing.JLabel genresTitleLabel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel maximumRatingLabel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JPanel platformsPanel;
@@ -341,6 +373,7 @@ public class GameDialog extends javax.swing.JDialog {
     private javax.swing.JLabel ratingCountLabel;
     private javax.swing.JLabel ratingNumberLabel;
     private javax.swing.JProgressBar ratingProgressBar;
+    private javax.swing.JPanel similarGamesPanel;
     private javax.swing.JToggleButton wantButton;
     private javax.swing.JPanel westPanel;
     // End of variables declaration//GEN-END:variables

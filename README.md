@@ -6,6 +6,7 @@
 ##### developing branch
 
 - Marcar juego como favorito
+- Ver juegos similares dentro de un juego
 
 ### 14 de Mayo 2024
 
@@ -147,9 +148,10 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
     - [X] Título
     - [X] Descripción
 
+- [X] Marcar juego como favorito
 - [ ] Añadir estados a juegos
 - [ ] Valorar juegos
-- [ ] Sistema de recomendación
+- [X] Sistema de recomendación/Juegos similares
 - [ ] Sistema de recomendación aleatoria con parámetros
 - [ ] Feed de últimos juegos añadidos por otros usuarios
 - [ ] Búsqueda de usuarios

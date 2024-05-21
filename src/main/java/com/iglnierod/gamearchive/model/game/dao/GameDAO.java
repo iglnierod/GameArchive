@@ -31,4 +31,6 @@ public interface GameDAO {
     public ArrayList<Game> getGamesInList(int listId);
     
     public boolean addToFavourite(Game game, int favListId);
+    
+    public ArrayList<Game> getSimilar(int gameId);
 }
