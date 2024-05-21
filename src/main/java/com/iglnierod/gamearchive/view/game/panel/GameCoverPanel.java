@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.game.panel;
 
+import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 /**
@@ -57,6 +58,10 @@ public class GameCoverPanel extends javax.swing.JPanel {
         this.gameLabel.setIcon(cover);
     }
     
+    public void addCoverMouseListener(MouseListener l) {
+        this.addMouseListener(l);
+        this.gameLabel.addMouseListener(l);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel gameLabel;

@@ -81,7 +81,8 @@ public class ListController {
                 System.out.println(g);
                 GameCoverPanel gamePanel = new GameCoverPanel(g.getId());
                 gamePanel.setToolTipText(g.getName());
-
+                gamePanel.addCoverMouseListener(this.homeController.addGamePreviewPanelMouseListener(g));
+                
                 // Cargar imagen de forma asíncrona
                 SwingUtilities.invokeLater(() -> {
                     ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));

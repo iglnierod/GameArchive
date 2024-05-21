@@ -236,14 +236,15 @@ public class HomeController {
     }
 
 // Open GameDialog when click game preview on search panel
-    private MouseListener addGamePreviewPanelMouseListener(Game game) {
+    public MouseListener addGamePreviewPanelMouseListener(Game game) {
+        HomeController hc = this;
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                GameDialog gameDialog = new GameDialog(view, true,favouriteGameIds.contains(game.getId()));
+                GameDialog gameDialog = new GameDialog(view, false,favouriteGameIds.contains(game.getId()));
                 gameDialog.addAddToListActionListener(addAddToListButtonListener(game));
                 gameDialog.addFavourteButtonActionListener(addFavouriteButtonListener(game, gameDialog));
-                GameController gameController = new GameController(gameDialog, database, game);
+                GameController gameController = new GameController(gameDialog, database, game,hc);
                 gameDialog.setVisible(true);
             }
         };
@@ -347,7 +348,7 @@ public class HomeController {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ListDialog listDialog = new ListDialog(view, true);
+                ListDialog listDialog = new ListDialog(view, false);
                 ListController listController = new ListController(listDialog, database, list, hc);
                 listDialog.setVisible(true);
             }

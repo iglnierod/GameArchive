@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.controller.game;
 
+import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.database.Database;
@@ -36,13 +37,15 @@ public class GameController {
     private final GameDAO gameDao;
     private Game game;
     private ArrayList<Game> similarGames;
+    private HomeController homeController;
 
-    public GameController(GameDialog view, Database database, Game game) {
+    public GameController(GameDialog view, Database database, Game game, HomeController homeController) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest(database);
         this.game = game;
         this.similarGames = new ArrayList<>();
+        this.homeController = homeController;
         this.fillGameInformation();
         this.addListeners();
     }
@@ -94,6 +97,7 @@ public class GameController {
         this.similarGames = gameDao.getSimilar(this.game.getId());
         for(Game g : similarGames) {
             GameCoverPanel gamePanel = new GameCoverPanel(g.getId());
+            gamePanel.addCoverMouseListener(this.homeController.addGamePreviewPanelMouseListener(g));
             // Cargar imagen de forma asíncrona
                 SwingUtilities.invokeLater(() -> {
                     ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
