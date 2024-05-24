@@ -60,6 +60,7 @@ public class RateGameDialog extends javax.swing.JDialog {
         commentLabel.setText("Comment:");
 
         commentTextArea.setColumns(20);
+        commentTextArea.setLineWrap(true);
         commentTextArea.setRows(5);
         jScrollPane1.setViewportView(commentTextArea);
 

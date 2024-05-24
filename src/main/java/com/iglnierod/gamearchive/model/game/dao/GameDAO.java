@@ -6,6 +6,7 @@ package com.iglnierod.gamearchive.model.game.dao;
 
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
+import com.iglnierod.gamearchive.model.game.rate.GameRate;
 import com.iglnierod.gamearchive.model.list.List;
 import java.util.ArrayList;
 
@@ -35,4 +36,8 @@ public interface GameDAO {
     public ArrayList<Game> getSimilar(int gameId);
 
     public boolean addRating(Game game, int rating, String comment);
+    
+    public boolean isGameRated(Game game);
+    
+    public ArrayList<GameRate> getRatings(Game game);
 }

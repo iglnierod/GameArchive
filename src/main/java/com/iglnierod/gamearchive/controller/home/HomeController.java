@@ -215,7 +215,7 @@ public class HomeController {
 
             gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener(g, gamePanel));
             gamePanel.addAddToButtonActionListener(this.addAddToListButtonListener(g));
-            gamePanel.addRateButtonActionListener(this.addRateButtonListener(g));
+            gamePanel.addRateButtonActionListener(this.addRateButtonListener(g, null));
             gamePanel.addPanelMouseListener(this.addGamePreviewPanelMouseListener(g));
 
             gamePanel.setNameLabelText(g.getName());
@@ -243,10 +243,11 @@ public class HomeController {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                GameDialog gameDialog = new GameDialog(view, false,favouriteGameIds.contains(game.getId()));
+                GameDialog gameDialog = new GameDialog(view, false, favouriteGameIds.contains(game.getId()));
                 gameDialog.addAddToListActionListener(addAddToListButtonListener(game));
                 gameDialog.addFavourteButtonActionListener(addFavouriteButtonListener(game, gameDialog));
-                GameController gameController = new GameController(gameDialog, database, game,hc);
+                GameController gameController = new GameController(gameDialog, database, game, hc);
+                gameDialog.addRateButtonActionListener(addRateButtonListener(game, gameController));
                 gameDialog.setVisible(true);
             }
         };
@@ -289,7 +290,7 @@ public class HomeController {
             }
         };
     }
-    
+
     private ActionListener addAddToListButtonListener(Game game) {
         return (ActionEvent e) -> {
             System.out.println("ADD TO LIST BUTTON");
@@ -299,13 +300,16 @@ public class HomeController {
         };
     }
 
-    private ActionListener addRateButtonListener(Game game) {
+    private ActionListener addRateButtonListener(Game game, GameController gameController) {
         // TODO
         return (ActionEvent e) -> {
             System.out.println("RATE BUTTON");
             RateGameDialog rateGameDialog = new RateGameDialog(view, true);
             RateGameController rateGameController = new RateGameController(rateGameDialog, database, game);
             rateGameDialog.setVisible(true);
+            if (gameController != null) {
+                gameController.reload();
+            }
         };
     }
 

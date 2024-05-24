@@ -11,11 +11,14 @@ import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
+import com.iglnierod.gamearchive.model.game.rate.GameRate;
 import com.iglnierod.gamearchive.model.genre.Genre;
 import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.utils.ImageTool;
 import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.panel.GameCoverPanel;
+import com.iglnierod.gamearchive.view.game.rate.RatePanel;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -38,13 +41,15 @@ public class GameController {
     private Game game;
     private ArrayList<Game> similarGames;
     private HomeController homeController;
-
+    private ArrayList<GameRate> gameRatings;
+    
     public GameController(GameDialog view, Database database, Game game, HomeController homeController) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest(database);
         this.game = game;
         this.similarGames = new ArrayList<>();
+        this.gameRatings = new ArrayList<>();
         this.homeController = homeController;
         this.fillGameInformation();
         this.addListeners();
@@ -52,6 +57,7 @@ public class GameController {
 
     private void addListeners() {
         // TODO
+        this.view.addReloadMenuItemActionListener(this.addReloadMenuItemListener());
     }
 
     private void fillGameInformation() {
@@ -85,6 +91,7 @@ public class GameController {
         view.setRatingProgressBar(Math.round(this.game.getIgdbRating()));
         view.setRatingCountLabel(this.game.getRatingCount());
         
+        this.addRatings();
         this.addSimilarGames();
     }
     
@@ -93,7 +100,6 @@ public class GameController {
     }
 
     private void addSimilarGames() {
-        //TODO
         this.similarGames = gameDao.getSimilar(this.game.getId());
         for(Game g : similarGames) {
             GameCoverPanel gamePanel = new GameCoverPanel(g.getId());
@@ -106,5 +112,27 @@ public class GameController {
                     this.view.addSimilarGame(gamePanel);
                 });
         }
+    }
+
+    private void addRatings() {
+        this.view.emptyRatings();
+        this.gameRatings = gameDao.getRatings(this.game);
+        for(GameRate r : gameRatings) {
+            RatePanel panel = new RatePanel();
+            panel.setUsernameText(r.getUsername());
+            panel.setRating(r.getRating());
+            panel.setCommentText(r.getComment());
+            this.view.addRating(panel);
+        }
+    }
+    
+    private ActionListener addReloadMenuItemListener() {
+        return (ActionEvent e) -> {
+            reload();
+        };
+    }
+    
+    public void reload() {
+        this.fillGameInformation();
     }
 }

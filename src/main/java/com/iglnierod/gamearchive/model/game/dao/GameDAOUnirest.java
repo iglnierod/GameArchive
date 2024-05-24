@@ -9,6 +9,7 @@ import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
+import com.iglnierod.gamearchive.model.game.rate.GameRate;
 import com.iglnierod.gamearchive.model.genre.Genre;
 import com.iglnierod.gamearchive.model.genre.dao.GenreDAO;
 import com.iglnierod.gamearchive.model.genre.dao.GenreDAOPostgreSQL;
@@ -449,14 +450,17 @@ public class GameDAOUnirest implements GameDAO {
 
     @Override
     public boolean addRating(Game game, int rating, String comment) {
-        // TODO
+        saveGame(getAllInformation(game.getId()));
+        if (isGameRated(game)) {
+            return false;
+        }
         String query = "INSERT INTO rating VALUES (?,?,?,?)";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, Session.getCurrentClient().getUsername());
             ps.setInt(2, game.getId());
             ps.setInt(3, rating);
             ps.setString(4, comment);
-            
+
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -464,5 +468,41 @@ public class GameDAOUnirest implements GameDAO {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean isGameRated(Game game) {
+        String query = "SELECT * FROM rating WHERE game_id = ? AND username = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, game.getId());
+            ps.setString(2, Session.getCurrentClient().getUsername());
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<GameRate> getRatings(Game game) {
+        ArrayList<GameRate> ratings = new ArrayList<>();
+        String query = "SELECT username, rating, comment FROM rating WHERE game_id = ? ORDER BY created_at DESC";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, game.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                GameRate rate = new GameRate(
+                        rs.getString("username"),
+                        rs.getInt("rating"),
+                        rs.getString("comment")
+                );
+                ratings.add(rate);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return ratings;
     }
 }
