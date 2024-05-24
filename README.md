@@ -7,6 +7,8 @@
 
 - Marcar juego como favorito
 - Ver juegos similares dentro de un juego
+- Valorar juegos
+- Ver valoraciones de otros usarios en el juego
 
 ### 14 de Mayo 2024
 
