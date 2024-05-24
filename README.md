@@ -152,7 +152,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 
 - [X] Marcar juego como favorito
 - [ ] Añadir estados a juegos
-- [ ] Valorar juegos
+- [X] Valorar juegos
 - [X] Sistema de recomendación/Juegos similares
 - [ ] Sistema de recomendación aleatoria con parámetros
 - [ ] Feed de últimos juegos añadidos por otros usuarios
