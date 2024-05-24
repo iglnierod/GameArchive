@@ -6,6 +6,7 @@ package com.iglnierod.gamearchive.controller.home;
 
 import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.game.GameController;
+import com.iglnierod.gamearchive.controller.game.rate.RateGameController;
 import com.iglnierod.gamearchive.controller.list.AddToListController;
 import com.iglnierod.gamearchive.controller.list.CreateListController;
 import com.iglnierod.gamearchive.controller.list.ListController;
@@ -26,6 +27,7 @@ import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.panel.GamePreviewPanel;
+import com.iglnierod.gamearchive.view.game.rate.RateGameDialog;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.home.list.ListsPanel;
 import com.iglnierod.gamearchive.view.home.list.dialog.AddToListDialog;
@@ -213,7 +215,7 @@ public class HomeController {
 
             gamePanel.addFavouriteButtonActionListener(this.addFavouriteButtonListener(g, gamePanel));
             gamePanel.addAddToButtonActionListener(this.addAddToListButtonListener(g));
-            gamePanel.addRateButtonActionListener(this.addRateButtonListener());
+            gamePanel.addRateButtonActionListener(this.addRateButtonListener(g));
             gamePanel.addPanelMouseListener(this.addGamePreviewPanelMouseListener(g));
 
             gamePanel.setNameLabelText(g.getName());
@@ -297,10 +299,13 @@ public class HomeController {
         };
     }
 
-    private ActionListener addRateButtonListener() {
+    private ActionListener addRateButtonListener(Game game) {
         // TODO
         return (ActionEvent e) -> {
             System.out.println("RATE BUTTON");
+            RateGameDialog rateGameDialog = new RateGameDialog(view, true);
+            RateGameController rateGameController = new RateGameController(rateGameDialog, database, game);
+            rateGameDialog.setVisible(true);
         };
     }
 

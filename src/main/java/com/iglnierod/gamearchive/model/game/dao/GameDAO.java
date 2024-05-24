@@ -33,4 +33,6 @@ public interface GameDAO {
     public boolean addToFavourite(Game game, int favListId);
     
     public ArrayList<Game> getSimilar(int gameId);
+
+    public boolean addRating(Game game, int rating, String comment);
 }

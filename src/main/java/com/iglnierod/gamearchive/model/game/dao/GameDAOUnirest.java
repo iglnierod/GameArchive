@@ -446,4 +446,23 @@ public class GameDAOUnirest implements GameDAO {
 
         return similarGames;
     }
+
+    @Override
+    public boolean addRating(Game game, int rating, String comment) {
+        // TODO
+        String query = "INSERT INTO rating VALUES (?,?,?,?)";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, Session.getCurrentClient().getUsername());
+            ps.setInt(2, game.getId());
+            ps.setInt(3, rating);
+            ps.setString(4, comment);
+            
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }
