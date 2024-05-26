@@ -2,7 +2,14 @@
 
 ## Entregas
 
+### 5 de Junio 2024
+
+#### developing branch
+
+- Ver actividad reciente en `Community`
+
 ### 25 de Mayo 2024
+
 ##### developing branch
 
 - Marcar juego como favorito
@@ -155,7 +162,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 - [X] Valorar juegos
 - [X] Sistema de recomendación/Juegos similares
 - [ ] Sistema de recomendación aleatoria con parámetros
-- [ ] Feed de últimos juegos añadidos por otros usuarios
+- [X] Feed de últimos juegos añadidos por otros usuarios
 - [ ] Búsqueda de usuarios
 - [ ] Ver perfil de otros usuarios
 - [ ] Exportar listas a otros formatos (XML, CSV, PDF, HTML)
