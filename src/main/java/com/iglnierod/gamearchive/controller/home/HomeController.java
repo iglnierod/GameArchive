@@ -13,6 +13,9 @@ import com.iglnierod.gamearchive.controller.list.ListController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.client.Client;
+import com.iglnierod.gamearchive.model.community.Activity;
+import com.iglnierod.gamearchive.model.community.dao.CommunityDAO;
+import com.iglnierod.gamearchive.model.community.dao.CommunityDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
@@ -25,10 +28,13 @@ import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
+import com.iglnierod.gamearchive.utils.Util;
 import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.panel.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.game.rate.RateGameDialog;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
+import com.iglnierod.gamearchive.view.home.community.ActivityPanel;
+import com.iglnierod.gamearchive.view.home.community.CommunityPanel;
 import com.iglnierod.gamearchive.view.home.list.ListsPanel;
 import com.iglnierod.gamearchive.view.home.list.dialog.AddToListDialog;
 import com.iglnierod.gamearchive.view.home.list.dialog.CreateListDialog;
@@ -48,12 +54,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -67,6 +75,7 @@ public class HomeController {
     private final GameDAO gameDao;
     private final GenreDAO genreDao;
     private final ListDAO listDao;
+    private final CommunityDAO communityDao;
 
     // Search
     private final SearchPanel searchPanel;
@@ -76,16 +85,20 @@ public class HomeController {
     private final ListsPanel myListsPanel;
     private Set<Integer> favouriteGameIds;
 
+    private final CommunityPanel communityPanel;
+
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest(database);
         this.genreDao = new GenreDAOPostgreSQL(database);
         this.listDao = new ListDAOPostgreSQL(database);
+        this.communityDao = new CommunityDAOPostgreSQL(database);
         this.currentClient = Session.getCurrentClient();
         this.searchPanel = new SearchPanel();
         this.gamesResult = new ArrayList<>();
         this.myListsPanel = new ListsPanel();
+        this.communityPanel = new CommunityPanel();
         favouriteGameIds = new HashSet<>();
         addListeners();
         initiatePanels();
@@ -98,10 +111,12 @@ public class HomeController {
         this.view.addLogOutMenuItemActionListener(addLogOutMenuItemListener());
         this.view.addQuitMenuItemActionListener(addQuitMenuItemListener());
         this.view.addReloadListsMenuItemActionListener(addReloadListsMenuItemListener());
+        this.view.addReloadActivityListsMenuItemActionListener(addReloadActivityMenuItemListener());
 
         // LABELS MENU
         this.view.addSearchLabelMouseListener(addSearchLabelListener());
         this.view.addMyListsLabelMouseListener(addMyListsLabelListener());
+        this.view.addCommunityLabelMouseListener(addCommunityLabelListener());
     }
 
     private void initiatePanels() {
@@ -152,6 +167,10 @@ public class HomeController {
         this.updateListsPanel();
     }
 
+    private ActionListener addReloadActivityMenuItemListener() {
+        return (ActionEvent e) -> updateActivity();
+    }
+
     // MENU
     private MouseListener addSearchLabelListener() {
         return new MouseAdapter() {
@@ -169,6 +188,17 @@ public class HomeController {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("MyListsLabel: CLICK");
                 view.setCenterContent(myListsPanel);
+            }
+        };
+    }
+
+    private MouseListener addCommunityLabelListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("CommunityLabel: CLICK");
+                view.setCenterContent(communityPanel);
+                updateActivity();
             }
         };
     }
@@ -364,4 +394,35 @@ public class HomeController {
         };
     }
 
+    // COMMUNITY
+    private void updateActivity() {
+        communityPanel.emptyActivityPanel();
+        ArrayList<Activity> activityList = communityDao.getLatest();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Activity a : activityList) {
+            ActivityPanel panel = new ActivityPanel();
+            panel.setUsernameLabelText(a.getUsername());
+            String activityText = String.format("<html>Added <strong>%s</strong> to <strong>%s</strong></html>",
+                    Util.escapeHtml(a.getGameName()), Util.escapeHtml(a.getListName()));
+            panel.setActivityLabelText(activityText);
+
+            String formattedDate = a.getDate().format(formatter);
+            panel.setDateLabelText(formattedDate);
+
+            SwingUtilities.invokeLater(() -> {
+                if (a.getCoverId() != null) {
+                    try {
+                        URL url = new URL(Reference.getImage(ImageType.COVER_SMALL, a.getCoverId()));
+                        BufferedImage image = ImageIO.read(url);
+                        panel.setCoverLabelIcon(new ImageIcon(image));
+                        panel.setCoverLabelToolTip(a.getGameName());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            communityPanel.addActivity(panel);
+        }
+    }
 }

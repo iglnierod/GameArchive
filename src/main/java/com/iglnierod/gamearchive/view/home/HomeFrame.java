@@ -57,6 +57,8 @@ public class HomeFrame extends javax.swing.JFrame {
         quitMenuItem = new javax.swing.JMenuItem();
         myListsMenu = new javax.swing.JMenu();
         reloadListsMenuItem = new javax.swing.JMenuItem();
+        communityMenu = new javax.swing.JMenu();
+        reloadActivityMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GameArchive");
@@ -197,6 +199,14 @@ public class HomeFrame extends javax.swing.JFrame {
 
         menuBar.add(myListsMenu);
 
+        communityMenu.setText("Community");
+
+        reloadActivityMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sync_24dp.png"))); // NOI18N
+        reloadActivityMenuItem.setText("Reload Activity");
+        communityMenu.add(reloadActivityMenuItem);
+
+        menuBar.add(communityMenu);
+
         setJMenuBar(menuBar);
 
         pack();
@@ -214,6 +224,10 @@ public class HomeFrame extends javax.swing.JFrame {
 
     public void addReloadListsMenuItemActionListener(ActionListener listener) {
         this.reloadListsMenuItem.addActionListener(listener);
+    }
+    
+    public void addReloadActivityListsMenuItemActionListener(ActionListener listener) {
+        this.reloadActivityMenuItem.addActionListener(listener);
     }
     
     // ============ NAV VAR LISTENERS ============
@@ -252,6 +266,7 @@ public class HomeFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel communityLabel;
+    private javax.swing.JMenu communityMenu;
     private javax.swing.JPanel eastPanel;
     private javax.swing.JMenu fileMenu;
     private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel1;
@@ -272,6 +287,7 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JMenu myListsMenu;
     private javax.swing.JPanel northPanel;
     private javax.swing.JMenuItem quitMenuItem;
+    private javax.swing.JMenuItem reloadActivityMenuItem;
     private javax.swing.JMenuItem reloadListsMenuItem;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JLabel usernameLabel;
