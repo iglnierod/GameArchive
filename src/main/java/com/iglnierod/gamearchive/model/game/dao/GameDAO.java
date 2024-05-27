@@ -40,4 +40,6 @@ public interface GameDAO {
     public boolean isGameRated(Game game);
     
     public ArrayList<GameRate> getRatings(Game game);
+    
+    public ArrayList<GameRate> getRating(String username);
 }

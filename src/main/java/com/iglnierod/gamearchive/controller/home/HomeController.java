@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.controller.home;
 
 import com.iglnierod.gamearchive.controller.MainController;
+import com.iglnierod.gamearchive.controller.client.ClientController;
 import com.iglnierod.gamearchive.controller.game.GameController;
 import com.iglnierod.gamearchive.controller.game.rate.RateGameController;
 import com.iglnierod.gamearchive.controller.list.AddToListController;
@@ -29,6 +30,7 @@ import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.utils.Util;
+import com.iglnierod.gamearchive.view.client.ClientPanel;
 import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.panel.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.game.rate.RateGameDialog;
@@ -61,6 +63,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -85,7 +88,11 @@ public class HomeController {
     private final ListsPanel myListsPanel;
     private Set<Integer> favouriteGameIds;
 
+    // Community
     private final CommunityPanel communityPanel;
+
+    // Client
+    private final ClientPanel clientPanel;
 
     public HomeController(HomeFrame view, Database database) {
         this.view = view;
@@ -97,8 +104,9 @@ public class HomeController {
         this.currentClient = Session.getCurrentClient();
         this.searchPanel = new SearchPanel();
         this.gamesResult = new ArrayList<>();
-        this.myListsPanel = new ListsPanel();
+        this.myListsPanel = new ListsPanel(false);
         this.communityPanel = new CommunityPanel();
+        this.clientPanel = new ClientPanel();
         favouriteGameIds = new HashSet<>();
         addListeners();
         initiatePanels();
@@ -117,6 +125,7 @@ public class HomeController {
         this.view.addSearchLabelMouseListener(addSearchLabelListener());
         this.view.addMyListsLabelMouseListener(addMyListsLabelListener());
         this.view.addCommunityLabelMouseListener(addCommunityLabelListener());
+        this.view.addUsernameLabelMouseListener(addUsernameLabelListener());
     }
 
     private void initiatePanels() {
@@ -203,6 +212,17 @@ public class HomeController {
         };
     }
 
+    private MouseListener addUsernameLabelListener() {
+        HomeController hc = this;
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ClientController clientController = new ClientController(clientPanel, database, hc, Session.getCurrentClient());
+                view.setCenterContent(clientPanel);
+            }
+        };
+    }
+
     // SEARCH FUNCTIONS
     private ActionListener addSearchButtonListener() {
         return (ActionEvent e) -> {
@@ -267,7 +287,7 @@ public class HomeController {
         }
     }
 
-// Open GameDialog when click game preview on search panel
+    // Open GameDialog when click game preview on search panel
     public MouseListener addGamePreviewPanelMouseListener(Game game) {
         HomeController hc = this;
         return new MouseAdapter() {
@@ -331,7 +351,6 @@ public class HomeController {
     }
 
     private ActionListener addRateButtonListener(Game game, GameController gameController) {
-        // TODO
         return (ActionEvent e) -> {
             System.out.println("RATE BUTTON");
             RateGameDialog rateGameDialog = new RateGameDialog(view, true);
@@ -377,12 +396,16 @@ public class HomeController {
 
     // Add list to view
     public void addListToListsPanel(List list) {
-        ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName());
-        listPreviewPanel.addPanelMouseListener(this.addPreviewPanelListener(list));
-        myListsPanel.addList(listPreviewPanel);
+        addListToListsPanel(myListsPanel, list);
     }
 
-    private MouseListener addPreviewPanelListener(List list) {
+    public void addListToListsPanel(ListsPanel pnl, List list) {
+        ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName());
+        listPreviewPanel.addPanelMouseListener(this.addPreviewPanelListener(list));
+        pnl.addList(listPreviewPanel);
+    }
+
+    public MouseListener addPreviewPanelListener(List list) {
         HomeController hc = this;
         return new MouseAdapter() {
             @Override
@@ -398,31 +421,34 @@ public class HomeController {
     private void updateActivity() {
         communityPanel.emptyActivityPanel();
         ArrayList<Activity> activityList = communityDao.getLatest();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         for (Activity a : activityList) {
-            ActivityPanel panel = new ActivityPanel();
-            panel.setUsernameLabelText(a.getUsername());
-            String activityText = String.format("<html>Added <strong>%s</strong> to <strong>%s</strong></html>",
-                    Util.escapeHtml(a.getGameName()), Util.escapeHtml(a.getListName()));
-            panel.setActivityLabelText(activityText);
-
-            String formattedDate = a.getDate().format(formatter);
-            panel.setDateLabelText(formattedDate);
-
-            SwingUtilities.invokeLater(() -> {
-                if (a.getCoverId() != null) {
-                    try {
-                        URL url = new URL(Reference.getImage(ImageType.COVER_SMALL, a.getCoverId()));
-                        BufferedImage image = ImageIO.read(url);
-                        panel.setCoverLabelIcon(new ImageIcon(image));
-                        panel.setCoverLabelToolTip(a.getGameName());
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            });
-            communityPanel.addActivity(panel);
+            communityPanel.addActivity(getActivityPanel(a));
         }
+    }
+
+    public JPanel getActivityPanel(Activity a) {
+        ActivityPanel panel = new ActivityPanel();
+        panel.setUsernameLabelText(a.getUsername());
+        String activityText = String.format("<html>Added <strong>%s</strong> to <strong>%s</strong></html>",
+                Util.escapeHtml(a.getGameName()), Util.escapeHtml(a.getListName()));
+        panel.setActivityLabelText(activityText);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String formattedDate = a.getDate().format(formatter);
+        panel.setDateLabelText(formattedDate);
+
+        SwingUtilities.invokeLater(() -> {
+            if (a.getCoverId() != null) {
+                try {
+                    URL url = new URL(Reference.getImage(ImageType.COVER_SMALL, a.getCoverId()));
+                    BufferedImage image = ImageIO.read(url);
+                    panel.setCoverLabelIcon(new ImageIcon(image));
+                    panel.setCoverLabelToolTip(a.getGameName());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        return panel;
     }
 }

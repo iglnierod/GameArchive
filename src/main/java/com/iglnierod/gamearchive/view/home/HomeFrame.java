@@ -112,16 +112,16 @@ public class HomeFrame extends javax.swing.JFrame {
         northPanel.add(westPanel, java.awt.BorderLayout.WEST);
 
         usernameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         usernameLabel.setText("username");
 
         javax.swing.GroupLayout eastPanelLayout = new javax.swing.GroupLayout(eastPanel);
         eastPanel.setLayout(eastPanelLayout);
         eastPanelLayout.setHorizontalGroup(
             eastPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, eastPanelLayout.createSequentialGroup()
-                .addContainerGap(130, Short.MAX_VALUE)
-                .addComponent(usernameLabel)
-                .addGap(38, 38, 38))
+            .addGroup(eastPanelLayout.createSequentialGroup()
+                .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 39, Short.MAX_VALUE))
         );
         eastPanelLayout.setVerticalGroup(
             eastPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

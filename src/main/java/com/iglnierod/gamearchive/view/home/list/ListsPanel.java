@@ -15,11 +15,15 @@ import java.awt.event.MouseListener;
  */
 public class ListsPanel extends javax.swing.JPanel {
 
+    private boolean isUserProfile;
+
     /**
      * Creates new form ListsPanel
      */
-    public ListsPanel() {
+    public ListsPanel(boolean isUserProfile) {
+        this.isUserProfile = isUserProfile;
         initComponents();
+        this.createListPanel.setVisible(!isUserProfile);
         this.centerPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
     }
 
@@ -87,10 +91,20 @@ public class ListsPanel extends javax.swing.JPanel {
 
     public void emptyListPanel() {
         this.centerPanel.removeAll();
-        this.centerPanel.add(createListPanel);
+        if (isUserProfile) {
+            this.centerPanel.add(createListPanel);
+        }
         this.centerPanel.add(favouriteListPanel);
         this.centerPanel.revalidate();
         this.centerPanel.repaint();
+    }
+
+    public boolean isIsUserProfile() {
+        return isUserProfile;
+    }
+
+    public void setIsUserProfile(boolean isUserProfile) {
+        this.isUserProfile = isUserProfile;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

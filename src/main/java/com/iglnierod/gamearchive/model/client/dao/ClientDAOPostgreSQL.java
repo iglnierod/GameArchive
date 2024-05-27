@@ -6,11 +6,14 @@ package com.iglnierod.gamearchive.model.client.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.list.dao.ListDAO;
+import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAO;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -80,8 +83,12 @@ public class ClientDAOPostgreSQL implements ClientDAO {
                 client.setDescription(rs.getString("description"));
                 System.out.println("platformDao.getPlatformsByUser(username): " + platformDao.getPlatformsByUser(username));
                 client.setPlatformsList(platformDao.getPlatformsByUser(username));
+                client.setJoinedOn(rs.getObject("created_at", LocalDateTime.class));
             }
 
+            ListDAO listDao = new ListDAOPostgreSQL(database);
+            client.setLists(listDao.getAll(client));
+            
             return client;
         } catch (SQLException ex) {
             ex.printStackTrace();

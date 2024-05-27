@@ -31,5 +31,7 @@ public interface ListDAO {
 
     public List getFavouriteList();
     
+    public List getFavouriteList(Client client);
+    
     public Set<Integer> getAllFavouriteGameIds();
 }

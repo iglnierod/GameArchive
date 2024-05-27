@@ -13,4 +13,6 @@ import java.util.ArrayList;
  */
 public interface CommunityDAO {
     ArrayList<Activity> getLatest();
+    
+    ArrayList<Activity> getLatest(String username);
 }

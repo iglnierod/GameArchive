@@ -505,4 +505,25 @@ public class GameDAOUnirest implements GameDAO {
         }
         return ratings;
     }
+
+    @Override
+    public ArrayList<GameRate> getRating(String username) {
+        ArrayList<GameRate> ratings = new ArrayList<>();
+        String query = "SELECT username, rating, comment FROM rating WHERE username = ? ORDER BY created_at DESC";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                GameRate rate = new GameRate(
+                        rs.getString("username"),
+                        rs.getInt("rating"),
+                        rs.getString("comment")
+                );
+                ratings.add(rate);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return ratings;
+    }
 }

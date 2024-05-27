@@ -127,25 +127,7 @@ public class ListDAOPostgreSQL implements ListDAO {
 
     @Override
     public List getFavouriteList() {
-        List fav = new List();
-        String query = "SELECT * FROM list WHERE favourite IS TRUE AND username = ?";
-        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
-            ps.setString(1, Session.getCurrentClient().getUsername());
-
-            GameDAO gameDao = new GameDAOUnirest(database);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                fav.setId(rs.getInt("id"));
-                fav.setName(rs.getString("name"));
-                fav.setDescription(rs.getString("description"));
-                fav.setGames(gameDao.getGamesInList(fav.getId()));
-                fav.setFavourite(true);
-            }
-            return fav;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
+        return getFavouriteList(Session.getCurrentClient());
     }
 
     @Override
@@ -190,6 +172,29 @@ public class ListDAOPostgreSQL implements ListDAO {
             ex.printStackTrace();
         }
         return favouriteGameIds;
+    }
+
+    @Override
+    public List getFavouriteList(Client client) {
+        List fav = new List();
+        String query = "SELECT * FROM list WHERE favourite IS TRUE AND username = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, client.getUsername());
+
+            GameDAO gameDao = new GameDAOUnirest(database);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                fav.setId(rs.getInt("id"));
+                fav.setName(rs.getString("name"));
+                fav.setDescription(rs.getString("description"));
+                fav.setGames(gameDao.getGamesInList(fav.getId()));
+                fav.setFavourite(true);
+            }
+            return fav;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }
