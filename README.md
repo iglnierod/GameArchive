@@ -135,7 +135,6 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
   - [X] Nombre de usuario
   - [X] Email
   - [X] Descripción
-  - [ ] Enlaces a redes sociales
 
 - Búsqueda de juegos:
   - [X] Por titulo
@@ -159,19 +158,19 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
     - [X] Descripción
 
 - [X] Marcar juego como favorito
-- [ ] Añadir estados a juegos
 - [X] Valorar juegos
 - [X] Sistema de recomendación/Juegos similares
-- [ ] Sistema de recomendación aleatoria con parámetros
 - [X] Feed de últimos juegos añadidos por otros usuarios
-- [ ] Ver perfil del usuario logeado
+- [X] Ver perfil del usuario logeado
   - [X] Ver información general (nombre, descripcion, plataformas)
   - [X] Ver listas del usuario
   - [X] Ver valoraciones del usuario
   - [X] Ver última actividad del usuario
+- [X] Ver perfil de otros usuarios
 - [ ] Búsqueda de usuarios
-- [ ] Ver perfil de otros usuarios
 - [ ] Exportar listas a otros formatos (XML, CSV, PDF, HTML)
+- [ ] Añadir estados a juegos
+- [ ] Sistema de recomendación aleatoria con parámetros
 
 ## Entorno de desarrollo
 
