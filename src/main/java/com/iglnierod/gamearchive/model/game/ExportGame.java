@@ -4,6 +4,8 @@
  */
 package com.iglnierod.gamearchive.model.game;
 
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  *
  * @author iglnierod
@@ -18,11 +20,12 @@ public class ExportGame {
         this.name = name;
     }
 
-    // Getters
+    @XmlElement
     public int getId() {
         return id;
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }

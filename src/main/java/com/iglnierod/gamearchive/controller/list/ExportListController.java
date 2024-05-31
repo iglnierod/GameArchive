@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 /**
  *
@@ -145,7 +148,26 @@ public class ExportListController {
     }
 
     private void exportToXML(File dir) {
-        // TODO
+        ExportList exportList = new ExportList(
+                list.getId(),
+                list.getName(),
+                list.getDescription(),
+                list.getGames().stream()
+                        .map(g -> new ExportGame(g.getId(), g.getName()))
+                        .collect(Collectors.toList())
+        );
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(ExportList.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            try (FileWriter writer = new FileWriter(dir)) {
+                marshaller.marshal(exportList, writer);
+            }
+        } catch (JAXBException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void exportToHTML(File dir) {
