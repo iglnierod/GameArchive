@@ -90,14 +90,16 @@ public class ClientController {
     private ActionListener setConfigureButtonListener() {
         return (e) -> {
             // TODO
+            /*ProfileConfigFrame profileConfigFrame = new ProfileConfigFrame();
+            ProfileConfigController controller = new ProfileConfigController(profileConfigFrame, database);
+            profileConfigFrame.setVisible(true);*/
         };
     }
 
     private void loadListsPanel() {
-        // TODO
         this.view.addListsPanel(listsPanel);
-        this.listsPanel.addFavouriteListPanelMouseListener(hc.addPreviewPanelListener(listDao.getFavouriteList(client)));
-        listDao.getAll(client).stream().forEach(l -> hc.addListToListsPanel(listsPanel, l));
+        this.listsPanel.addFavouriteListPanelMouseListener(hc.addPreviewPanelListener(listDao.getFavouriteList(client),false));
+        listDao.getAll(client).stream().forEach(l -> hc.addListToListsPanel(listsPanel, l,false));
     }
 
     public void addFavouriteListActionListener(MouseListener l) {

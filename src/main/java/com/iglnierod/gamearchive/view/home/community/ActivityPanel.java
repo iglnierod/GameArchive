@@ -13,10 +13,13 @@ import javax.swing.Icon;
  */
 public class ActivityPanel extends javax.swing.JPanel {
 
+    private String username;
+    
     /**
      * Creates new form ActivityPanel
      */
-    public ActivityPanel() {
+    public ActivityPanel(String username) {
+        this.username = username;
         initComponents();
     }
 
@@ -49,6 +52,7 @@ public class ActivityPanel extends javax.swing.JPanel {
 
         usernameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         usernameLabel.setText("<username>");
+        usernameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

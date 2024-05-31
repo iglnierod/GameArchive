@@ -15,15 +15,24 @@ import java.awt.event.ActionListener;
  */
 public class ListDialog extends javax.swing.JDialog {
 
+    private boolean isOwner;
+    
     /**
      * Creates new form ListDialog
      */
-    public ListDialog(java.awt.Frame parent, boolean modal) {
+    public ListDialog(java.awt.Frame parent, boolean modal, boolean isOwner) {
         super(parent, modal);
+        this.isOwner = isOwner;
         initComponents();
         this.centerPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
+        this.checkOwnership();
     }
 
+    private void checkOwnership() {
+        this.editMenuItem.setEnabled(isOwner);
+        this.deleteMenuItem.setEnabled(isOwner);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -186,4 +195,6 @@ public class ListDialog extends javax.swing.JDialog {
     private javax.swing.JPanel southPanel;
     private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
+
+    
 }

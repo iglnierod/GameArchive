@@ -14,6 +14,8 @@ import com.iglnierod.gamearchive.controller.list.ListController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.client.Client;
+import com.iglnierod.gamearchive.model.client.dao.ClientDAO;
+import com.iglnierod.gamearchive.model.client.dao.ClientDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.community.Activity;
 import com.iglnierod.gamearchive.model.community.dao.CommunityDAO;
 import com.iglnierod.gamearchive.model.community.dao.CommunityDAOPostgreSQL;
@@ -31,6 +33,7 @@ import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import com.iglnierod.gamearchive.utils.Util;
 import com.iglnierod.gamearchive.view.client.ClientPanel;
+import com.iglnierod.gamearchive.view.client.ClientPreviewPanel;
 import com.iglnierod.gamearchive.view.game.GameDialog;
 import com.iglnierod.gamearchive.view.game.panel.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.game.rate.RateGameDialog;
@@ -47,6 +50,7 @@ import com.iglnierod.gamearchive.view.home.search.NoGamesFoundPanel;
 import com.iglnierod.gamearchive.view.home.search.SearchPanel;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -62,6 +66,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -79,6 +84,7 @@ public class HomeController {
     private final GenreDAO genreDao;
     private final ListDAO listDao;
     private final CommunityDAO communityDao;
+    private final ClientDAO clientDao;
 
     // Search
     private final SearchPanel searchPanel;
@@ -101,6 +107,7 @@ public class HomeController {
         this.genreDao = new GenreDAOPostgreSQL(database);
         this.listDao = new ListDAOPostgreSQL(database);
         this.communityDao = new CommunityDAOPostgreSQL(database);
+        this.clientDao = new ClientDAOPostgreSQL(database);
         this.currentClient = Session.getCurrentClient();
         this.searchPanel = new SearchPanel();
         this.gamesResult = new ArrayList<>();
@@ -125,7 +132,7 @@ public class HomeController {
         this.view.addSearchLabelMouseListener(addSearchLabelListener());
         this.view.addMyListsLabelMouseListener(addMyListsLabelListener());
         this.view.addCommunityLabelMouseListener(addCommunityLabelListener());
-        this.view.addUsernameLabelMouseListener(addUsernameLabelListener());
+        this.view.addUsernameLabelMouseListener(HomeController.this.addUsernameLabelListener());
     }
 
     private void initiatePanels() {
@@ -142,7 +149,7 @@ public class HomeController {
 
     private void addMyListsPanelListeners() {
         myListsPanel.addCreateListPanelMouseListener(addCreateListPanelListener());
-        myListsPanel.addFavouriteListPanelMouseListener(this.addPreviewPanelListener(listDao.getFavouriteList()));
+        myListsPanel.addFavouriteListPanelMouseListener(this.addPreviewPanelListener(listDao.getFavouriteList(), true));
         this.updateListsPanel();
     }
 
@@ -228,16 +235,28 @@ public class HomeController {
         return (ActionEvent e) -> {
             String input = searchPanel.getSearchTextFieldText();
             FiltersPanel filtersPanel = searchPanel.getFiltersPanel();
-            GameFilter gameFilter = new GameFilter(
-                    filtersPanel.getLimitSpinner(),
-                    filtersPanel.getMinRatingSpinner(),
-                    filtersPanel.isAllPlatformsSelected(),
-                    filtersPanel.getSelectedGenres()
-            );
-            System.out.println("gameFilter: " + gameFilter);
-            gamesResult = gameDao.search(input, gameFilter);
-            System.out.println("gamesResult: " + gamesResult);
-            displayResults(gamesResult);
+            if (filtersPanel.isSearchUsersSelected()) {
+                ArrayList<Client> searchResult = clientDao.search(input);
+                searchResult.stream().forEach(c -> {
+                    ClientPreviewPanel pnl = new ClientPreviewPanel(c.getUsername());
+                    pnl.setDescriptionTextAreaText(c.getDescription());
+                    pnl.addPanelMouseListener(this.addUsernameLabelListener(c.getUsername()));
+                    
+                    searchPanel.emptyResults();
+                    searchPanel.addToResults(pnl);
+                });
+            } else {
+                GameFilter gameFilter = new GameFilter(
+                        filtersPanel.getLimitSpinner(),
+                        filtersPanel.getMinRatingSpinner(),
+                        filtersPanel.isAllPlatformsSelected(),
+                        filtersPanel.getSelectedGenres()
+                );
+                System.out.println("gameFilter: " + gameFilter);
+                gamesResult = gameDao.search(input, gameFilter);
+                System.out.println("gamesResult: " + gamesResult);
+                displayResults(gamesResult);
+            }
         };
     }
 
@@ -390,27 +409,27 @@ public class HomeController {
         }
 
         for (List l : lists) {
-            addListToListsPanel(l);
+            addListToListsPanel(l, true);
         }
     }
 
     // Add list to view
-    public void addListToListsPanel(List list) {
-        addListToListsPanel(myListsPanel, list);
+    public void addListToListsPanel(List list, boolean isOwner) {
+        addListToListsPanel(myListsPanel, list, isOwner);
     }
 
-    public void addListToListsPanel(ListsPanel pnl, List list) {
+    public void addListToListsPanel(ListsPanel pnl, List list, boolean isOwner) {
         ListPreviewPanel listPreviewPanel = new ListPreviewPanel(list.getId(), list.getName());
-        listPreviewPanel.addPanelMouseListener(this.addPreviewPanelListener(list));
+        listPreviewPanel.addPanelMouseListener(this.addPreviewPanelListener(list, isOwner));
         pnl.addList(listPreviewPanel);
     }
 
-    public MouseListener addPreviewPanelListener(List list) {
+    public MouseListener addPreviewPanelListener(List list, boolean isOwner) {
         HomeController hc = this;
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ListDialog listDialog = new ListDialog(view, false);
+                ListDialog listDialog = new ListDialog(view, false, isOwner);
                 ListController listController = new ListController(listDialog, database, list, hc);
                 listDialog.setVisible(true);
             }
@@ -428,8 +447,9 @@ public class HomeController {
     }
 
     public JPanel getActivityPanel(Activity a) {
-        ActivityPanel panel = new ActivityPanel();
+        ActivityPanel panel = new ActivityPanel(a.getUsername());
         panel.setUsernameLabelText(a.getUsername());
+        panel.addUsernameLabelMouseListener(this.addUsernameLabelListener(a.getUsername()));
         String activityText = String.format("<html>Added <strong>%s</strong> to <strong>%s</strong></html>",
                 Util.escapeHtml(a.getGameName()), Util.escapeHtml(a.getListName()));
         panel.setActivityLabelText(activityText);
@@ -450,5 +470,25 @@ public class HomeController {
             }
         });
         return panel;
+    }
+
+    public MouseListener addUsernameLabelListener(String username) {
+        HomeController hc = this;
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JDialog profileDialog = new JDialog(view);
+                profileDialog.setTitle(String.format("GameArchive - %s Profile", username));
+                profileDialog.setLayout(new BorderLayout());
+
+                ClientPanel clientPanel = new ClientPanel();
+                ClientController clientController = new ClientController(clientPanel, database, hc, false, username);
+
+                profileDialog.add(clientPanel, BorderLayout.CENTER);
+                profileDialog.setSize(1200, 670);
+                profileDialog.setLocationRelativeTo(view);  // Centra el diálogo relativo a la ventana 'view'
+                profileDialog.setVisible(true);
+            }
+        };
     }
 }

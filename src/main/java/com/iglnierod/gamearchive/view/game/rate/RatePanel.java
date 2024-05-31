@@ -42,6 +42,8 @@ public class RatePanel extends javax.swing.JPanel {
 
         usernameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
         usernameLabel.setText("username");
+        usernameLabel.setToolTipText("Open profile");
+        usernameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         commentTextArea.setEditable(false);
         commentTextArea.setColumns(20);
@@ -80,9 +82,9 @@ public class RatePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ratingLabel)
-                        .addComponent(ratingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ratingProgressBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ratingLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1)
                 .addContainerGap())

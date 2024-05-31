@@ -40,9 +40,9 @@ public class GameController {
     private final GameDAO gameDao;
     private Game game;
     private ArrayList<Game> similarGames;
-    private HomeController homeController;
+    private HomeController hc;
     private ArrayList<GameRate> gameRatings;
-    
+
     public GameController(GameDialog view, Database database, Game game, HomeController homeController) {
         this.view = view;
         this.database = database;
@@ -50,7 +50,7 @@ public class GameController {
         this.game = game;
         this.similarGames = new ArrayList<>();
         this.gameRatings = new ArrayList<>();
-        this.homeController = homeController;
+        this.hc = homeController;
         this.fillGameInformation();
         this.addListeners();
     }
@@ -90,48 +90,51 @@ public class GameController {
 
         view.setRatingProgressBar(Math.round(this.game.getIgdbRating()));
         view.setRatingCountLabel(this.game.getRatingCount());
-        
+
         this.addRatings();
         this.addSimilarGames();
     }
-    
+
     public void addFavouriteButtonListener(ActionListener l) {
         this.view.addFavourteButtonActionListener(l);
     }
 
     private void addSimilarGames() {
         this.similarGames = gameDao.getSimilar(this.game.getId());
-        for(Game g : similarGames) {
+        for (Game g : similarGames) {
             GameCoverPanel gamePanel = new GameCoverPanel(g.getId());
-            gamePanel.addCoverMouseListener(this.homeController.addGamePreviewPanelMouseListener(g));
+            gamePanel.addCoverMouseListener(this.hc.addGamePreviewPanelMouseListener(g));
             // Cargar imagen de forma asíncrona
-                SwingUtilities.invokeLater(() -> {
-                    ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
-                    ImageIcon imageIcon = new ImageIcon(ImageTool.getScaledImage(url.getImage(), GameCoverPanel.WIDTH, GameCoverPanel.HEIGHT));
+            SwingUtilities.invokeLater(() -> {
+                ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
+                ImageIcon imageIcon = new ImageIcon(ImageTool.getScaledImage(url.getImage(), GameCoverPanel.WIDTH, GameCoverPanel.HEIGHT));
+                if (imageIcon != null) {
                     gamePanel.setGameLabelImageIcon(imageIcon);
-                    this.view.addSimilarGame(gamePanel);
-                });
+                }
+                this.view.addSimilarGame(gamePanel);
+            });
         }
     }
 
     private void addRatings() {
         this.view.emptyRatings();
         this.gameRatings = gameDao.getRatings(this.game);
-        for(GameRate r : gameRatings) {
+        for (GameRate r : gameRatings) {
             RatePanel panel = new RatePanel();
+            panel.addUsernameLabelMouseListener(hc.addUsernameLabelListener(r.getUsername()));
             panel.setUsernameText(r.getUsername());
             panel.setRating(r.getRating());
             panel.setCommentText(r.getComment());
             this.view.addRating(panel);
         }
     }
-    
+
     private ActionListener addReloadMenuItemListener() {
         return (ActionEvent e) -> {
             reload();
         };
     }
-    
+
     public void reload() {
         this.fillGameInformation();
     }
