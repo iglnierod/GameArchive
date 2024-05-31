@@ -45,14 +45,13 @@ public class ListDialog extends javax.swing.JDialog {
         northPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         southPanel = new javax.swing.JPanel();
-        userLabel = new javax.swing.JLabel();
-        counterLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         centerPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
         reloadMenuItem = new javax.swing.JMenuItem();
         editMenuItem = new javax.swing.JMenuItem();
+        exportMenuItem = new javax.swing.JMenuItem();
         deleteMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -76,29 +75,15 @@ public class ListDialog extends javax.swing.JDialog {
 
         getContentPane().add(northPanel, java.awt.BorderLayout.NORTH);
 
-        userLabel.setText("List by iglnierod");
-
-        counterLabel.setText("Total games: 100");
-
         javax.swing.GroupLayout southPanelLayout = new javax.swing.GroupLayout(southPanel);
         southPanel.setLayout(southPanelLayout);
         southPanelLayout.setHorizontalGroup(
             southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, southPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(counterLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 885, Short.MAX_VALUE)
-                .addComponent(userLabel)
-                .addContainerGap())
+            .addGap(0, 1110, Short.MAX_VALUE)
         );
         southPanelLayout.setVerticalGroup(
             southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, southPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userLabel)
-                    .addComponent(counterLabel))
-                .addContainerGap())
+            .addGap(0, 30, Short.MAX_VALUE)
         );
 
         getContentPane().add(southPanel, java.awt.BorderLayout.SOUTH);
@@ -133,6 +118,10 @@ public class ListDialog extends javax.swing.JDialog {
         editMenuItem.setText("Edit...");
         optionsMenu.add(editMenuItem);
 
+        exportMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/export_24dp.png"))); // NOI18N
+        exportMenuItem.setText("Export");
+        optionsMenu.add(exportMenuItem);
+
         deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         deleteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/layers_clear_24dp.png"))); // NOI18N
         deleteMenuItem.setText("Delete");
@@ -154,6 +143,10 @@ public class ListDialog extends javax.swing.JDialog {
         this.editMenuItem.addActionListener(l);
     }
 
+    public void addExportMenuItemActionListener(ActionListener l) {
+        this.exportMenuItem.addActionListener(l);
+    }
+    
     public void addDeleteMenuItemActionListener(ActionListener l) {
         this.deleteMenuItem.addActionListener(l);
     }
@@ -183,9 +176,9 @@ public class ListDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
-    private javax.swing.JLabel counterLabel;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JMenuItem editMenuItem;
+    private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel nameLabel;
@@ -193,7 +186,6 @@ public class ListDialog extends javax.swing.JDialog {
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JMenuItem reloadMenuItem;
     private javax.swing.JPanel southPanel;
-    private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
 
     

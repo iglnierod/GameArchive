@@ -47,7 +47,7 @@ public class AddToListDialog extends javax.swing.JDialog {
         createButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.default.background"));
         createButton.setText("Add");
 
-        cancelButton.setText("Calcel");
+        cancelButton.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

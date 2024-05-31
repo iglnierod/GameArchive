@@ -57,7 +57,7 @@ public class EditListDialog extends javax.swing.JDialog {
         titleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         getContentPane().add(titleLabel, java.awt.BorderLayout.PAGE_START);
 
-        cancelButton.setText("Calcel");
+        cancelButton.setText("Cancel");
         cancelButton.setMaximumSize(new java.awt.Dimension(74, 24));
         cancelButton.setMinimumSize(new java.awt.Dimension(74, 24));
         cancelButton.setPreferredSize(new java.awt.Dimension(74, 24));
