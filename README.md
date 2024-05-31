@@ -10,6 +10,9 @@
 - Ver información del perfil
 - Buscar usuarios
 - Ver perfil de otros usuarios
+- Exportar listas
+  - Exportar a JSON
+  - Exportar a XML
 
 ### 25 de Mayo 2024
 
@@ -170,7 +173,10 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
   - [X] Ver última actividad del usuario
 - [X] Ver perfil de otros usuarios
 - [X] Búsqueda de usuarios
-- [ ] Exportar listas a otros formatos (XML, CSV, PDF, HTML)
+- [ ] Exportar listas
+  - [X] JSON
+  - [X] XML
+  - [ ] HTML
 - [ ] Añadir estados a juegos
 - [ ] Sistema de recomendación aleatoria con parámetros
 
