@@ -31,7 +31,7 @@
                   <Group type="102" attributes="0">
                       <Component id="cancelButton" min="-2" pref="86" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="exportButton" min="-2" pref="86" max="-2" attributes="0"/>
+                      <Component id="importButton" min="-2" pref="86" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -70,7 +70,7 @@
               </Group>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="exportButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                  <Component id="importButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="cancelButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="33" max="32767" attributes="0"/>
@@ -85,7 +85,7 @@
           <Font name="Liberation Sans" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Export List"/>
+        <Property name="text" type="java.lang.String" value="Import List"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="formatLabel">
@@ -110,7 +110,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="directoryTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -120,12 +119,12 @@
         <Property name="toolTipText" type="java.lang.String" value="Choos directory"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="exportButton">
+    <Component class="javax.swing.JButton" name="importButton">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="81" green="5a" id="Button.default.background" palette="3" red="37" type="palette"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Export"/>
+        <Property name="text" type="java.lang.String" value="Import"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">

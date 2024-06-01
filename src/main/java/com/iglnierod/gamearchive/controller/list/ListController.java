@@ -18,6 +18,7 @@ import com.iglnierod.gamearchive.utils.ImageTool;
 import com.iglnierod.gamearchive.view.game.panel.GameCoverPanel;
 import com.iglnierod.gamearchive.view.home.list.dialog.EditListDialog;
 import com.iglnierod.gamearchive.view.home.list.dialog.ExportListDialog;
+import com.iglnierod.gamearchive.view.home.list.dialog.ImportListDialog;
 import com.iglnierod.gamearchive.view.home.list.dialog.ListDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,6 +59,7 @@ public class ListController {
     private void addListeners() {
         this.view.addReloadMenuItemActionListener(this.addReloadMenuItemListener());
         this.view.addEditMenuItemActionListener(this.addEditMenuItemListener());
+        this.view.addImportMenuItemActionListener(this.addImportMenuItemListener());
         this.view.addExportMenuItemActionListener(this.addExportMenuItemListener());
         this.view.addDeleteMenuItemActionListener(this.addDeleteMenuItemListener());
     }
@@ -128,6 +130,15 @@ public class ListController {
             ExportListDialog dialog = new ExportListDialog(null, true);
             ExportListController controller = new ExportListController(dialog, database, list);
             dialog.setVisible(true);
+        };
+    }
+    
+    private ActionListener addImportMenuItemListener() {
+        return (ActionEvent e) -> {
+            ImportListDialog dialog = new ImportListDialog(null, true);
+            ImportListController controller = new ImportListController(dialog, database, list);
+            dialog.setVisible(true);
+            reload();
         };
     }
     

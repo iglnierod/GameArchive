@@ -52,6 +52,7 @@ public class ListDialog extends javax.swing.JDialog {
         reloadMenuItem = new javax.swing.JMenuItem();
         editMenuItem = new javax.swing.JMenuItem();
         exportMenuItem = new javax.swing.JMenuItem();
+        importMenuItem = new javax.swing.JMenuItem();
         deleteMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -122,6 +123,10 @@ public class ListDialog extends javax.swing.JDialog {
         exportMenuItem.setText("Export");
         optionsMenu.add(exportMenuItem);
 
+        importMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/import_24dp.png"))); // NOI18N
+        importMenuItem.setText("Import");
+        optionsMenu.add(importMenuItem);
+
         deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         deleteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/layers_clear_24dp.png"))); // NOI18N
         deleteMenuItem.setText("Delete");
@@ -145,6 +150,10 @@ public class ListDialog extends javax.swing.JDialog {
 
     public void addExportMenuItemActionListener(ActionListener l) {
         this.exportMenuItem.addActionListener(l);
+    }
+    
+    public void addImportMenuItemActionListener(ActionListener l) {
+        this.importMenuItem.addActionListener(l);
     }
     
     public void addDeleteMenuItemActionListener(ActionListener l) {
@@ -179,6 +188,7 @@ public class ListDialog extends javax.swing.JDialog {
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JMenuItem editMenuItem;
     private javax.swing.JMenuItem exportMenuItem;
+    private javax.swing.JMenuItem importMenuItem;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel nameLabel;

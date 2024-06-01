@@ -5,6 +5,8 @@
 package com.iglnierod.gamearchive.controller.list;
 
 import com.google.gson.*;
+import com.iglnierod.gamearchive.model.api.igdb.ImageType;
+import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.ExportGame;
 import com.iglnierod.gamearchive.model.game.Game;
@@ -105,12 +107,13 @@ public class ExportListController {
                 view.dispose();
             } catch (IOException ex) {
                 ex.printStackTrace();
+                JOptionPane.showMessageDialog(view, "Error while exporting the list",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         };
     }
 
     private void export(ExportFormat format, File dir) throws IOException {
-        // TODO: export file to selected format
         switch (format) {
             case JSON:
                 this.exportToJSON(dir);
@@ -130,7 +133,6 @@ public class ExportListController {
         gsonBuilder = gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
 
-        // Convertir la lista a la clase auxiliar ExportList
         ExportList exportList = new ExportList(
                 list.getId(),
                 list.getName(),
@@ -171,11 +173,60 @@ public class ExportListController {
     }
 
     private void exportToHTML(File dir) {
-        // TODO
+        ExportList exportList = new ExportList(
+                list.getId(),
+                list.getName(),
+                list.getDescription(),
+                list.getGames().stream()
+                        .map(g -> new ExportGame(g.getId(), g.getName(), g.getCoverId()))
+                        .collect(Collectors.toList())
+        );
+
+        StringBuilder htmlContent = new StringBuilder();
+        htmlContent.append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n")
+                .append("<meta charset=\"UTF-8\" />\n")
+                .append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n")
+                .append("<title>").append(exportList.getName()).append("</title>\n")
+                .append("<style>\n")
+                .append("* { padding: 0; margin: 0; box-sizing: border-box; }\n")
+                .append("body { font-family: Arial, Helvetica, sans-serif; font-size: 1rem; color: white;\n")
+                .append("background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%);\n")
+                .append("background-repeat: no-repeat; min-height: 100vh; }\n")
+                .append(".wrapper { width: 100%; }\n")
+                .append(".wrapper h1 { text-align: center; padding: 10px; }\n")
+                .append(".games { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 30px 15px; padding: 15px; }\n")
+                .append(".game { display: flex; flex-direction: column; justify-content: center; text-align: center; max-width: 264px; gap: 5px; transition: 0.25s ease-in-out all; }\n")
+                .append(".game:hover { transition: 0.25s ease-in-out all; scale: 0.9; }\n")
+                .append(".game img { border-radius: 5px; }\n")
+                .append(".game span { font-weight: 900; }\n")
+                .append("footer { width: 100%; background-color: rgba(0, 0, 0, 0.3); margin-top: 30px; height: 50px; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); }\n")
+                .append("footer a:link, a:hover { color: currentColor; font-weight: bold; text-decoration: underline; }\n")
+                .append("</style>\n</head>\n<body>\n")
+                .append("<div class=\"wrapper\">\n")
+                .append("<h1>").append("[").append(exportList.getId()).append("] ").append(exportList.getName()).append("</h1>\n")
+                .append("<section class=\"games\">\n");
+
+        for (ExportGame game : exportList.getGames()) {
+            String coverUrl = Reference.getImage(ImageType.COVER_BIG, game.getCoverId());
+            htmlContent.append("<div class=\"game\">\n")
+                    .append("<img src=\"").append(coverUrl).append("\" alt=\"").append(game.getName()).append(" cover\" />\n")
+                    .append("<span class=\"game-name\">").append(game.getName()).append("</span>\n")
+                    .append("</div>\n");
+        }
+
+        htmlContent.append("</section>\n")
+                .append("<footer>\n")
+                .append("<span>List made on <a href=\"https://github.com/iglnierod/GameArchive\">GameArchive</a></span>\n")
+                .append("</footer>\n</div>\n</body>\n</html>");
+
+        try (FileWriter writer = new FileWriter(dir)) {
+            writer.write(htmlContent.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveFile(File dir) throws IOException {
-        // TODO
         if (!dir.isFile()) {
             return;
         }

@@ -11,12 +11,12 @@ import javax.swing.ComboBoxModel;
  *
  * @author iglnierod
  */
-public class ExportListDialog extends javax.swing.JDialog {
+public class ImportListDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ExportListDialog
      */
-    public ExportListDialog(java.awt.Frame parent, boolean modal) {
+    public ImportListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -36,7 +36,7 @@ public class ExportListDialog extends javax.swing.JDialog {
         directoryLabel = new javax.swing.JLabel();
         directoryTextField = new javax.swing.JTextField();
         chooseDirectoryButton = new javax.swing.JButton();
-        exportButton = new javax.swing.JButton();
+        importButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -44,20 +44,19 @@ public class ExportListDialog extends javax.swing.JDialog {
 
         titleLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLabel.setText("Export List");
+        titleLabel.setText("Import List");
 
         formatLabel.setText("Format");
 
         directoryLabel.setText("Directory");
 
-        directoryTextField.setText("jTextField1");
         directoryTextField.setEnabled(false);
 
         chooseDirectoryButton.setText("...");
         chooseDirectoryButton.setToolTipText("Choos directory");
 
-        exportButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.default.background"));
-        exportButton.setText("Export");
+        importButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.default.background"));
+        importButton.setText("Import");
 
         cancelButton.setText("Cancel");
         cancelButton.setMaximumSize(new java.awt.Dimension(74, 24));
@@ -75,7 +74,7 @@ public class ExportListDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(importButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(directoryLabel)
@@ -104,7 +103,7 @@ public class ExportListDialog extends javax.swing.JDialog {
                     .addComponent(chooseDirectoryButton))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(importButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
@@ -137,8 +136,8 @@ public class ExportListDialog extends javax.swing.JDialog {
         this.cancelButton.addActionListener(l);
     }
     
-    public void addExportButtonActionListener(ActionListener l) {
-        this.exportButton.addActionListener(l);
+    public void addImportButtonActionListener(ActionListener l) {
+        this.importButton.addActionListener(l);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -146,9 +145,9 @@ public class ExportListDialog extends javax.swing.JDialog {
     private javax.swing.JButton chooseDirectoryButton;
     private javax.swing.JLabel directoryLabel;
     private javax.swing.JTextField directoryTextField;
-    private javax.swing.JButton exportButton;
     private javax.swing.JComboBox<String> formatComboBox;
     private javax.swing.JLabel formatLabel;
+    private javax.swing.JButton importButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

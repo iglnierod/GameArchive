@@ -15,31 +15,33 @@ import java.util.ArrayList;
  * @author iglnierod
  */
 public interface GameDAO {
+
     public ArrayList<Game> search(String inputText, GameFilter filter);
-    
+
     public String post(String url, String body);
-    
+
     public ArrayList<Game> parse(String jsonResponse);
-    
+
     public Game getAllInformation(int gameId);
-    
+
     public Game parseAll(String jsonResponse);
-    
+
     public void saveGame(Game game);
-    
+
     public boolean addToList(Game game, List list);
-    
+
+
     public ArrayList<Game> getGamesInList(int listId);
-    
+
     public boolean addToFavourite(Game game, int favListId);
-    
+
     public ArrayList<Game> getSimilar(int gameId);
 
     public boolean addRating(Game game, int rating, String comment);
-    
+
     public boolean isGameRated(Game game);
-    
+
     public ArrayList<GameRate> getRatings(Game game);
-    
+
     public ArrayList<GameRate> getRating(String username);
 }

@@ -6,10 +6,13 @@ package com.iglnierod.gamearchive.model.list.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.game.ExportGame;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
+import com.iglnierod.gamearchive.model.list.ExportList;
 import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.session.Session;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -195,6 +198,34 @@ public class ListDAOPostgreSQL implements ListDAO {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void importGames(int listId, ExportList exList) {
+        String query = "INSERT INTO list_game (list_id, game_id) VALUES (?, ?)";
+
+        for (ExportGame g : exList.getGames()) {
+            try (Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+                conn.setAutoCommit(false); // Disable auto-commit mode
+
+                ps.setInt(1, listId);
+                ps.setInt(2, g.getId());
+
+                try {
+                    ps.executeUpdate(); // Execute the insert statement immediately
+                    conn.commit(); // Commit successful insert
+                } catch (SQLException e) {
+                    conn.rollback(); // Rollback on failure
+                    if (e.getSQLState().equals("23505")) { // SQL state for unique constraint violation
+                        System.err.println("Duplicate key for game with ID: " + g.getId() + ", skipping...");
+                    } else {
+                        System.err.println("Failed to insert game with ID: " + g.getId() + ": " + e.getMessage());
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

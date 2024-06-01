@@ -357,7 +357,7 @@ public class GameDAOUnirest implements GameDAO {
         }
         return false;
     }
-
+    
     @Override
     public ArrayList<Game> getGamesInList(int listId) {
         ArrayList<Game> games = new ArrayList<>();
@@ -526,4 +526,6 @@ public class GameDAOUnirest implements GameDAO {
         }
         return ratings;
     }
+
+    
 }
