@@ -50,7 +50,6 @@ public class ExportListDialog extends javax.swing.JDialog {
 
         directoryLabel.setText("Directory");
 
-        directoryTextField.setText("jTextField1");
         directoryTextField.setEnabled(false);
 
         chooseDirectoryButton.setText("...");

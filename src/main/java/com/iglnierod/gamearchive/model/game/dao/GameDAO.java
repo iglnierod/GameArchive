@@ -30,7 +30,6 @@ public interface GameDAO {
 
     public boolean addToList(Game game, List list);
 
-
     public ArrayList<Game> getGamesInList(int listId);
 
     public boolean addToFavourite(Game game, int favListId);

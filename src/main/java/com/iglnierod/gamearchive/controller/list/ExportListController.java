@@ -87,6 +87,12 @@ public class ExportListController {
 
     private ActionListener addExportButtonListener() {
         return (e) -> {
+            String dir = view.getDirectoryTextFieldText();
+            if (dir.length() == 0) {
+                JOptionPane.showMessageDialog(view, "Choose a file to export the list to.",
+                        "ERROR: Missing file", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             File file = new File(view.getDirectoryTextFieldText());
             int comboSelectedIndex = view.getFormatComboBoxSelectedIndex();
             ExportFormat format = ExportFormat.values()[comboSelectedIndex];
