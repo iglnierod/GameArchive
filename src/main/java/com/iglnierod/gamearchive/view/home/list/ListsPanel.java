@@ -23,7 +23,7 @@ public class ListsPanel extends javax.swing.JPanel {
     public ListsPanel(boolean isUserProfile) {
         this.isUserProfile = isUserProfile;
         initComponents();
-        this.createListPanel.setVisible(!isUserProfile);
+        this.createListPanel.setVisible(!this.isUserProfile);
         this.centerPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
     }
 
@@ -91,7 +91,7 @@ public class ListsPanel extends javax.swing.JPanel {
 
     public void emptyListPanel() {
         this.centerPanel.removeAll();
-        if (isUserProfile) {
+        if (!isUserProfile) {
             this.centerPanel.add(createListPanel);
         }
         this.centerPanel.add(favouriteListPanel);
