@@ -7,6 +7,7 @@ package com.iglnierod.gamearchive.view.home;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
@@ -43,14 +44,9 @@ public class HomeFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        gameCoverPanel1 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
-        gameCoverPanel2 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
-        gameCoverPanel3 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
-        gameCoverPanel4 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
-        gameCoverPanel5 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
-        gameCoverPanel6 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
-        gameCoverPanel7 = new com.iglnierod.gamearchive.view.game.panel.GameCoverPanel();
+        recommendedGamesPanel = new javax.swing.JPanel();
+        topRatedGamesLabel = new javax.swing.JLabel();
+        topRatedGamesPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         logOutMenuItem = new javax.swing.JMenuItem();
@@ -114,6 +110,7 @@ public class HomeFrame extends javax.swing.JFrame {
         usernameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         usernameLabel.setText("username");
+        usernameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout eastPanelLayout = new javax.swing.GroupLayout(eastPanel);
         eastPanel.setLayout(eastPanelLayout);
@@ -138,28 +135,27 @@ public class HomeFrame extends javax.swing.JFrame {
         centerPanel.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Recommended games");
 
-        jPanel2.add(gameCoverPanel1);
-        jPanel2.add(gameCoverPanel2);
-        jPanel2.add(gameCoverPanel3);
-        jPanel2.add(gameCoverPanel4);
-        jPanel2.add(gameCoverPanel5);
-        jPanel2.add(gameCoverPanel6);
-        jPanel2.add(gameCoverPanel7);
+        topRatedGamesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        topRatedGamesLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        topRatedGamesLabel.setText("IGDB Top Rated");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1218, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(topRatedGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1224, Short.MAX_VALUE)
+                    .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(topRatedGamesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,8 +163,12 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(topRatedGamesLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(topRatedGamesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -225,11 +225,11 @@ public class HomeFrame extends javax.swing.JFrame {
     public void addReloadListsMenuItemActionListener(ActionListener listener) {
         this.reloadListsMenuItem.addActionListener(listener);
     }
-    
+
     public void addReloadActivityListsMenuItemActionListener(ActionListener listener) {
         this.reloadActivityMenuItem.addActionListener(listener);
     }
-    
+
     // ============ NAV VAR LISTENERS ============
     public void addHomeLabelMouseListener(MouseListener listener) {
         this.homeLabel.addMouseListener(listener);
@@ -254,7 +254,7 @@ public class HomeFrame extends javax.swing.JFrame {
     public void setUsernameLabelText(String username) {
         this.usernameLabel.setText(username);
     }
-    
+
     //
     public void setCenterContent(JPanel panel) {
         this.centerPanel.removeAll();
@@ -262,24 +262,24 @@ public class HomeFrame extends javax.swing.JFrame {
         this.centerPanel.revalidate();
         this.centerPanel.repaint();
     }
-    
+
+    public void addRecommendedGame(JComponent compo) {
+        this.recommendedGamesPanel.add(compo);
+    }
+
+    public void addTopRatedGame(JComponent compo) {
+        this.topRatedGamesPanel.add(compo);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel communityLabel;
     private javax.swing.JMenu communityMenu;
     private javax.swing.JPanel eastPanel;
     private javax.swing.JMenu fileMenu;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel1;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel2;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel3;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel4;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel5;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel6;
-    private com.iglnierod.gamearchive.view.game.panel.GameCoverPanel gameCoverPanel7;
     private javax.swing.JLabel homeLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem logOutMenuItem;
     private javax.swing.JMenuBar menuBar;
@@ -287,9 +287,12 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JMenu myListsMenu;
     private javax.swing.JPanel northPanel;
     private javax.swing.JMenuItem quitMenuItem;
+    private javax.swing.JPanel recommendedGamesPanel;
     private javax.swing.JMenuItem reloadActivityMenuItem;
     private javax.swing.JMenuItem reloadListsMenuItem;
     private javax.swing.JLabel searchLabel;
+    private javax.swing.JLabel topRatedGamesLabel;
+    private javax.swing.JPanel topRatedGamesPanel;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JPanel westPanel;
     // End of variables declaration//GEN-END:variables

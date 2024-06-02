@@ -224,6 +224,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="username"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -244,6 +247,7 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
+            <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -258,12 +262,14 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel2" pref="1218" max="32767" attributes="0"/>
-                              <Component id="jLabel1" max="32767" attributes="0"/>
+                      <Component id="topRatedGamesPanel" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jLabel1" alignment="0" pref="1224" max="32767" attributes="0"/>
+                              <Component id="recommendedGamesPanel" max="32767" attributes="0"/>
+                              <Component id="topRatedGamesLabel" alignment="1" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -273,8 +279,12 @@
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="351" max="32767" attributes="0"/>
+                          <Component id="recommendedGamesPanel" min="-2" pref="237" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="topRatedGamesLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="topRatedGamesPanel" min="-2" pref="264" max="-2" attributes="0"/>
+                          <EmptySpace pref="37" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -289,25 +299,22 @@
                     <Property name="text" type="java.lang.String" value="Recommended games"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanel2">
+                <Container class="javax.swing.JPanel" name="recommendedGamesPanel">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                  <SubComponents>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel1">
-                    </Component>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel2">
-                    </Component>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel3">
-                    </Component>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel4">
-                    </Component>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel5">
-                    </Component>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel6">
-                    </Component>
-                    <Component class="com.iglnierod.gamearchive.view.game.panel.GameCoverPanel" name="gameCoverPanel7">
-                    </Component>
-                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JLabel" name="topRatedGamesLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Liberation Sans" size="17" style="1"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="text" type="java.lang.String" value="IGDB Top Rated"/>
+                  </Properties>
+                </Component>
+                <Container class="javax.swing.JPanel" name="topRatedGamesPanel">
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                 </Container>
               </SubComponents>
             </Container>

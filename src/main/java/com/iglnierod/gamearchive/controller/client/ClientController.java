@@ -108,11 +108,12 @@ public class ClientController {
 
     private void loadRatingsPanel() {
         this.view.emptyRatings();
-        this.gameDao.getRating(client.getUsername()).stream().forEach(r -> {
+        this.gameDao.getRatings(client.getUsername()).stream().forEach(r -> {
             RatePanel panel = new RatePanel();
             panel.setUsernameText(r.getUsername());
             panel.setRating(r.getRating());
             panel.setCommentText(r.getComment());
+            panel.setGameNameLabelText(r.getGameName());
             this.view.addRating(panel);
         });
     }

@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 
 public class GameDAOUnirest implements GameDAO {
 
@@ -357,7 +359,7 @@ public class GameDAOUnirest implements GameDAO {
         }
         return false;
     }
-    
+
     @Override
     public ArrayList<Game> getGamesInList(int listId) {
         ArrayList<Game> games = new ArrayList<>();
@@ -507,9 +509,9 @@ public class GameDAOUnirest implements GameDAO {
     }
 
     @Override
-    public ArrayList<GameRate> getRating(String username) {
+    public ArrayList<GameRate> getRatings(String username) {
         ArrayList<GameRate> ratings = new ArrayList<>();
-        String query = "SELECT username, rating, comment FROM rating WHERE username = ? ORDER BY created_at DESC";
+        String query = "SELECT username, rating, comment, game.name AS game_name FROM rating JOIN game ON rating.game_id = game.id WHERE username = ? ORDER BY created_at DESC";
         try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -517,7 +519,8 @@ public class GameDAOUnirest implements GameDAO {
                 GameRate rate = new GameRate(
                         rs.getString("username"),
                         rs.getInt("rating"),
-                        rs.getString("comment")
+                        rs.getString("comment"),
+                        rs.getString("game_name")
                 );
                 ratings.add(rate);
             }
@@ -527,5 +530,51 @@ public class GameDAOUnirest implements GameDAO {
         return ratings;
     }
 
-    
+    @Override
+    public ArrayList<Game> getTopRated(int offset) {
+        /*fields name, cover.url, rating, rating_count;
+        sort rating desc;
+        where rating_count >= 50;
+        limit 7;
+        offset 20;*/
+        ArrayList<Game> topRated = new ArrayList<>();
+
+        PostRequest pr = PostRequest.builder()
+                .fields("name,cover.image_id")
+                .sort("rating desc")
+                .where("rating_count >= 50 ")
+                .limit("7")
+                .offset(String.valueOf(offset))
+                .build();
+
+        String postResult = this.post(URL, pr.asString());
+
+        System.out.println(postResult);
+        
+        topRated = this.parseTopRated(postResult);
+
+        return topRated;
+    }
+
+    private ArrayList<Game> parseTopRated(String jsonResponse) {
+        ArrayList<Game> games = new ArrayList<>();
+
+        JSONArray jsonArray = new JSONArray(jsonResponse);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            int id = jsonObject.getInt("id");
+            String name = jsonObject.getString("name");
+            String coverId = jsonObject.getJSONObject("cover").getString("image_id");
+
+            Game game = new Game();
+            game.setId(id);
+            game.setName(name);
+            game.setCoverId(coverId);
+
+            games.add(game);
+        }
+
+        return games;
+    }
 }

@@ -9,18 +9,25 @@ package com.iglnierod.gamearchive.model.game.rate;
  * @author iglnierod
  */
 public class GameRate {
+
     private String username;
     private int rating;
     private String comment;
-    
-    public GameRate(){
-        this("username",0,"no comment.");
+    private String gameName;
+
+    public GameRate() {
+        this("username", 0, "no comment.", "");
     }
-    
+
     public GameRate(String username, int rating, String comment) {
+        this(username, rating, comment, "");
+    }
+
+    public GameRate(String username, int rating, String comment, String gameName) {
         this.username = username;
         this.rating = rating;
         this.comment = comment;
+        this.gameName = gameName;
     }
 
     public String getUsername() {
@@ -46,5 +53,13 @@ public class GameRate {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
 }

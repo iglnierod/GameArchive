@@ -31,10 +31,12 @@ import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
+import com.iglnierod.gamearchive.utils.ImageTool;
 import com.iglnierod.gamearchive.utils.Util;
 import com.iglnierod.gamearchive.view.client.ClientPanel;
 import com.iglnierod.gamearchive.view.client.ClientPreviewPanel;
 import com.iglnierod.gamearchive.view.game.GameDialog;
+import com.iglnierod.gamearchive.view.game.panel.GameCoverPanel;
 import com.iglnierod.gamearchive.view.game.panel.GamePreviewPanel;
 import com.iglnierod.gamearchive.view.game.rate.RateGameDialog;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
@@ -51,6 +53,7 @@ import com.iglnierod.gamearchive.view.home.search.SearchPanel;
 import com.iglnierod.gamearchive.view.login.LoginFrame;
 import com.iglnierod.gamearchive.view.register.RegisterFrame;
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -63,10 +66,12 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -132,14 +137,83 @@ public class HomeController {
         this.view.addSearchLabelMouseListener(addSearchLabelListener());
         this.view.addMyListsLabelMouseListener(addMyListsLabelListener());
         this.view.addCommunityLabelMouseListener(addCommunityLabelListener());
-        this.view.addUsernameLabelMouseListener(HomeController.this.addUsernameLabelListener());
+        this.view.addUsernameLabelMouseListener(this.addUsernameLabelListener());
     }
 
     private void initiatePanels() {
+        this.initiateHome();
         this.addSearchPanelListeners();
         this.addGenresToFiltersPanel();
 
         this.addMyListsPanelListeners();
+    }
+
+    private void initiateHome() {
+        this.addRecommendedGames();
+        this.addTopRatedGames();
+    }
+
+    private void addRecommendedGames() {
+        favouriteGameIds = listDao.getAllFavouriteGameIds();
+        if (favouriteGameIds.isEmpty()) {
+            JLabel lbl = new JLabel("Start adding games to your favourites to get recommendations");
+            view.addRecommendedGame(lbl);
+            return;
+        }
+
+        java.util.List<Integer> favouriteGameList = new ArrayList<>(favouriteGameIds);
+        Random r = new Random();
+        int n = r.nextInt(favouriteGameList.size());
+        int gameId = favouriteGameList.get(n);
+
+        ArrayList<Game> recommended = gameDao.getSimilar(gameId);
+
+        int recommendedSize = Math.min(7, recommended.size());
+
+        for (int i = 0; i < recommendedSize; i++) {
+            Game g = recommended.get(i);
+            GameCoverPanel cover = new GameCoverPanel(g.getId());
+            cover.addCoverMouseListener(this.addGamePreviewPanelMouseListener(g));
+            cover.setToolTipText(g.getName());
+
+            if (g.getCoverId() != null) {
+                ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
+                Image image = ImageTool.getScaledImage(url.getImage(), GameCoverPanel.WIDTH, GameCoverPanel.HEIGHT);
+                ImageIcon imageIcon = new ImageIcon(image);
+
+                SwingUtilities.invokeLater(() -> {
+                    if (imageIcon != null) {
+                        cover.setGameLabelImageIcon(imageIcon);
+                    }
+                    this.view.addRecommendedGame(cover);
+                });
+            }
+        }
+    }
+
+    private void addTopRatedGames() {
+        Random r = new Random();
+        ArrayList<Game> topRated = gameDao.getTopRated(r.nextInt(200));
+        System.out.println("TOP RATED GAMES: " + topRated);
+        for (Game g : topRated) {
+            System.out.println(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
+            GameCoverPanel cover = new GameCoverPanel(g.getId());
+            cover.setToolTipText(g.getName());
+            cover.addCoverMouseListener(this.addGamePreviewPanelMouseListener(g));
+
+            if (g.getCoverId() != null) {
+                ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
+                Image image = ImageTool.getScaledImage(url.getImage(), GameCoverPanel.WIDTH, GameCoverPanel.HEIGHT);
+                ImageIcon imageIcon = new ImageIcon(image);
+
+                SwingUtilities.invokeLater(() -> {
+                    if (imageIcon != null) {
+                        cover.setGameLabelImageIcon(imageIcon);
+                    }
+                    this.view.addTopRatedGame(cover);
+                });
+            }
+        }
     }
 
     private void addSearchPanelListeners() {
@@ -241,7 +315,7 @@ public class HomeController {
                     ClientPreviewPanel pnl = new ClientPreviewPanel(c.getUsername());
                     pnl.setDescriptionTextAreaText(c.getDescription());
                     pnl.addPanelMouseListener(this.addUsernameLabelListener(c.getUsername()));
-                    
+
                     searchPanel.emptyResults();
                     searchPanel.addToResults(pnl);
                 });

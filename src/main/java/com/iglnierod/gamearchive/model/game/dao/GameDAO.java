@@ -42,5 +42,7 @@ public interface GameDAO {
 
     public ArrayList<GameRate> getRatings(Game game);
 
-    public ArrayList<GameRate> getRating(String username);
+    public ArrayList<GameRate> getRatings(String username);
+    
+    public ArrayList<Game> getTopRated(int offset);
 }

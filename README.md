@@ -17,6 +17,9 @@
 - Importar listas
   - JSON
   - XML
+- Pestaña `Home`:
+  - Juegos recomendados basado en favoritos
+  - Juegos aleatorios mejor valorados de IGDB
 
 ### 25 de Mayo 2024
 
@@ -168,7 +171,8 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 
 - [X] Marcar juego como favorito
 - [X] Valorar juegos
-- [X] Sistema de recomendación/Juegos similares
+- [X] Juegos similares
+- [X] Juegos recomenados basados en favoritos
 - [X] Feed de últimos juegos añadidos por otros usuarios
 - [X] Ver perfil del usuario logeado
   - [X] Ver información general (nombre, descripcion, plataformas)

@@ -82,7 +82,6 @@ public class ClientDAOPostgreSQL implements ClientDAO {
                 client.setEmail(rs.getString("email"));
                 client.setPassword(rs.getString("password"));
                 client.setDescription(rs.getString("description"));
-                System.out.println("platformDao.getPlatformsByUser(username): " + platformDao.getPlatformsByUser(username));
                 client.setPlatformsList(platformDao.getPlatformsByUser(username));
                 client.setJoinedOn(rs.getObject("created_at", LocalDateTime.class));
             }
@@ -146,7 +145,6 @@ public class ClientDAOPostgreSQL implements ClientDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        System.out.println(clients);
         return clients;
     }
 
