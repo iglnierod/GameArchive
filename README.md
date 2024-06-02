@@ -16,6 +16,7 @@
   - HTML 
 - Importar listas
   - JSON
+  - XML
 
 ### 25 de Mayo 2024
 
@@ -182,7 +183,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
   - [X] HTML
 - [X] Importar listas
   - [X] JSON
-  - [ ] XML
+  - [X] XML
 - [ ] Añadir estados a juegos
 - [ ] Sistema de recomendación aleatoria con parámetros
 

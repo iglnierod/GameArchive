@@ -16,6 +16,10 @@ public class ExportGame {
     private String name;
     private String coverId;
 
+    public ExportGame() {
+        
+    }
+    
     public ExportGame(int id, String name) {
         this.id = id;
         this.name = name;

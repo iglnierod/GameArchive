@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.model.list;
 
 import com.iglnierod.gamearchive.model.game.ExportGame;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,12 +16,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "list")
 public class ExportList {
+
     private int id;
     private String name;
     private String description;
     private List<ExportGame> games;
 
     public ExportList() {
+        this.games = new ArrayList<>();
     }
 
     public ExportList(int id, String name, String description, List<ExportGame> games) {
@@ -50,4 +53,3 @@ public class ExportList {
         return games;
     }
 }
-

@@ -31,6 +31,7 @@ public class ListDialog extends javax.swing.JDialog {
     private void checkOwnership() {
         this.editMenuItem.setEnabled(isOwner);
         this.deleteMenuItem.setEnabled(isOwner);
+        this.importMenuItem.setEnabled(isOwner);
     }
     
     /**

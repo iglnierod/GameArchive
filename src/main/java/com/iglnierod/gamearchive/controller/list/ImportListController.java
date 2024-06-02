@@ -13,11 +13,9 @@ import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.view.home.list.dialog.ImportListDialog;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import javax.swing.*;
+import javax.xml.bind.*;
 
 /**
  *
@@ -133,11 +131,20 @@ public class ImportListController {
 
         ExportList exList = gson.fromJson(jsonString, ExportList.class);
 
-        listDao.importGames(this.list.getId(),exList);
+        listDao.importGames(this.list.getId(), exList);
     }
 
     private void importFromXML(File file) {
-        // Implementación para importar desde XML
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(ExportList.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            ExportList exList = (ExportList) jaxbUnmarshaller.unmarshal(file);
+
+            listDao.importGames(this.list.getId(), exList);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to import from XML: " + e.getMessage());
+        }
     }
 
     private String readFile(File file) {
