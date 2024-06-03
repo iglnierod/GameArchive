@@ -550,7 +550,7 @@ public class GameDAOUnirest implements GameDAO {
         String postResult = this.post(URL, pr.asString());
 
         System.out.println(postResult);
-        
+
         topRated = this.parseTopRated(postResult);
 
         return topRated;
@@ -575,6 +575,28 @@ public class GameDAOUnirest implements GameDAO {
             games.add(game);
         }
 
+        return games;
+    }
+
+    @Override
+    public ArrayList<Game> getRandom(GameFilter filter) {
+        ArrayList<Game> games = new ArrayList<>();
+
+        String where = this.getWhereStatement(filter);
+
+        PostRequest pr = PostRequest.builder()
+                .fields("name,cover.image_id")
+                .sort("rating desc")
+                .where(where)
+                .limit(filter.getLimit())
+                .build();
+
+        String postResult = this.post(URL, pr.asString());
+
+        games = this.parseTopRated(postResult);
+        
+        System.out.println("GAMES: " + games);
+        
         return games;
     }
 }

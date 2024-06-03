@@ -20,6 +20,7 @@
 - Pestaña `Home`:
   - Juegos recomendados basado en favoritos
   - Juegos aleatorios mejor valorados de IGDB
+- Juego aleatorio basado en parámetros
 
 ### 25 de Mayo 2024
 
@@ -189,7 +190,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
   - [X] JSON
   - [X] XML
 - [ ] Añadir estados a juegos
-- [ ] Sistema de recomendación aleatoria con parámetros
+- [X] Sistema de recomendación aleatoria con parámetros
 
 ## Entorno de desarrollo
 

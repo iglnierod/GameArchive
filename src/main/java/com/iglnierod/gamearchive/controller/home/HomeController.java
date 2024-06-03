@@ -42,6 +42,7 @@ import com.iglnierod.gamearchive.view.game.rate.RateGameDialog;
 import com.iglnierod.gamearchive.view.home.HomeFrame;
 import com.iglnierod.gamearchive.view.home.community.ActivityPanel;
 import com.iglnierod.gamearchive.view.home.community.CommunityPanel;
+import com.iglnierod.gamearchive.view.home.dialog.WhatToPlayDialog;
 import com.iglnierod.gamearchive.view.home.list.ListsPanel;
 import com.iglnierod.gamearchive.view.home.list.dialog.AddToListDialog;
 import com.iglnierod.gamearchive.view.home.list.dialog.CreateListDialog;
@@ -151,6 +152,17 @@ public class HomeController {
     private void initiateHome() {
         this.addRecommendedGames();
         this.addTopRatedGames();
+        this.view.addWhatToPlayButtonActionListener(this.addWhatToPlayButtonListener());
+    }
+
+    private ActionListener addWhatToPlayButtonListener() {
+        HomeController hc = this;
+        return (e) -> {
+            System.out.println("WHAT TO PLAY BUTTON");
+            WhatToPlayDialog dialog = new WhatToPlayDialog(view, true);
+            WhatToPlayController controller = new WhatToPlayController(dialog, database, hc);
+            dialog.setVisible(true);
+        };
     }
 
     private void addRecommendedGames() {

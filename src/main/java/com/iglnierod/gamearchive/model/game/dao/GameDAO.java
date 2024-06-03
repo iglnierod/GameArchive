@@ -45,4 +45,6 @@ public interface GameDAO {
     public ArrayList<GameRate> getRatings(String username);
     
     public ArrayList<Game> getTopRated(int offset);
+    
+    public ArrayList<Game> getRandom(GameFilter filter);
 }

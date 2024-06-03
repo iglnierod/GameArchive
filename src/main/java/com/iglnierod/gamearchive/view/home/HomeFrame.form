@@ -262,14 +262,19 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="topRatedGamesPanel" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel1" alignment="0" pref="1224" max="32767" attributes="0"/>
-                              <Component id="recommendedGamesPanel" max="32767" attributes="0"/>
+                              <Component id="recommendedGamesPanel" alignment="1" max="32767" attributes="0"/>
+                              <Component id="topRatedGamesPanel" alignment="0" max="32767" attributes="0"/>
                               <Component id="topRatedGamesLabel" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="whatToPlayButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="557" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -280,11 +285,13 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="recommendedGamesPanel" min="-2" pref="237" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="topRatedGamesLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="topRatedGamesPanel" min="-2" pref="264" max="-2" attributes="0"/>
-                          <EmptySpace pref="37" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="whatToPlayButton" min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace pref="7" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -316,6 +323,11 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                 </Container>
+                <Component class="javax.swing.JButton" name="whatToPlayButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="What to play"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
