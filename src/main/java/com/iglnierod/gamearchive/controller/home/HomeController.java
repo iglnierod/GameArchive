@@ -135,6 +135,7 @@ public class HomeController {
         this.view.addReloadActivityListsMenuItemActionListener(addReloadActivityMenuItemListener());
 
         // LABELS MENU
+        this.view.addHomeLabelMouseListener(addHomeLabelListener());
         this.view.addSearchLabelMouseListener(addSearchLabelListener());
         this.view.addMyListsLabelMouseListener(addMyListsLabelListener());
         this.view.addCommunityLabelMouseListener(addCommunityLabelListener());
@@ -153,6 +154,15 @@ public class HomeController {
         this.addRecommendedGames();
         this.addTopRatedGames();
         this.view.addWhatToPlayButtonActionListener(this.addWhatToPlayButtonListener());
+    }
+
+    private MouseListener addHomeLabelListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                view.setHomePanelCenter();
+            }
+        };
     }
 
     private ActionListener addWhatToPlayButtonListener() {

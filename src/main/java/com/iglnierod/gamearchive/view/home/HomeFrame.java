@@ -41,8 +41,8 @@ public class HomeFrame extends javax.swing.JFrame {
         eastPanel = new javax.swing.JPanel();
         usernameLabel = new javax.swing.JLabel();
         centerPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        homeScrollPane = new javax.swing.JScrollPane();
+        homePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         recommendedGamesPanel = new javax.swing.JPanel();
         topRatedGamesLabel = new javax.swing.JLabel();
@@ -135,8 +135,8 @@ public class HomeFrame extends javax.swing.JFrame {
 
         centerPanel.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        homeScrollPane.setBorder(null);
+        homeScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -148,25 +148,25 @@ public class HomeFrame extends javax.swing.JFrame {
 
         whatToPlayButton.setText("What to play");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout homePanelLayout = new javax.swing.GroupLayout(homePanel);
+        homePanel.setLayout(homePanelLayout);
+        homePanelLayout.setHorizontalGroup(
+            homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homePanelLayout.createSequentialGroup()
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1224, Short.MAX_VALUE)
                     .addComponent(recommendedGamesPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(topRatedGamesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(topRatedGamesLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(whatToPlayButton)
                 .addGap(557, 557, 557))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        homePanelLayout.setVerticalGroup(
+            homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,9 +180,9 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        jScrollPane1.setViewportView(jPanel1);
+        homeScrollPane.setViewportView(homePanel);
 
-        centerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        centerPanel.add(homeScrollPane, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(centerPanel, java.awt.BorderLayout.CENTER);
 
@@ -284,6 +284,10 @@ public class HomeFrame extends javax.swing.JFrame {
         this.whatToPlayButton.addActionListener(l);
     }
     
+    public void setHomePanelCenter() {
+        this.setCenterContent(this.homePanel);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel communityLabel;
@@ -291,9 +295,9 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel eastPanel;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JLabel homeLabel;
+    private javax.swing.JPanel homePanel;
+    private javax.swing.JScrollPane homeScrollPane;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem logOutMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel myListsLabel;
