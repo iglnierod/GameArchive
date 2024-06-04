@@ -21,6 +21,7 @@
   - Juegos recomendados basado en favoritos
   - Juegos aleatorios mejor valorados de IGDB
 - Juego aleatorio basado en parámetros
+- Añadir estados a juegos (quiero jugar, jugando, jugado)
 
 ### 25 de Mayo 2024
 
@@ -189,7 +190,7 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
 - [X] Importar listas
   - [X] JSON
   - [X] XML
-- [ ] Añadir estados a juegos
+- [X] Añadir estados a juegos
 - [X] Sistema de recomendación aleatoria con parámetros
 
 ## Entorno de desarrollo
