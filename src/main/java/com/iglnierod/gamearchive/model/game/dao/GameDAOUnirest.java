@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import com.iglnierod.gamearchive.model.game.rate.GameRate;
 import com.iglnierod.gamearchive.model.genre.Genre;
@@ -380,7 +381,7 @@ public class GameDAOUnirest implements GameDAO {
         }
         return games;
     }
-
+    
     @Override
     public boolean addToFavourite(Game game, int favListId) {
         saveGame(game);
@@ -594,9 +595,65 @@ public class GameDAOUnirest implements GameDAO {
         String postResult = this.post(URL, pr.asString());
 
         games = this.parseTopRated(postResult);
-        
+
         System.out.println("GAMES: " + games);
-        
+
         return games;
+    }
+
+    @Override
+    public void setStatus(Game game, GameStatus status) {
+        this.setStatus(game, status, false);
+    }
+
+    @Override
+    public void setStatus(Game game, GameStatus status, boolean delete) {
+        if (delete) {
+            String queryDel = "DELETE FROM client_game WHERE username = ? AND game_id = ?";
+            try (PreparedStatement ps = database.getConnection().prepareStatement(queryDel)) {
+                ps.setString(1, Session.getCurrentClient().getUsername());
+                ps.setInt(2, game.getId());
+
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+        } else {
+            saveGame(game);
+            String query = "INSERT INTO client_game (username, game_id, status, created_at) "
+                    + "VALUES (?, ?, ?, now()) "
+                    + "ON CONFLICT (username, game_id) "
+                    + "DO UPDATE SET status = EXCLUDED.status, created_at = now()";
+
+            try (Connection conn = database.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+                pstmt.setString(1, Session.getCurrentClient().getUsername());
+                pstmt.setLong(2, game.getId());
+                pstmt.setInt(3, status.getValue());
+
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public GameStatus getStatus(Game game) {
+        String query = "SELECT * FROM client_game WHERE game_id = ?";
+        GameStatus status = null;
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, game.getId());
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                status = GameStatus.fromValue(rs.getInt("status"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return status;
     }
 }

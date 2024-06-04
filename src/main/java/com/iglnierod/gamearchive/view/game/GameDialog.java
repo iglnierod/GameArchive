@@ -62,7 +62,7 @@ public class GameDialog extends javax.swing.JDialog {
         platformsPanel = new javax.swing.JPanel();
         wantButton = new javax.swing.JToggleButton();
         playedButton = new javax.swing.JToggleButton();
-        PlayingButton = new javax.swing.JToggleButton();
+        playingButton = new javax.swing.JToggleButton();
         menuBar = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
         reloadMenuItem = new javax.swing.JMenuItem();
@@ -221,8 +221,8 @@ public class GameDialog extends javax.swing.JDialog {
         playedButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/videogame_asset_off_32dp.png"))); // NOI18N
         playedButton.setText("Played");
 
-        PlayingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/videogame_asset_32dp.png"))); // NOI18N
-        PlayingButton.setText("Playing");
+        playingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/videogame_asset_32dp.png"))); // NOI18N
+        playingButton.setText("Playing");
 
         javax.swing.GroupLayout westPanelLayout = new javax.swing.GroupLayout(westPanel);
         westPanel.setLayout(westPanelLayout);
@@ -244,7 +244,7 @@ public class GameDialog extends javax.swing.JDialog {
                                     .addComponent(wantButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(ratingCountLabel)
                                     .addComponent(ratingProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(PlayingButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(playingButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(playedButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(29, 29, 29))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, westPanelLayout.createSequentialGroup()
@@ -276,7 +276,7 @@ public class GameDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(wantButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PlayingButton)
+                .addComponent(playingButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(playedButton)
                 .addGap(18, 18, 18)
@@ -385,17 +385,53 @@ public class GameDialog extends javax.swing.JDialog {
         this.ratingsPanel.revalidate();
         this.ratingsPanel.repaint();
     }
-    
+
     public void emptyRatings() {
         this.ratingsPanel.removeAll();
     }
-    
+
     public void addReloadMenuItemActionListener(ActionListener l) {
         this.reloadMenuItem.addActionListener(l);
     }
-    
+
+    // Game status
+    public void addWantButtonActionListener(ActionListener l) {
+        this.wantButton.addActionListener(l);
+    }
+
+    public void setWantButtonSelected(boolean selected) {
+        this.wantButton.setSelected(selected);
+    }
+
+    public boolean isWantButtonSelected() {
+        return wantButton.isSelected();
+    }
+
+    public void addPlayingButtonActionListener(ActionListener l) {
+        this.playingButton.addActionListener(l);
+    }
+
+    public void setPlayingButtonSelected(boolean selected) {
+        this.playingButton.setSelected(selected);
+    }
+
+    public boolean isPlayingButtonSelected() {
+        return playingButton.isSelected();
+    }
+
+    public void addPlayedButtonActionListener(ActionListener l) {
+        this.playedButton.addActionListener(l);
+    }
+
+    public void setPlayedButtonSelected(boolean selected) {
+        this.playedButton.setSelected(selected);
+    }
+
+    public boolean isPlayedButtonSelected() {
+        return playedButton.isSelected();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton PlayingButton;
     private javax.swing.JButton addToListButton;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JPanel centerPanel;
@@ -415,6 +451,7 @@ public class GameDialog extends javax.swing.JDialog {
     private javax.swing.JPanel platformsPanel;
     private javax.swing.JLabel platformsTitleLabel;
     private javax.swing.JToggleButton playedButton;
+    private javax.swing.JToggleButton playingButton;
     private javax.swing.JButton rateButton;
     private javax.swing.JLabel ratingCountLabel;
     private javax.swing.JLabel ratingNumberLabel;

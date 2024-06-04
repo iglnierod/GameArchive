@@ -7,6 +7,8 @@ package com.iglnierod.gamearchive.model.list.dao;
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.ExportGame;
+import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.list.ExportList;
@@ -226,6 +228,35 @@ public class ListDAOPostgreSQL implements ListDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public List getGameByStatus(GameStatus status) {
+        return this.getGameByStatus(status, Session.getCurrentClient());
+    }
+
+    @Override
+    public List getGameByStatus(GameStatus status, Client client) {
+        List list = new List();
+        String query = "SELECT * FROM client_game WHERE username = ? AND status = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, client.getUsername());
+            ps.setInt(2, status.getValue());
+
+            GameDAO gameDao = new GameDAOUnirest(database);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Game> games = new ArrayList<>();
+            while (rs.next()) {
+                Game g = gameDao.getAllInformation(rs.getInt("game_id"));
+                games.add(g);
+                list.setGames(games);
+            }
+            list.setName(status.toString().replace("_", " "));
+            return list;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }

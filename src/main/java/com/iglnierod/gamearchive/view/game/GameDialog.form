@@ -315,7 +315,7 @@
                                       <Component id="wantButton" max="32767" attributes="0"/>
                                       <Component id="ratingCountLabel" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="ratingProgressBar" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="PlayingButton" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="playingButton" alignment="0" max="32767" attributes="0"/>
                                       <Component id="playedButton" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -361,7 +361,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="wantButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="PlayingButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="playingButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="playedButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -474,7 +474,7 @@
             <Property name="text" type="java.lang.String" value="Played"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="PlayingButton">
+        <Component class="javax.swing.JToggleButton" name="playingButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/videogame_asset_32dp.png"/>

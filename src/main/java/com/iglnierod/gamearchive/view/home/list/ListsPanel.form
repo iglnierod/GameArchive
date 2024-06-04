@@ -47,7 +47,13 @@
                       <Component id="createListPanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="favouriteListPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="856" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="wantToPlayListPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="playingListPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="playedListPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="352" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -56,6 +62,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="playedListPanel" min="-2" max="-2" attributes="0"/>
+                          <Component id="playingListPanel" min="-2" max="-2" attributes="0"/>
+                          <Component id="wantToPlayListPanel" min="-2" max="-2" attributes="0"/>
                           <Component id="favouriteListPanel" min="-2" max="-2" attributes="0"/>
                           <Component id="createListPanel" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -68,6 +77,12 @@
             <Component class="com.iglnierod.gamearchive.view.home.list.panel.CreateListPanel" name="createListPanel">
             </Component>
             <Component class="com.iglnierod.gamearchive.view.home.list.panel.FavouriteListPanel" name="favouriteListPanel">
+            </Component>
+            <Component class="com.iglnierod.gamearchive.view.home.list.panel.WantToPlayListPanel" name="wantToPlayListPanel">
+            </Component>
+            <Component class="com.iglnierod.gamearchive.view.home.list.panel.PlayingListPanel" name="playingListPanel">
+            </Component>
+            <Component class="com.iglnierod.gamearchive.view.home.list.panel.PlayedListPanel" name="playedListPanel">
             </Component>
           </SubComponents>
         </Container>

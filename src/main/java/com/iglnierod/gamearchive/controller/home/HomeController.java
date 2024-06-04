@@ -11,6 +11,7 @@ import com.iglnierod.gamearchive.controller.game.rate.RateGameController;
 import com.iglnierod.gamearchive.controller.list.AddToListController;
 import com.iglnierod.gamearchive.controller.list.CreateListController;
 import com.iglnierod.gamearchive.controller.list.ListController;
+import com.iglnierod.gamearchive.controller.list.ListStatusController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.client.Client;
@@ -21,6 +22,7 @@ import com.iglnierod.gamearchive.model.community.dao.CommunityDAO;
 import com.iglnierod.gamearchive.model.community.dao.CommunityDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
@@ -246,6 +248,15 @@ public class HomeController {
     private void addMyListsPanelListeners() {
         myListsPanel.addCreateListPanelMouseListener(addCreateListPanelListener());
         myListsPanel.addFavouriteListPanelMouseListener(this.addPreviewPanelListener(listDao.getFavouriteList(), true));
+        myListsPanel.addWantToPlayListPanelMouseListener(
+                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.WANT_TO_PLAY), false));
+
+        myListsPanel.addPlayingListPanelMouseListener(
+                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYING), false));
+
+        myListsPanel.addPlayedListPanelMouseListener(
+                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYED), false));
+
         this.updateListsPanel();
     }
 
@@ -532,6 +543,18 @@ public class HomeController {
         };
     }
 
+    public MouseListener addStatusListPreviewPanelListener(List list, boolean b) {
+        HomeController hc = this;
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ListDialog listDialog = new ListDialog(view, false, false);
+                ListStatusController controller = new ListStatusController(listDialog, database, list, hc);
+                listDialog.setVisible(true);
+            }
+        };
+    }
+
     // COMMUNITY
     private void updateActivity() {
         communityPanel.emptyActivityPanel();
@@ -587,4 +610,5 @@ public class HomeController {
             }
         };
     }
+
 }

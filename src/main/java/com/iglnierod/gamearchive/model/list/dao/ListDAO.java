@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.model.list.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.list.ExportList;
 import com.iglnierod.gamearchive.model.list.List;
 import java.util.ArrayList;
@@ -37,4 +38,8 @@ public interface ListDAO {
     public Set<Integer> getAllFavouriteGameIds();
 
     public void importGames(int id, ExportList exList);
+    
+    public List getGameByStatus(GameStatus status);
+    
+    public List getGameByStatus(GameStatus status, Client client);
 }

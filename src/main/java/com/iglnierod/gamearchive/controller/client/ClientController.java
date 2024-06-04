@@ -11,6 +11,7 @@ import com.iglnierod.gamearchive.model.client.dao.ClientDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.community.dao.CommunityDAO;
 import com.iglnierod.gamearchive.model.community.dao.CommunityDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.list.dao.ListDAO;
@@ -98,8 +99,18 @@ public class ClientController {
 
     private void loadListsPanel() {
         this.view.addListsPanel(listsPanel);
-        this.listsPanel.addFavouriteListPanelMouseListener(hc.addPreviewPanelListener(listDao.getFavouriteList(client),false));
-        listDao.getAll(client).stream().forEach(l -> hc.addListToListsPanel(listsPanel, l,false));
+        this.listsPanel.addFavouriteListPanelMouseListener(hc.addPreviewPanelListener(listDao.getFavouriteList(client), false));
+        this.listsPanel.addWantToPlayListPanelMouseListener(
+                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.WANT_TO_PLAY, client), isCurrentUser)
+        );
+        this.listsPanel.addPlayingListPanelMouseListener(
+                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYING), isCurrentUser)
+        );
+
+        this.listsPanel.addPlayedListPanelMouseListener(
+                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYED), isCurrentUser)
+        );
+        listDao.getAll(client).stream().forEach(l -> hc.addListToListsPanel(listsPanel, l, false));
     }
 
     public void addFavouriteListActionListener(MouseListener l) {

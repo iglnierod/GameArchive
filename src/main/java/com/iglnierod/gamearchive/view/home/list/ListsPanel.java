@@ -40,6 +40,9 @@ public class ListsPanel extends javax.swing.JPanel {
         centerPanel = new javax.swing.JPanel();
         createListPanel = new com.iglnierod.gamearchive.view.home.list.panel.CreateListPanel();
         favouriteListPanel = new com.iglnierod.gamearchive.view.home.list.panel.FavouriteListPanel();
+        wantToPlayListPanel = new com.iglnierod.gamearchive.view.home.list.panel.WantToPlayListPanel();
+        playingListPanel = new com.iglnierod.gamearchive.view.home.list.panel.PlayingListPanel();
+        playedListPanel = new com.iglnierod.gamearchive.view.home.list.panel.PlayedListPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -56,13 +59,22 @@ public class ListsPanel extends javax.swing.JPanel {
                 .addComponent(createListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(favouriteListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(856, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(wantToPlayListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(playingListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(playedListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(352, Short.MAX_VALUE))
         );
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(playedListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(playingListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wantToPlayListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(favouriteListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(createListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(446, Short.MAX_VALUE))
@@ -83,6 +95,21 @@ public class ListsPanel extends javax.swing.JPanel {
         this.favouriteListPanel.addMouseListeners(l);
     }
 
+    public void addWantToPlayListPanelMouseListener(MouseListener l) {
+        this.wantToPlayListPanel.addMouseListener(l);
+        this.wantToPlayListPanel.addMouseListeners(l);
+    }
+
+    public void addPlayingListPanelMouseListener(MouseListener l) {
+        this.playingListPanel.addMouseListener(l);
+        this.playingListPanel.addMouseListeners(l);
+    }
+
+    public void addPlayedListPanelMouseListener(MouseListener l) {
+        this.playedListPanel.addMouseListener(l);
+        this.playedListPanel.addMouseListeners(l);
+    }
+
     public void addList(ListPreviewPanel list) {
         this.centerPanel.add(list);
         this.centerPanel.revalidate();
@@ -95,6 +122,9 @@ public class ListsPanel extends javax.swing.JPanel {
             this.centerPanel.add(createListPanel);
         }
         this.centerPanel.add(favouriteListPanel);
+        this.centerPanel.add(wantToPlayListPanel);
+        this.centerPanel.add(playingListPanel);
+        this.centerPanel.add(playedListPanel);
         this.centerPanel.revalidate();
         this.centerPanel.repaint();
     }
@@ -112,5 +142,8 @@ public class ListsPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane centerScrollPane;
     private com.iglnierod.gamearchive.view.home.list.panel.CreateListPanel createListPanel;
     private com.iglnierod.gamearchive.view.home.list.panel.FavouriteListPanel favouriteListPanel;
+    private com.iglnierod.gamearchive.view.home.list.panel.PlayedListPanel playedListPanel;
+    private com.iglnierod.gamearchive.view.home.list.panel.PlayingListPanel playingListPanel;
+    private com.iglnierod.gamearchive.view.home.list.panel.WantToPlayListPanel wantToPlayListPanel;
     // End of variables declaration//GEN-END:variables
 }

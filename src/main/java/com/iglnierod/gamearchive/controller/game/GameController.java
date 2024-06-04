@@ -9,6 +9,7 @@ import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.game.rate.GameRate;
@@ -56,8 +57,11 @@ public class GameController {
     }
 
     private void addListeners() {
-        // TODO
         this.view.addReloadMenuItemActionListener(this.addReloadMenuItemListener());
+
+        this.view.addWantButtonActionListener(this.addWantButtonListener());
+        this.view.addPlayingButtonActionListener(this.addPlayingButtonListener());
+        this.view.addPlayedButtonActionListener(this.addPlayedButtonListener());
     }
 
     private void fillGameInformation() {
@@ -93,6 +97,32 @@ public class GameController {
 
         this.addRatings();
         this.addSimilarGames();
+        this.checkGameStatus();
+    }
+
+    private void checkGameStatus() {
+        GameStatus status = gameDao.getStatus(this.game);
+        if (status == null) {
+            return;
+        }
+
+        // Desactivar todos los botones primero
+        this.view.setWantButtonSelected(false);
+        this.view.setPlayingButtonSelected(false);
+        this.view.setPlayedButtonSelected(false);
+
+        // Activar el botón correspondiente al estado
+        switch (status) {
+            case WANT_TO_PLAY:
+                this.view.setWantButtonSelected(true);
+                break;
+            case PLAYING:
+                this.view.setPlayingButtonSelected(true);
+                break;
+            case PLAYED:
+                this.view.setPlayedButtonSelected(true);
+                break;
+        }
     }
 
     public void addFavouriteButtonListener(ActionListener l) {
@@ -137,5 +167,33 @@ public class GameController {
 
     public void reload() {
         this.fillGameInformation();
+    }
+
+    // STATUS
+    private ActionListener addWantButtonListener() {
+        return (e) -> {
+            System.out.println("WANT");
+            gameDao.setStatus(this.game, GameStatus.WANT_TO_PLAY, !view.isWantButtonSelected());
+            this.view.setPlayingButtonSelected(false);
+            this.view.setPlayedButtonSelected(false);
+        };
+    }
+
+    private ActionListener addPlayingButtonListener() {
+        return (e) -> {
+            System.out.println("PLAYING");
+            gameDao.setStatus(this.game, GameStatus.PLAYING, !view.isPlayingButtonSelected());
+            this.view.setWantButtonSelected(false);
+            this.view.setPlayedButtonSelected(false);
+        };
+    }
+
+    private ActionListener addPlayedButtonListener() {
+        return (e) -> {
+            System.out.println("PLAYED");
+            gameDao.setStatus(this.game, GameStatus.PLAYED, !view.isPlayedButtonSelected());
+            this.view.setWantButtonSelected(false);
+            this.view.setPlayingButtonSelected(false);
+        };
     }
 }

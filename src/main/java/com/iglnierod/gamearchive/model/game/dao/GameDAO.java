@@ -5,6 +5,7 @@
 package com.iglnierod.gamearchive.model.game.dao;
 
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import com.iglnierod.gamearchive.model.game.rate.GameRate;
 import com.iglnierod.gamearchive.model.list.List;
@@ -47,4 +48,10 @@ public interface GameDAO {
     public ArrayList<Game> getTopRated(int offset);
     
     public ArrayList<Game> getRandom(GameFilter filter);
+    
+    public void setStatus(Game game, GameStatus status);
+    
+    public void setStatus(Game game, GameStatus status, boolean delete);
+    
+    public GameStatus getStatus(Game game);
 }
