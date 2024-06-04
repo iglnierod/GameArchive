@@ -249,13 +249,13 @@ public class HomeController {
         myListsPanel.addCreateListPanelMouseListener(addCreateListPanelListener());
         myListsPanel.addFavouriteListPanelMouseListener(this.addPreviewPanelListener(listDao.getFavouriteList(), true));
         myListsPanel.addWantToPlayListPanelMouseListener(
-                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.WANT_TO_PLAY), false));
+                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.WANT_TO_PLAY), GameStatus.WANT_TO_PLAY, Session.getCurrentClient()));
 
         myListsPanel.addPlayingListPanelMouseListener(
-                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYING), false));
+                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYING), GameStatus.PLAYING, Session.getCurrentClient()));
 
         myListsPanel.addPlayedListPanelMouseListener(
-                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYED), false));
+                this.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYED), GameStatus.PLAYED, Session.getCurrentClient()));
 
         this.updateListsPanel();
     }
@@ -543,13 +543,13 @@ public class HomeController {
         };
     }
 
-    public MouseListener addStatusListPreviewPanelListener(List list, boolean b) {
+    public MouseListener addStatusListPreviewPanelListener(List list, GameStatus status, Client client) {
         HomeController hc = this;
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ListDialog listDialog = new ListDialog(view, false, false);
-                ListStatusController controller = new ListStatusController(listDialog, database, list, hc);
+                ListStatusController controller = new ListStatusController(listDialog, database, list, hc, status, client);
                 listDialog.setVisible(true);
             }
         };

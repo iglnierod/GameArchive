@@ -101,14 +101,14 @@ public class ClientController {
         this.view.addListsPanel(listsPanel);
         this.listsPanel.addFavouriteListPanelMouseListener(hc.addPreviewPanelListener(listDao.getFavouriteList(client), false));
         this.listsPanel.addWantToPlayListPanelMouseListener(
-                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.WANT_TO_PLAY, client), isCurrentUser)
+                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.WANT_TO_PLAY), GameStatus.WANT_TO_PLAY, client)
         );
         this.listsPanel.addPlayingListPanelMouseListener(
-                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYING), isCurrentUser)
+                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYING), GameStatus.PLAYING, client)
         );
 
         this.listsPanel.addPlayedListPanelMouseListener(
-                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYED), isCurrentUser)
+                hc.addStatusListPreviewPanelListener(listDao.getGameByStatus(GameStatus.PLAYED), GameStatus.PLAYED, client)
         );
         listDao.getAll(client).stream().forEach(l -> hc.addListToListsPanel(listsPanel, l, false));
     }

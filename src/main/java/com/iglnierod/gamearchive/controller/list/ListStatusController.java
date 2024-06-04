@@ -7,8 +7,10 @@ package com.iglnierod.gamearchive.controller.list;
 import com.iglnierod.gamearchive.controller.home.HomeController;
 import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
+import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.list.List;
@@ -33,17 +35,22 @@ public class ListStatusController {
     private final Database database;
     private final GameDAO gameDao;
     private final ListDAO listDao;
-    private final List list;
+    private List list;
     private HomeController homeController;
-
-    public ListStatusController(ListDialog view, Database database, List list, HomeController homeController) {
+    private GameStatus status;
+    private Client client;
+    
+    
+    public ListStatusController(ListDialog view, Database database, List list, HomeController homeController, GameStatus status, Client client) {
         this.view = view;
         this.database = database;
         this.gameDao = new GameDAOUnirest(database);
         this.listDao = new ListDAOPostgreSQL(database);
         this.list = list;
         this.homeController = homeController;
-
+        this.status = status;
+        this.client = client;
+        
         loadGames();
         loadInformation();
         this.addListeners();
@@ -59,6 +66,7 @@ public class ListStatusController {
     }
 
     private void loadGames() {
+        list = listDao.getGameByStatus(status, client);
         System.out.println("GAMES IN LIST: " + list.getGames());
         // REVISAR: Cargar imagenes de manera asincrona
         ExecutorService executorService = Executors.newFixedThreadPool(5); // Número de hilos para cargar imágenes
