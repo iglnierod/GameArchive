@@ -4,8 +4,11 @@
  */
 package com.iglnierod.gamearchive.model.client;
 
+import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.platform.Platform;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.mindrot.jbcrypt.BCrypt;
@@ -21,7 +24,10 @@ public class Client implements Serializable {
     private String passwordHash;
     private String description;
     private Set<Platform> platformsList;
+    private ArrayList<List> lists;
+    private LocalDateTime joinedOn;
 
+    
     public Client() {
     }
 
@@ -30,6 +36,7 @@ public class Client implements Serializable {
         this.email = email;
         this.passwordHash = getPasswordHash(password);
         this.platformsList = new LinkedHashSet<>();
+        this.lists = new ArrayList<>();
     }
 
     public Client(String username, String email, String password, String description, Set<Platform> platformsList) {
@@ -38,6 +45,7 @@ public class Client implements Serializable {
         this.passwordHash = getPasswordHash(password);
         this.description = description;
         this.platformsList = platformsList;
+        this.lists = new ArrayList<>();
     }
 
     private String getPasswordHash(String password) {
@@ -90,6 +98,22 @@ public class Client implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public ArrayList<List> getLists() {
+        return lists;
+    }
+
+    public void setLists(ArrayList<List> lists) {
+        this.lists = lists;
+    }
+
+    public LocalDateTime getJoinedOn() {
+        return joinedOn;
+    }
+
+    public void setJoinedOn(LocalDateTime joinedOn) {
+        this.joinedOn = joinedOn;
     }
     
     @Override

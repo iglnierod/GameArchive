@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.iglnierod.gamearchive.model.api.igdb.PostRequest;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.filter.GameFilter;
 import com.iglnierod.gamearchive.model.game.rate.GameRate;
 import com.iglnierod.gamearchive.model.genre.Genre;
@@ -28,6 +29,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 
 public class GameDAOUnirest implements GameDAO {
 
@@ -378,7 +381,7 @@ public class GameDAOUnirest implements GameDAO {
         }
         return games;
     }
-
+    
     @Override
     public boolean addToFavourite(Game game, int favListId) {
         saveGame(game);
@@ -504,5 +507,153 @@ public class GameDAOUnirest implements GameDAO {
             ex.printStackTrace();
         }
         return ratings;
+    }
+
+    @Override
+    public ArrayList<GameRate> getRatings(String username) {
+        ArrayList<GameRate> ratings = new ArrayList<>();
+        String query = "SELECT username, rating, comment, game.name AS game_name FROM rating JOIN game ON rating.game_id = game.id WHERE username = ? ORDER BY created_at DESC";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                GameRate rate = new GameRate(
+                        rs.getString("username"),
+                        rs.getInt("rating"),
+                        rs.getString("comment"),
+                        rs.getString("game_name")
+                );
+                ratings.add(rate);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return ratings;
+    }
+
+    @Override
+    public ArrayList<Game> getTopRated(int offset) {
+        /*fields name, cover.url, rating, rating_count;
+        sort rating desc;
+        where rating_count >= 50;
+        limit 7;
+        offset 20;*/
+        ArrayList<Game> topRated = new ArrayList<>();
+
+        PostRequest pr = PostRequest.builder()
+                .fields("name,cover.image_id")
+                .sort("rating desc")
+                .where("rating_count >= 50 ")
+                .limit("7")
+                .offset(String.valueOf(offset))
+                .build();
+
+        String postResult = this.post(URL, pr.asString());
+
+        System.out.println(postResult);
+
+        topRated = this.parseTopRated(postResult);
+
+        return topRated;
+    }
+
+    private ArrayList<Game> parseTopRated(String jsonResponse) {
+        ArrayList<Game> games = new ArrayList<>();
+
+        JSONArray jsonArray = new JSONArray(jsonResponse);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            int id = jsonObject.getInt("id");
+            String name = jsonObject.getString("name");
+            String coverId = jsonObject.getJSONObject("cover").getString("image_id");
+
+            Game game = new Game();
+            game.setId(id);
+            game.setName(name);
+            game.setCoverId(coverId);
+
+            games.add(game);
+        }
+
+        return games;
+    }
+
+    @Override
+    public ArrayList<Game> getRandom(GameFilter filter) {
+        ArrayList<Game> games = new ArrayList<>();
+
+        String where = this.getWhereStatement(filter);
+
+        PostRequest pr = PostRequest.builder()
+                .fields("name,cover.image_id")
+                .sort("rating desc")
+                .where(where)
+                .limit(filter.getLimit())
+                .build();
+
+        String postResult = this.post(URL, pr.asString());
+
+        games = this.parseTopRated(postResult);
+
+        System.out.println("GAMES: " + games);
+
+        return games;
+    }
+
+    @Override
+    public void setStatus(Game game, GameStatus status) {
+        this.setStatus(game, status, false);
+    }
+
+    @Override
+    public void setStatus(Game game, GameStatus status, boolean delete) {
+        if (delete) {
+            String queryDel = "DELETE FROM client_game WHERE username = ? AND game_id = ?";
+            try (PreparedStatement ps = database.getConnection().prepareStatement(queryDel)) {
+                ps.setString(1, Session.getCurrentClient().getUsername());
+                ps.setInt(2, game.getId());
+
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+        } else {
+            saveGame(game);
+            String query = "INSERT INTO client_game (username, game_id, status, created_at) "
+                    + "VALUES (?, ?, ?, now()) "
+                    + "ON CONFLICT (username, game_id) "
+                    + "DO UPDATE SET status = EXCLUDED.status, created_at = now()";
+
+            try (Connection conn = database.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+                pstmt.setString(1, Session.getCurrentClient().getUsername());
+                pstmt.setLong(2, game.getId());
+                pstmt.setInt(3, status.getValue());
+
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public GameStatus getStatus(Game game) {
+        String query = "SELECT * FROM client_game WHERE game_id = ?";
+        GameStatus status = null;
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setInt(1, game.getId());
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                status = GameStatus.fromValue(rs.getInt("status"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return status;
     }
 }

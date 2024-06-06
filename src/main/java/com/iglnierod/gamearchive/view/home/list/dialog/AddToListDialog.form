@@ -98,7 +98,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Calcel"/>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
     </Component>
   </SubComponents>

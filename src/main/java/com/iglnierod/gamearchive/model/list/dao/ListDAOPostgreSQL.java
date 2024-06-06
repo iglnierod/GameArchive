@@ -6,10 +6,15 @@ package com.iglnierod.gamearchive.model.list.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.game.ExportGame;
+import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
+import com.iglnierod.gamearchive.model.list.ExportList;
 import com.iglnierod.gamearchive.model.list.List;
 import com.iglnierod.gamearchive.model.session.Session;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -127,25 +132,7 @@ public class ListDAOPostgreSQL implements ListDAO {
 
     @Override
     public List getFavouriteList() {
-        List fav = new List();
-        String query = "SELECT * FROM list WHERE favourite IS TRUE AND username = ?";
-        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
-            ps.setString(1, Session.getCurrentClient().getUsername());
-
-            GameDAO gameDao = new GameDAOUnirest(database);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                fav.setId(rs.getInt("id"));
-                fav.setName(rs.getString("name"));
-                fav.setDescription(rs.getString("description"));
-                fav.setGames(gameDao.getGamesInList(fav.getId()));
-                fav.setFavourite(true);
-            }
-            return fav;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
+        return getFavouriteList(Session.getCurrentClient());
     }
 
     @Override
@@ -190,6 +177,86 @@ public class ListDAOPostgreSQL implements ListDAO {
             ex.printStackTrace();
         }
         return favouriteGameIds;
+    }
+
+    @Override
+    public List getFavouriteList(Client client) {
+        List fav = new List();
+        String query = "SELECT * FROM list WHERE favourite IS TRUE AND username = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, client.getUsername());
+
+            GameDAO gameDao = new GameDAOUnirest(database);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                fav.setId(rs.getInt("id"));
+                fav.setName(rs.getString("name"));
+                fav.setDescription(rs.getString("description"));
+                fav.setGames(gameDao.getGamesInList(fav.getId()));
+                fav.setFavourite(true);
+            }
+            return fav;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void importGames(int listId, ExportList exList) {
+        String query = "INSERT INTO list_game (list_id, game_id) VALUES (?, ?)";
+
+        for (ExportGame g : exList.getGames()) {
+            try (Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+                conn.setAutoCommit(false); // Disable auto-commit mode
+
+                ps.setInt(1, listId);
+                ps.setInt(2, g.getId());
+
+                try {
+                    ps.executeUpdate(); // Execute the insert statement immediately
+                    conn.commit(); // Commit successful insert
+                } catch (SQLException e) {
+                    conn.rollback(); // Rollback on failure
+                    if (e.getSQLState().equals("23505")) { // SQL state for unique constraint violation
+                        System.err.println("Duplicate key for game with ID: " + g.getId() + ", skipping...");
+                    } else {
+                        System.err.println("Failed to insert game with ID: " + g.getId() + ": " + e.getMessage());
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public List getGameByStatus(GameStatus status) {
+        return this.getGameByStatus(status, Session.getCurrentClient());
+    }
+
+    @Override
+    public List getGameByStatus(GameStatus status, Client client) {
+        List list = new List();
+        String query = "SELECT * FROM client_game WHERE username = ? AND status = ?";
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, client.getUsername());
+            ps.setInt(2, status.getValue());
+
+            GameDAO gameDao = new GameDAOUnirest(database);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Game> games = new ArrayList<>();
+            while (rs.next()) {
+                Game g = gameDao.getAllInformation(rs.getInt("game_id"));
+                games.add(g);
+                list.setGames(games);
+            }
+            list.setName(status.toString().replace("_", " "));
+            return list;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -6,11 +6,15 @@ package com.iglnierod.gamearchive.model.client.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.database.Database;
+import com.iglnierod.gamearchive.model.list.dao.ListDAO;
+import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAO;
 import com.iglnierod.gamearchive.model.platform.dao.PlatformDAOPostgreSQL;
 import com.iglnierod.gamearchive.model.session.Session;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Set;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -78,9 +82,12 @@ public class ClientDAOPostgreSQL implements ClientDAO {
                 client.setEmail(rs.getString("email"));
                 client.setPassword(rs.getString("password"));
                 client.setDescription(rs.getString("description"));
-                System.out.println("platformDao.getPlatformsByUser(username): " + platformDao.getPlatformsByUser(username));
                 client.setPlatformsList(platformDao.getPlatformsByUser(username));
+                client.setJoinedOn(rs.getObject("created_at", LocalDateTime.class));
             }
+
+            ListDAO listDao = new ListDAOPostgreSQL(database);
+            client.setLists(listDao.getAll(client));
 
             return client;
         } catch (SQLException ex) {
@@ -116,6 +123,29 @@ public class ClientDAOPostgreSQL implements ClientDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public ArrayList<Client> search(String input) {
+        ArrayList<Client> clients = new ArrayList<>();
+        String query = "SELECT * FROM client WHERE username LIKE ?";
+
+        try (PreparedStatement ps = database.getConnection().prepareStatement(query)) {
+            ps.setString(1, "%" + input + "%");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Client c = new Client(
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("description")
+                );
+                clients.add(c);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return clients;
     }
 
 }

@@ -2,8 +2,31 @@
 
 ## Entregas
 
+### 5 de Junio 2024
+
+#### developing branch
+
+- Ver actividad reciente en `Community`
+- Ver información del perfil
+- Buscar usuarios
+- Ver perfil de otros usuarios
+- Exportar listas
+  - JSON
+  - XML
+  - HTML 
+- Importar listas
+  - JSON
+  - XML
+- Pestaña `Home`:
+  - Juegos recomendados basado en favoritos
+  - Juegos aleatorios mejor valorados de IGDB
+- Juego aleatorio basado en parámetros
+- Añadir estados a juegos (quiero jugar, jugando, jugado)
+
 ### 25 de Mayo 2024
 ##### main branch
+
+##### developing branch
 
 - Marcar juego como favorito
 - Ver juegos similares dentro de un juego
@@ -127,7 +150,6 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
   - [X] Nombre de usuario
   - [X] Email
   - [X] Descripción
-  - [ ] Enlaces a redes sociales
 
 - Búsqueda de juegos:
   - [X] Por titulo
@@ -151,14 +173,26 @@ El fichero ``.env`` contiene los valores importantes como contraseña y usuario 
     - [X] Descripción
 
 - [X] Marcar juego como favorito
-- [ ] Añadir estados a juegos
 - [X] Valorar juegos
-- [X] Sistema de recomendación/Juegos similares
-- [ ] Sistema de recomendación aleatoria con parámetros
-- [ ] Feed de últimos juegos añadidos por otros usuarios
-- [ ] Búsqueda de usuarios
-- [ ] Ver perfil de otros usuarios
-- [ ] Exportar listas a otros formatos (XML, CSV, PDF, HTML)
+- [X] Juegos similares
+- [X] Juegos recomenados basados en favoritos
+- [X] Feed de últimos juegos añadidos por otros usuarios
+- [X] Ver perfil del usuario logeado
+  - [X] Ver información general (nombre, descripcion, plataformas)
+  - [X] Ver listas del usuario
+  - [X] Ver valoraciones del usuario
+  - [X] Ver última actividad del usuario
+- [X] Ver perfil de otros usuarios
+- [X] Búsqueda de usuarios
+- [X] Exportar listas
+  - [X] JSON
+  - [X] XML
+  - [X] HTML
+- [X] Importar listas
+  - [X] JSON
+  - [X] XML
+- [X] Añadir estados a juegos
+- [X] Sistema de recomendación aleatoria con parámetros
 
 ## Entorno de desarrollo
 

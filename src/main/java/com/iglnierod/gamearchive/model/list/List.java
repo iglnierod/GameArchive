@@ -5,13 +5,14 @@
 package com.iglnierod.gamearchive.model.list;
 
 import com.iglnierod.gamearchive.model.game.Game;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author iglnierod
  */
-public class List {
+public class List implements Serializable {
 
     private int id;
     private String name;

@@ -59,7 +59,7 @@ public class CreateListController {
                 return;
             }
             
-            homeController.addListToListsPanel(list);
+            homeController.addListToListsPanel(list,true);
             view.dispose();
         };
     }

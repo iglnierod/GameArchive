@@ -9,6 +9,7 @@ import com.iglnierod.gamearchive.model.api.igdb.ImageType;
 import com.iglnierod.gamearchive.model.api.igdb.Reference;
 import com.iglnierod.gamearchive.model.database.Database;
 import com.iglnierod.gamearchive.model.game.Game;
+import com.iglnierod.gamearchive.model.game.GameStatus;
 import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.game.rate.GameRate;
@@ -40,9 +41,9 @@ public class GameController {
     private final GameDAO gameDao;
     private Game game;
     private ArrayList<Game> similarGames;
-    private HomeController homeController;
+    private HomeController hc;
     private ArrayList<GameRate> gameRatings;
-    
+
     public GameController(GameDialog view, Database database, Game game, HomeController homeController) {
         this.view = view;
         this.database = database;
@@ -50,14 +51,17 @@ public class GameController {
         this.game = game;
         this.similarGames = new ArrayList<>();
         this.gameRatings = new ArrayList<>();
-        this.homeController = homeController;
+        this.hc = homeController;
         this.fillGameInformation();
         this.addListeners();
     }
 
     private void addListeners() {
-        // TODO
         this.view.addReloadMenuItemActionListener(this.addReloadMenuItemListener());
+
+        this.view.addWantButtonActionListener(this.addWantButtonListener());
+        this.view.addPlayingButtonActionListener(this.addPlayingButtonListener());
+        this.view.addPlayedButtonActionListener(this.addPlayedButtonListener());
     }
 
     private void fillGameInformation() {
@@ -90,49 +94,106 @@ public class GameController {
 
         view.setRatingProgressBar(Math.round(this.game.getIgdbRating()));
         view.setRatingCountLabel(this.game.getRatingCount());
-        
+
         this.addRatings();
         this.addSimilarGames();
+        this.checkGameStatus();
     }
-    
+
+    private void checkGameStatus() {
+        GameStatus status = gameDao.getStatus(this.game);
+        if (status == null) {
+            return;
+        }
+
+        // Desactivar todos los botones primero
+        this.view.setWantButtonSelected(false);
+        this.view.setPlayingButtonSelected(false);
+        this.view.setPlayedButtonSelected(false);
+
+        // Activar el botón correspondiente al estado
+        switch (status) {
+            case WANT_TO_PLAY:
+                this.view.setWantButtonSelected(true);
+                break;
+            case PLAYING:
+                this.view.setPlayingButtonSelected(true);
+                break;
+            case PLAYED:
+                this.view.setPlayedButtonSelected(true);
+                break;
+        }
+    }
+
     public void addFavouriteButtonListener(ActionListener l) {
         this.view.addFavourteButtonActionListener(l);
     }
 
     private void addSimilarGames() {
         this.similarGames = gameDao.getSimilar(this.game.getId());
-        for(Game g : similarGames) {
+        for (Game g : similarGames) {
             GameCoverPanel gamePanel = new GameCoverPanel(g.getId());
-            gamePanel.addCoverMouseListener(this.homeController.addGamePreviewPanelMouseListener(g));
+            gamePanel.addCoverMouseListener(this.hc.addGamePreviewPanelMouseListener(g));
             // Cargar imagen de forma asíncrona
-                SwingUtilities.invokeLater(() -> {
-                    ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
-                    ImageIcon imageIcon = new ImageIcon(ImageTool.getScaledImage(url.getImage(), GameCoverPanel.WIDTH, GameCoverPanel.HEIGHT));
+            SwingUtilities.invokeLater(() -> {
+                ImageIcon url = ImageTool.loadImageFromURL(Reference.getImage(ImageType.COVER_BIG, g.getCoverId()));
+                ImageIcon imageIcon = new ImageIcon(ImageTool.getScaledImage(url.getImage(), GameCoverPanel.WIDTH, GameCoverPanel.HEIGHT));
+                if (imageIcon != null) {
                     gamePanel.setGameLabelImageIcon(imageIcon);
-                    this.view.addSimilarGame(gamePanel);
-                });
+                }
+                this.view.addSimilarGame(gamePanel);
+            });
         }
     }
 
     private void addRatings() {
         this.view.emptyRatings();
         this.gameRatings = gameDao.getRatings(this.game);
-        for(GameRate r : gameRatings) {
+        for (GameRate r : gameRatings) {
             RatePanel panel = new RatePanel();
+            panel.addUsernameLabelMouseListener(hc.addUsernameLabelListener(r.getUsername()));
             panel.setUsernameText(r.getUsername());
             panel.setRating(r.getRating());
             panel.setCommentText(r.getComment());
             this.view.addRating(panel);
         }
     }
-    
+
     private ActionListener addReloadMenuItemListener() {
         return (ActionEvent e) -> {
             reload();
         };
     }
-    
+
     public void reload() {
         this.fillGameInformation();
+    }
+
+    // STATUS
+    private ActionListener addWantButtonListener() {
+        return (e) -> {
+            System.out.println("WANT");
+            gameDao.setStatus(this.game, GameStatus.WANT_TO_PLAY, !view.isWantButtonSelected());
+            this.view.setPlayingButtonSelected(false);
+            this.view.setPlayedButtonSelected(false);
+        };
+    }
+
+    private ActionListener addPlayingButtonListener() {
+        return (e) -> {
+            System.out.println("PLAYING");
+            gameDao.setStatus(this.game, GameStatus.PLAYING, !view.isPlayingButtonSelected());
+            this.view.setWantButtonSelected(false);
+            this.view.setPlayedButtonSelected(false);
+        };
+    }
+
+    private ActionListener addPlayedButtonListener() {
+        return (e) -> {
+            System.out.println("PLAYED");
+            gameDao.setStatus(this.game, GameStatus.PLAYED, !view.isPlayedButtonSelected());
+            this.view.setWantButtonSelected(false);
+            this.view.setPlayingButtonSelected(false);
+        };
     }
 }

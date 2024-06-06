@@ -22,6 +22,10 @@ public class GameFilter {
         this.genres = genres;
     }
 
+    public GameFilter(boolean allPlatforms, String genres) {
+        this("50", "0", allPlatforms, genres);
+    }
+
     public GameFilter() {
         this("5", "0.0", true, "");
     }

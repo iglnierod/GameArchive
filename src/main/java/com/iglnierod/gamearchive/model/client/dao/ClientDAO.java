@@ -6,6 +6,7 @@ package com.iglnierod.gamearchive.model.client.dao;
 
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.platform.Platform;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -22,4 +23,6 @@ public interface ClientDAO {
     public void updateUserDescription(String description);
 
     public void updateUserPlatforms(Set<Platform> selectedPlatforms);
+    
+    public ArrayList<Client> search(String input);
 }
