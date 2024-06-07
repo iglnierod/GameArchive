@@ -72,7 +72,21 @@
         class="btn btn-secondary mx-2"
         >More</a
       >
-      <a href="LICENSE" class="btn btn-primary mx-2">Download</a>
+      <div class="dropdown d-inline">
+        <button
+          class="btn btn-primary dropdown-toggle mx-2"
+          type="button"
+          id="dropdownMenuButton"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Download
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#">Windows</a></li>
+          <li><a class="dropdown-item" href="#">Debian/Ubuntu</a></li>
+        </ul>
+      </div>
     </div>
     <footer>
       <div class="footer-content">
