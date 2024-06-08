@@ -18,6 +18,7 @@ public class RegisterFrame extends javax.swing.JFrame {
      */
     public RegisterFrame() {
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -119,7 +120,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
     public void addLoginLabelMouseListener(MouseListener listener) {
         loginLabel.addMouseListener(listener);
     }
@@ -140,12 +140,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         char[] passwordChars = this.passwordField.getPassword();
         return new String(passwordChars).trim();
     }
-    
+
     public void setFocusUsernameTextField() {
         this.usernameTextField.requestFocus();
         this.usernameTextField.selectAll();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
@@ -159,5 +159,4 @@ public class RegisterFrame extends javax.swing.JFrame {
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 
-    
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.iglnierod</groupId>
     <artifactId>GameArchive</artifactId>
@@ -15,24 +15,6 @@
     </properties>
     <build>
         <plugins>
-            <!-- Copiar dependencias al directorio lib/ -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Empaquetar JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -48,6 +30,36 @@
                     </archive>
                 </configuration>
             </plugin>
+            <!-- Plugin jdeb para crear el paquete .deb 
+            <plugin>
+                <groupId>org.vafer</groupId>
+                <artifactId>jdeb</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <controlDir>${project.basedir}/src/deb/control</controlDir>
+                    <data>
+                        <fileSet>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                            <outputDirectory>/opt/GameArchive</outputDirectory>
+                        </fileSet>
+                        <fileSet>
+                            <directory>${project.build.directory}/dependency</directory>
+                            <outputDirectory>/opt/GameArchive/lib</outputDirectory>
+                        </fileSet>
+                    </data>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
     <dependencies>
@@ -70,20 +82,17 @@
             <version>42.7.3</version>
         </dependency>
         <!-- GSON -->
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
         <!-- Unirest -->
-        <!-- https://mvnrepository.com/artifact/com.konghq/unirest-java -->
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.14.5</version>
         </dependency>
-        
         <!-- XML -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -100,6 +109,5 @@
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.1</version>
         </dependency>
-
     </dependencies>
 </project>

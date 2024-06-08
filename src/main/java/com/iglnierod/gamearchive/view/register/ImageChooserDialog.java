@@ -4,8 +4,6 @@
  */
 package com.iglnierod.gamearchive.view.register;
 
-import java.awt.Dimension;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
@@ -20,6 +18,7 @@ public class ImageChooserDialog extends javax.swing.JDialog {
     public ImageChooserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**

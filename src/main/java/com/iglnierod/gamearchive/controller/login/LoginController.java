@@ -39,7 +39,6 @@ public class LoginController {
 
     public LoginController(LoginFrame view, Database database, boolean savedSession) {
         this.view = view;
-        this.view.setIconImage(MainController.getIconImage());
         this.database = database;
         this.userDao = new ClientDAOPostgreSQL(database);
         this.savedSession = savedSession;

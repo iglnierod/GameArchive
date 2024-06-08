@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 public class ListDialog extends javax.swing.JDialog {
 
     private boolean isOwner;
-    
+
     /**
      * Creates new form ListDialog
      */
@@ -26,6 +26,7 @@ public class ListDialog extends javax.swing.JDialog {
         initComponents();
         this.centerPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
         this.checkOwnership();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     private void checkOwnership() {
@@ -33,7 +34,7 @@ public class ListDialog extends javax.swing.JDialog {
         this.deleteMenuItem.setEnabled(isOwner);
         this.importMenuItem.setEnabled(isOwner);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,7 +145,7 @@ public class ListDialog extends javax.swing.JDialog {
     public void addReloadMenuItemActionListener(ActionListener l) {
         this.reloadMenuItem.addActionListener(l);
     }
-    
+
     public void addEditMenuItemActionListener(ActionListener l) {
         this.editMenuItem.addActionListener(l);
     }
@@ -152,11 +153,11 @@ public class ListDialog extends javax.swing.JDialog {
     public void addExportMenuItemActionListener(ActionListener l) {
         this.exportMenuItem.addActionListener(l);
     }
-    
+
     public void addImportMenuItemActionListener(ActionListener l) {
         this.importMenuItem.addActionListener(l);
     }
-    
+
     public void addDeleteMenuItemActionListener(ActionListener l) {
         this.deleteMenuItem.addActionListener(l);
     }
@@ -179,11 +180,11 @@ public class ListDialog extends javax.swing.JDialog {
         this.centerPanel.removeAll();
         this.revalidaCenterPanel();
     }
-    
+
     public void disableDeleteMenuItem() {
         this.deleteMenuItem.setEnabled(false);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JMenuItem deleteMenuItem;
@@ -199,5 +200,4 @@ public class ListDialog extends javax.swing.JDialog {
     private javax.swing.JPanel southPanel;
     // End of variables declaration//GEN-END:variables
 
-    
 }

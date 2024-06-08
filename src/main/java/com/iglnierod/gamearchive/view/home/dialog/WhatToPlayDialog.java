@@ -23,6 +23,7 @@ public class WhatToPlayDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.genresPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -143,15 +144,15 @@ public class WhatToPlayDialog extends javax.swing.JDialog {
     public int getMinRatingSpinnerValue() {
         return (int) this.minRatingSpinner.getValue();
     }
-    
+
     public boolean isAllPlatformsSelected() {
         return this.allPlatformsRadioButton.isSelected();
     }
-    
+
     public void emptyResultPanel() {
         this.resultPanel.removeAll();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton allPlatformsRadioButton;
     private javax.swing.JLabel descriptionLabel;

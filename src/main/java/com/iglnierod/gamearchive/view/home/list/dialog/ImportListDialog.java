@@ -19,6 +19,7 @@ public class ImportListDialog extends javax.swing.JDialog {
     public ImportListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -115,31 +116,31 @@ public class ImportListDialog extends javax.swing.JDialog {
     public void setFormatComboBoxModel(ComboBoxModel<String> model) {
         this.formatComboBox.setModel(model);
     }
-    
+
     public int getFormatComboBoxSelectedIndex() {
         return this.formatComboBox.getSelectedIndex();
     }
-    
+
     public String getDirectoryTextFieldText() {
         return this.directoryTextField.getText();
     }
-    
+
     public void setDirectoryTextFieldText(String dir) {
         this.directoryTextField.setText(dir);
     }
-    
+
     public void addChooseDirectoryButtonActionListener(ActionListener l) {
         this.chooseDirectoryButton.addActionListener(l);
     }
-    
+
     public void addCancelButtonActionListener(ActionListener l) {
         this.cancelButton.addActionListener(l);
     }
-    
+
     public void addImportButtonActionListener(ActionListener l) {
         this.importButton.addActionListener(l);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton chooseDirectoryButton;

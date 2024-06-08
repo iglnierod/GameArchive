@@ -19,6 +19,7 @@ public class EditListDialog extends javax.swing.JDialog {
     public EditListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -212,7 +213,7 @@ public class EditListDialog extends javax.swing.JDialog {
         this.nameTextField.setEnabled(false);
         this.descriptionTextArea.setEnabled(false);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTabbedPane centerTabbedPane;

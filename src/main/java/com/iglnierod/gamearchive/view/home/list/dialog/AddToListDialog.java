@@ -18,6 +18,7 @@ public class AddToListDialog extends javax.swing.JDialog {
     public AddToListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -90,7 +91,7 @@ public class AddToListDialog extends javax.swing.JDialog {
     public void addAddButtonActionListener(ActionListener l) {
         this.createButton.addActionListener(l);
     }
-    
+
     public void addCancelButtonActionListener(ActionListener l) {
         this.cancelButton.addActionListener(l);
     }
@@ -98,11 +99,11 @@ public class AddToListDialog extends javax.swing.JDialog {
     public void addListComboBoxItem(String listName) {
         this.listComboBox.addItem(listName);
     }
-    
+
     public int getListComboBoxSelectedIndex() {
         return listComboBox.getSelectedIndex();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton createButton;

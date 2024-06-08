@@ -26,6 +26,7 @@ public class GameDialog extends javax.swing.JDialog {
         initComponents();
         this.favourite = favourite;
         markFavourite(this.favourite);
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**

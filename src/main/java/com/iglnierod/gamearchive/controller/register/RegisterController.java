@@ -4,7 +4,6 @@
  */
 package com.iglnierod.gamearchive.controller.register;
 
-import com.iglnierod.gamearchive.controller.MainController;
 import com.iglnierod.gamearchive.controller.login.LoginController;
 import com.iglnierod.gamearchive.model.client.Client;
 import com.iglnierod.gamearchive.model.client.dao.ClientDAO;
@@ -37,7 +36,6 @@ public class RegisterController {
 
     public RegisterController(RegisterFrame view, Database database) {
         this.view = view;
-        this.view.setIconImage(MainController.getIconImage());
         this.database = database;
         this.clientDao = new ClientDAOPostgreSQL(database);
         setListeners();

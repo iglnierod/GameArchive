@@ -22,6 +22,7 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
      */
     public ProfileConfigFrame() {
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**

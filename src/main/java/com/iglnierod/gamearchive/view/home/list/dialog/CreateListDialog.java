@@ -18,6 +18,7 @@ public class CreateListDialog extends javax.swing.JDialog {
     public CreateListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -111,19 +112,19 @@ public class CreateListDialog extends javax.swing.JDialog {
     public String getNameTextFieldText() {
         return this.nameTextField.getText().trim();
     }
-    
+
     public String getDescriptionTextAreaText() {
         return this.descriptionTextArea.getText().trim();
     }
-    
+
     public void addCancelButtonActionListener(ActionListener l) {
         this.cancelButton.addActionListener(l);
     }
-    
+
     public void addCreateButtonActionListener(ActionListener l) {
         this.createButton.addActionListener(l);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton createButton;

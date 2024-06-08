@@ -18,6 +18,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
     /**
@@ -127,11 +128,11 @@ public class LoginFrame extends javax.swing.JFrame {
         char[] passwordChars = this.passwordField.getPassword();
         return new String(passwordChars).trim();
     }
-    
+
     public boolean isSaveLoginSelected() {
         return this.saveLoginCheckBox.isSelected();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel haveAccountLabel;
     private javax.swing.JButton loginButton;
