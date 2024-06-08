@@ -45,7 +45,7 @@ public class RateGameDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        cancelButton.setText("Calcel");
+        cancelButton.setText("Cancel");
 
         titleLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
