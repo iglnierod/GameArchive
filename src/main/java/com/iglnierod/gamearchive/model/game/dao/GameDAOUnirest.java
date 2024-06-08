@@ -426,11 +426,13 @@ public class GameDAOUnirest implements GameDAO {
     public ArrayList<Game> parseSimilar(String jsonResponse) {
         ArrayList<Integer> similarGameIds = new ArrayList<>();
         JsonArray jsonArray = JsonParser.parseString(jsonResponse).getAsJsonArray();
-
+        
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonGame = jsonArray.get(i).getAsJsonObject();
             JsonArray similarGamesArray = jsonGame.getAsJsonArray("similar_games");
-
+            if(similarGamesArray == null) {
+                return new ArrayList<Game>();
+            }
             for (int j = 0; j < similarGamesArray.size(); j++) {
                 int similarGameId = similarGamesArray.get(j).getAsInt();
                 similarGameIds.add(similarGameId);

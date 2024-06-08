@@ -20,6 +20,7 @@ public class HomeFrame extends javax.swing.JFrame {
      * Creates new form NewHomeFrame
      */
     public HomeFrame() {
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
         initComponents();
     }
 
