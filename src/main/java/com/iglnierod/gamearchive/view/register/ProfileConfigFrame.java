@@ -4,6 +4,7 @@
  */
 package com.iglnierod.gamearchive.view.register;
 
+import com.iglnierod.gamearchive.view.layout.WrapLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
      */
     public ProfileConfigFrame() {
         initComponents();
+        this.platformsPanel.setLayout(new WrapLayout());
         this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icon.png")).getImage());
     }
 
@@ -35,22 +37,22 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         titleLabel = new javax.swing.JLabel();
-        continueButton = new javax.swing.JButton();
         imagePanel = new javax.swing.JPanel();
         selectImageLabel = new javax.swing.JLabel();
         descriptionScrollPane = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
         addDescriptionLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         platformsPanel = new javax.swing.JPanel();
         selectPlatformsLabel = new javax.swing.JLabel();
+        continueButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("GameArchive - Profile Configuration");
+        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         titleLabel.setText("Now, lets customize your profile");
-
-        continueButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        continueButton.setText("Continue");
 
         imagePanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
 
@@ -82,12 +84,24 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
         addDescriptionLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         addDescriptionLabel.setText("Add a description");
 
-        platformsPanel.setMaximumSize(new java.awt.Dimension(200, 200));
-        platformsPanel.setMinimumSize(new java.awt.Dimension(200, 200));
-        platformsPanel.setPreferredSize(new java.awt.Dimension(200, 200));
+        javax.swing.GroupLayout platformsPanelLayout = new javax.swing.GroupLayout(platformsPanel);
+        platformsPanel.setLayout(platformsPanelLayout);
+        platformsPanelLayout.setHorizontalGroup(
+            platformsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 610, Short.MAX_VALUE)
+        );
+        platformsPanelLayout.setVerticalGroup(
+            platformsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 193, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(platformsPanel);
 
         selectPlatformsLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         selectPlatformsLabel.setText("Select your platforms");
+
+        continueButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.default.background"));
+        continueButton.setText("Continue");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,7 +109,8 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(196, 196, 196)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectPlatformsLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -103,13 +118,12 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addDescriptionLabel)))
-                    .addComponent(titleLabel)
-                    .addComponent(platformsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(titleLabel))
                 .addContainerGap(166, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(continueButton)
-                .addGap(424, 424, 424))
+                .addGap(457, 457, 457))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,11 +141,11 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
                         .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(selectPlatformsLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(platformsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(continueButton)
-                .addGap(42, 42, 42))
+                .addComponent(continueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -182,6 +196,7 @@ public class ProfileConfigFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane descriptionScrollPane;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JPanel imagePanel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel platformsPanel;
     private javax.swing.JLabel selectImageLabel;
     private javax.swing.JLabel selectPlatformsLabel;

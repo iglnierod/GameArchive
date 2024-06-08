@@ -24,6 +24,7 @@
 - Añadir estados a juegos (quiero jugar, jugando, jugado)
 
 ### 25 de Mayo 2024
+##### main branch
 
 ##### developing branch
 
