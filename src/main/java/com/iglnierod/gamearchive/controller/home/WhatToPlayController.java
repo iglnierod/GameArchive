@@ -68,7 +68,7 @@ public class WhatToPlayController {
             );
             ArrayList<Game> games = gameDao.getRandom(filter);
             Random r = new Random();
-            Game randomGame = games.get(r.nextInt(0, games.size() - 1));
+            Game randomGame = games.get(r.nextInt(games.size() - 1));
             GameCoverPanel coverPanel = new GameCoverPanel(randomGame.getId());
             coverPanel.addCoverMouseListener(hc.addGamePreviewPanelMouseListener(randomGame));
             if (randomGame.getCoverId() != null) {

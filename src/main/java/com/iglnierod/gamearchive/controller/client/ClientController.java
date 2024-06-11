@@ -16,6 +16,7 @@ import com.iglnierod.gamearchive.model.game.dao.GameDAO;
 import com.iglnierod.gamearchive.model.game.dao.GameDAOUnirest;
 import com.iglnierod.gamearchive.model.list.dao.ListDAO;
 import com.iglnierod.gamearchive.model.list.dao.ListDAOPostgreSQL;
+import com.iglnierod.gamearchive.model.platform.Platform;
 import com.iglnierod.gamearchive.view.client.ClientPanel;
 import com.iglnierod.gamearchive.view.game.rate.RatePanel;
 import com.iglnierod.gamearchive.view.home.list.ListsPanel;
@@ -84,7 +85,9 @@ public class ClientController {
 
     private ListModel<String> getPlatformsListModel() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        model.addAll(this.client.getPlatformsList().stream().map(p -> p.getName()).toList());
+        for(Platform p : client.getPlatformsList()) {
+            model.addElement(p.getName());
+        }
         return model;
     }
 

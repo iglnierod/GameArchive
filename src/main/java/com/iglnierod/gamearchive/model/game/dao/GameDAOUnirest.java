@@ -81,7 +81,7 @@ public class GameDAOUnirest implements GameDAO {
         }
         where.append(platformFilter);
 
-        if (!where.isEmpty()) {
+        if (!where.toString().isEmpty()) {
             where.append(" & ");
         }
 
